@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="222dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_shape_v1"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Spinner.Dialog"
+            android:textColor="@android:color/black" />
+
+        <!--<com.rey.material.widget.Spinner-->
+            <!--android:id="@+id/spinner_label"-->
+            <!--style="@style/LightSpinner"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"/>-->
+        <Spinner
+        android:id="@+id/spinner_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"/>
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/CheckBox.Dialog"
+            android:textColor="@android:color/black" />
+
+        <com.app.pao.ui.widget.SwitchView
+            android:id="@+id/sv_jpush"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center_vertical" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#eeeeee"
+            android:gravity="center_horizontal|center_vertical">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Btn.Dialog.Cancel"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#f06522"
+            android:gravity="center_horizontal|center_vertical">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Btn.Dialog.SignUp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:layout_width="192dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/icon_app_logo"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_second_login_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <LinearLayout
+                style="@style/EditLayout"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:text="@string/Tv.LoginActivity.EditLayout.Title.phonenum"/>
+
+                    <View
+                        style="@style/EditLayout_CuttingLine"/>
+
+                    <EditText
+                        android:id="@+id/et_login_phone_num"
+                        style="@style/EditLayout_Edittext_Phone"
+                        android:hint="@string/EditText.LoginActivity.EditLayout.phone.Hint"/>
+
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/EditLayout"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:text="@string/Tv.LoginActivity.EditLayout.Title.password"/>
+
+                    <View
+                        style="@style/EditLayout_CuttingLine"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/et_login_password"
+                            style="@style/EditLayout_Edittext_Psw"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="@string/EditText.LoginActivity.EditLayout.password.Hint"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/btn_login_by_verificationcode"
+                            style="@style/FlatButtonBase_common"
+                            android:text="@string/Button.LoginActivity.ForgetPsw"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_login_common"
+                style="@style/ButtonBase_commit"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/bg_round_rect"
+                android:text="@string/Button.LoginActivity.Login"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical">
+                <com.rey.material.widget.TextView
+                    android:id="@+id/btn_regist"
+                    style="@style/FlatButtonBase_common"
+                    android:text="@string/Button.LoginActivity.Regist"/>
+                <ImageView
+                    android:id="@+id/btn_regist_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:background="@drawable/icon_login_next"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_first_login_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_login_common_first"
+                style="@style/ButtonBase_commit"
+                android:layout_marginTop="100dp"
+                android:text="@string/Button.LoginActivity.Login"/>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_register_common"
+                style="@style/ButtonBase_commit"
+                android:textColor="@android:color/black"
+                android:background="@drawable/bg_round_rect_grey_dark"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/Button.FinishRegist.Regist"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="26dp">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="24dp"
+                android:background="@drawable/icon_weixin_login"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/btn_login_by_wxin"
+                style="@style/FlatButtonBase_common"
+                android:layout_marginStart="10dp"
+                android:text="@string/Button.LoginActivity.LoginByWxin"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_CuttingLine"/>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="24dp"
+                android:background="@drawable/icon_immediately_run"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/btn_login_by_guest"
+                style="@style/FlatButtonBase_common"
+                android:layout_marginStart="10dp"
+                android:text="@string/Button.LoginActivity.LoginByGuest"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

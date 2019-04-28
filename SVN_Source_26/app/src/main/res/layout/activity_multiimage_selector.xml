@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/include_multiimage_selector_title" />
+
+    <FrameLayout
+        android:id="@+id/image_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#181819" />
+
+</LinearLayout>

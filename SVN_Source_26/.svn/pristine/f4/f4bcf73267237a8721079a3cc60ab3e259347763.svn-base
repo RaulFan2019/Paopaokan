@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/LinearlayoutBase"
+        android:gravity="center_horizontal">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarBase"
+            app:navigationIcon="@drawable/icon_back"
+            app:title="@string/Title.FeedbackActivity"
+            app:titleTextColor="@color/white">
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_user_opinion"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!--分界线-->
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_search_ranking_input"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.EditText
+                    android:id="@+id/et_user_opinion_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint.opinionFromUser"
+                    android:imeOptions="actionSend"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="12dp"
+                    android:windowSoftInputMode="stateHidden"/>
+            </LinearLayout>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_user_opinion_submit"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="24dp"
+                android:background="@drawable/bg_round_rect"
+                android:gravity="center_vertical|center_horizontal"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                android:text="@string/tv.opinionFromUser"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <com.app.pao.ui.widget.LoadingView
+            android:id="@+id/lv_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:loadingText="@string/Tv.Loading"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Tv.ReLoad"
+            android:textColor="#f06522"
+            android:textSize="12dp"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+</FrameLayout>

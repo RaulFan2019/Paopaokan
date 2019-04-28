@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:orientation="vertical"
+    android:paddingBottom="4dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <View
+                android:layout_width="74dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_history_video_alpha_left" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <View
+                android:id="@+id/v_select"
+                android:layout_width="65dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_history_video_selection" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="74dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_history_video_alpha_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_video_none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:gravity="center_horizontal|center_vertical">
+
+            <View
+                android:layout_width="141dp"
+                android:layout_height="73dp"
+                android:background="@drawable/bg_video_none"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一大波摄像头正等着选手的精彩表现"
+                android:textColor="#bbbbbb"
+                android:textSize="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="敬请期待"
+                android:textColor="#bbbbbb"
+                android:textSize="10dp"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

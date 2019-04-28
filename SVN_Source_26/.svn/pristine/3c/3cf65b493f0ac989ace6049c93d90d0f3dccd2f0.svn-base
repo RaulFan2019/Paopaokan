@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.MessageList"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <ListView
+        android:id="@+id/lv_message"
+        style="@style/ListView">
+    </ListView>
+</LinearLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Tv.SystemSettings.About"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="192dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="55dp"
+            android:background="@drawable/icon_app_logo"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_app_ver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <com.rey.material.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/line_right_margin"
+            android:layout_marginStart="@dimen/line_left_margin"
+            android:layout_marginTop="38dp"
+            android:text="@string/Tv.AboutActivity.Body"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/icon_weixin_qrcode"/>
+</LinearLayout>

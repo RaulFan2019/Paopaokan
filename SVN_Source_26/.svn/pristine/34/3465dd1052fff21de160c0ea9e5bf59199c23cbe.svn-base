@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:descendantFocusability="blocksDescendants"
+              android:minHeight="62dp"
+              android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tv_mac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="12"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_disconnect"
+                style="@style/ButtonBase_commit"
+                android:layout_width="68dp"
+                android:layout_height="30dp"
+                android:background="@drawable/btn_splash"
+                android:text="@string/Btn.BleSettingsActivity.disconnect"
+                android:textColor="#f06522"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tv_connecting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Tv.BleSettingsActivity.connecting"
+                android:textColor="@color/grey_dark"
+                android:textSize="12sp"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_activity_base"
+    style="@style/LinearlayoutBase">
+
+    <include layout="@layout/include_live_title_v3" />
+
+    <!-- 主要页面 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.app.pao.ui.widget.CustomViewPager
+            android:id="@+id/vp_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+</LinearLayout>

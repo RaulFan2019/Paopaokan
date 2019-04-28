@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ListViewItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp">
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/tv_header"
+        style="@style/ListViewItem_LeftTv_Tip"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:textSize="10dp" />
+
+</LinearLayout>

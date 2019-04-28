@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+<!--com.app.pao.ui.widget.CircularImage-->
+    <com.app.pao.ui.widget.CircularImage
+        android:id="@+id/iv_user_avatar"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="90dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="18201983666"
+        android:textSize="16sp"
+        />
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="56dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:text="@string/Tv.LoginActivity.EditLayout.Title.password"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_login_psd"
+                style="@style/EditLayout_Edittext_Psw"
+                android:hint="@string/EditText.LoginActivity.EditLayout.password.Hint"
+                />
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_user_login_common"
+        style="@style/ButtonBase_commit"
+        android:layout_marginTop="32dp"
+        android:text="@string/Button.LoginActivity.Login"/>
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/btn_login_by_changeuser"
+        style="@style/FlatButtonBase_common"
+        android:layout_marginTop="26dp"
+        android:text="@string/Button.LoginActivity.changeuser"/>
+</LinearLayout>

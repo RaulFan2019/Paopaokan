@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/include_dynamic_title"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <hwh.com.pulltorefreshlibrary.PullToRefreshLayout
+            android:id="@+id/refresh_layout_dynamic_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f7f7f7">
+
+            <include layout="@layout/refresh_head"/>
+
+            <hwh.com.pulltorefreshlibrary.PullableScrollViewForRecyclerView
+                android:id="@+id/sv_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!-- 广告滑动窗  -->
+                    <FrameLayout
+                        android:id="@+id/race_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="92dp"
+                        android:background="#ffffff"
+                        android:visibility="gone">
+
+                        <WebView
+                            android:id="@+id/webView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.0"
+                            android:layout_x="0.0dip"
+                            android:layout_y="0.0dip"
+                            android:clickable="true"/>
+
+                        <LinearLayout
+                            android:id="@+id/ll_click_webview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"/>
+
+                    </FrameLayout>
+                    <!-- 正在跑步的人 -->
+                    <LinearLayout
+                        android:id="@+id/ll_simple_runner_base"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/bg_simple_info"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/lv_runner_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:paddingTop="5dp"
+                            android:id="@+id/lv_dynamic_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </FrameLayout>
+                </LinearLayout>
+            </hwh.com.pulltorefreshlibrary.PullableScrollViewForRecyclerView>
+
+            <include layout="@layout/load_more"/>
+        </hwh.com.pulltorefreshlibrary.PullToRefreshLayout>
+
+        <include layout="@layout/include_load_view_v2"></include>
+
+    </FrameLayout>
+</LinearLayout>
+
+
+

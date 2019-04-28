@@ -1,0 +1,183 @@
+package com.app.pao.activity.settings;
+
+import android.content.Intent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.adapter.ScanBleDeviceAdapter;
+import com.app.pao.entity.event.EventBLE;
+import com.app.pao.entity.model.BLEEntity;
+import com.app.pao.service.BLEService;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lidroid.xutils.view.annotation.event.OnItemClick;
+import com.rey.material.widget.Button;
+import com.rey.material.widget.ImageButton;
+import com.rey.material.widget.ProgressView;
+import com.ypy.eventbus.EventBus;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Administrator on 2015/12/8.
+ */
+@ContentView(R.layout.activity_scan_ble_device)
+public class ScanBleDeviceActivity extends BaseAppCompActivity implements View.OnClickListener ,AdapterView.OnItemClickListener{
+
+    private static final String TAG = "ScanBleDeviceActivity";
+
+    @ViewInject(R.id.pv_scanning)
+    private ProgressView mScanningPv;//扫描进度条
+    @ViewInject(R.id.btn_control_scan)
+    private Button mControlScanBtn;//控制是否扫描的按钮
+    @ViewInject(R.id.title_bar_left_menu)
+    private ImageButton mBackIbtn;//返回back
+    @ViewInject(R.id.ble_listview)
+    private ListView mBleDeviceLv;
+
+    private ScanBleDeviceAdapter mBleAdapter;
+
+    private boolean mIsScanning = false;//是否正在扫描
+    private ArrayList<BLEEntity> mBleList;
+
+    @Override
+    @OnClick({R.id.btn_control_scan, R.id.title_bar_left_menu})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_control_scan:
+                //正在扫描 则停止扫描
+                if (mIsScanning){
+                    stopScan();
+                    //未扫描 则开始扫描
+                }else{
+                    startScan();
+                }
+                mIsScanning = !mIsScanning;
+
+                break;
+            //返回
+            case R.id.title_bar_left_menu:
+                    finish();
+                break;
+        }
+    }
+
+    @Override
+    @OnItemClick(R.id.ble_listview)
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent  i = new Intent();
+        i.putExtra("BleDevice",mBleList.get(position).Device);
+        setResult(RESULT_OK,i);
+        finish();
+    }
+
+    @Override
+    protected void initData() {
+        mBleList = new ArrayList<BLEEntity>();
+     //   mBleAdapter = new ScanBleDeviceAdapter(this,mBleList);
+        mBleDeviceLv.setAdapter(mBleAdapter);
+    }
+
+    @Override
+    protected void initViews() {
+
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void destroy() {
+        if(mIsScanning){
+            stopScan();
+        }
+    }
+
+
+    /**
+     * 接收到新的ble设备
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventBLE event) {
+        int msg = event.getMsgType();
+        // 获取新的ble信息
+        switch (msg) {
+            case BLEService.MSG_SCAN_NEW_BLE:
+                listChange(event.getBLEEntity());
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 当接收到新的数据时
+     * @param bleEntity
+     */
+    private void listChange(BLEEntity bleEntity){
+        boolean isExsit = false;
+        //过滤重复的数据
+        for(BLEEntity ble: mBleList){
+            if((ble.Device.equals(bleEntity.Device))){
+                isExsit = true;
+            }
+        }
+        if(!isExsit){
+            mBleList.add(bleEntity);
+            mBleAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    /**
+     * 开始扫描
+     */
+    private void startScan(){
+        mControlScanBtn.setText(getResources().getString(R.string.Btn_ScanBleDeviceActivity_Stop_Scan));
+        mScanningPv.setVisibility(View.VISIBLE);
+        mScanningPv.start();
+
+        Intent startIntent = new Intent(mContext, BLEService.class);
+        startIntent.putExtra("CMD", BLEService.CMD_SCAN);
+        startService(startIntent);
+    }
+
+    /**
+     * 停止扫描
+     */
+    private void stopScan(){
+        mControlScanBtn.setText(getResources().getString(R.string.Btn_ScanBleDeviceActivity_Start_Scan));
+        mScanningPv.setVisibility(View.INVISIBLE);
+        mScanningPv.stop();
+
+        Intent startIntent = new Intent(mContext, BLEService.class);
+        startIntent.putExtra("CMD", BLEService.CMD_STOP_SCAN);
+        startService(startIntent);
+    }
+
+
+}

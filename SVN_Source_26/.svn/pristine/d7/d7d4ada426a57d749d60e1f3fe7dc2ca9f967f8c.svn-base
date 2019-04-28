@@ -1,0 +1,40 @@
+package com.app.pao.fragment.settings;
+
+import android.view.View;
+
+import com.app.pao.R;
+import com.app.pao.fragment.BaseFragment;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+
+/**
+ * Created by Administrator on 2015/12/14.
+ */
+public class TouristUserFragment extends BaseFragment implements View.OnClickListener{
+
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_tourist_user;
+    }
+
+    @Override
+    protected void initParams() {
+
+    }
+
+    public static TouristUserFragment newInstance() {
+        TouristUserFragment fragment = new TouristUserFragment();
+        return fragment;
+    }
+
+    @Override
+    @OnClick({R.id.btn_friend_to_login})
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_friend_to_login:
+                getActivity().finish();
+                break;
+        }
+    }
+}

@@ -1,0 +1,52 @@
+package com.app.pao.fragment.friend;
+
+import android.view.View;
+import android.widget.ImageView;
+
+import com.app.pao.R;
+import com.app.pao.fragment.BaseFragment;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.ImageButton;
+
+/**
+ * Created by Administrator on 2015/12/14.
+ */
+public class TouristFriendFragment extends BaseFragment implements View.OnClickListener{
+    @ViewInject(R.id.btn_add_friend)
+    private ImageButton mTitleBtn;
+    @ViewInject(R.id.btn_apply_friend)
+    private ImageView mTitleApplyBtn;
+
+    public static TouristFriendFragment newInstance() {
+        TouristFriendFragment fragment = new TouristFriendFragment();
+        return fragment;
+    }
+
+    @Override
+    @OnClick({R.id.btn_friend_to_login})
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_friend_to_login:
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_tourist_friend;
+    }
+
+    @Override
+    protected void initParams() {
+        initView();
+    }
+
+    private void initView(){
+        mTitleBtn.setVisibility(View.GONE);
+        mTitleApplyBtn.setVisibility(View.GONE);
+    }
+
+
+}

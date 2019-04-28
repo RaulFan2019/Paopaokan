@@ -1,0 +1,378 @@
+package com.app.pao.activity.regist;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.ActivityStackManager;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.entity.network.GetPhoneNumIsRegistResult;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.ui.dialog.v1.MyDialogBuilderV1;
+import com.app.pao.utils.DeviceUtils;
+import com.app.pao.utils.Log;
+import com.app.pao.utils.StringUtils;
+import com.app.pao.utils.T;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.Button;
+
+/**
+ * Created by Raul on 2015/11/11.
+ * 注册页面
+ */
+@ContentView(R.layout.activity_regist)
+public class RegistActivity extends BaseAppCompActivity implements View.OnClickListener {
+
+    /* contains */
+    private static final String TAG = "RegistActivity";
+    private static final boolean TEST = false;
+
+    private static final int MSG_POST_ERROR = 1;//请求失败
+    private static final int MSG_POST_OK = 3;
+
+    /* local view */
+    @ViewInject(R.id.toolbar)
+    private Toolbar mToolbar;//标题栏
+    @ViewInject(R.id.et_regist_phone_num)
+    private EditText mPhoneNumEt;//手机号码输入框
+    @ViewInject(R.id.btn_regist)
+    private Button mRegistBut;
+
+    /* local data */
+    private boolean mPostAble;//是否可以发送请求
+    private String mCountryIso;//国际号
+
+    private static long exitTime = 0;
+
+    /**
+     * 请求返回处理
+     */
+    Handler mPostHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                //网络请求失败
+                case MSG_POST_ERROR:
+                    T.showShort(mContext, (String) msg.obj);
+                    mDialogBuilder.progressDialog.dismiss();
+                    mPostAble = true;
+                    break;
+                case MSG_POST_OK:
+                    mDialogBuilder.progressDialog.dismiss();
+                    mPostAble = true;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("phonenum", mPhoneNumEt.getText().toString().replace(" ", ""));
+                    startActivity(RegistInputSMSCodeActivity.class, bundle);
+                    break;
+            }
+        }
+    };
+
+    /**
+     * Toolbar 点击事件
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 点击事件
+     *
+     * @param v
+     */
+    @Override
+    @OnClick({R.id.btn_regist, R.id.btn_privacy})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //点击注册按钮
+            case R.id.btn_regist:
+                launchInputSMSCodeActivity();
+                break;
+            //点击用户隐私按钮
+            case R.id.btn_privacy:
+                launchPrivacyActivity();
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        exit();
+    }
+
+    @Override
+    protected void initData() {
+        mPostAble = true;
+        ActivityStackManager.getAppManager().addTempActivity(this);
+        mCountryIso = DeviceUtils.GetCountryIso(mContext);
+//        T.showShort(mContext,"mCountryIso:" + mCountryIso);
+    }
+
+    @Override
+    protected void initViews() {
+//        mRegistBut.setClickable(false);
+//        mRegistBut.setFocusable(false);
+        setSupportActionBar(mToolbar);
+        mPhoneNumEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence str, int arg1, int arg2, int arg3) { // 已经改变了的。
+                String contents = str.toString();
+                int length = contents.length();
+//                if(length > 0){
+//                    mRegistBut.setBackgroundResource(R.drawable.bg_round_rect);
+//                    mRegistBut.setClickable(true);
+//                    mRegistBut.setFocusable(true);
+//                }else {
+//                    mRegistBut.setBackgroundResource(R.drawable.bg_round_rect_disable);
+//                    mRegistBut.setClickable(false);
+//                    mRegistBut.setFocusable(false);
+//                }
+                if (length == 4) {
+                    if (contents.substring(3).equals(new String(" "))) {
+                        contents = contents.substring(0, 3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {
+                        contents = contents.substring(0, 3) + " " + contents.substring(3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                } else if (length == 9) {
+                    if (contents.substring(8).equals(new String(" "))) {
+                        contents = contents.substring(0, 8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {// +
+                        contents = contents.substring(0, 8) + " " + contents.substring(8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence str, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+
+    }
+
+    @Override
+    protected void destroy() {
+        cancelPostHandler();
+        ActivityStackManager.getAppManager().finishTempActivity(this);
+    }
+
+
+    /**
+     * 启动用户隐私页面
+     */
+    private void launchPrivacyActivity() {
+        startActivity(PrivacyActivity.class);
+    }
+
+    /**
+     * 启动 注册输入验证码界面
+     */
+    private void launchInputSMSCodeActivity() {
+        if (TEST) {
+            Bundle bundle = new Bundle();
+            bundle.putString("phonenum", mPhoneNumEt.getText().toString());
+            startActivity(RegistInputSMSCodeActivity.class, bundle);
+            return;
+        }
+        if (!mPostAble) {
+            return;
+        }
+        final String phoneNum = mPhoneNumEt.getText().toString().replace(" ", "");
+        String error = StringUtils.checkPhoneNumInputError(mContext, phoneNum, mCountryIso);
+        //验证手机信息
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+            T.showShort(mContext, error);
+//            mPhoneNumEt.setError(error);
+            return;
+        }
+//        mPhoneNumEt.setError(null);
+        //发送注册提示
+        mDialogBuilder.showProgressDialog(this, "发送注册请求中..", true);
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+            @Override
+            public void onCancelBtnClick() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+
+            @Override
+            public void onCancel() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+        });
+        //发送手机号是否存在验证
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_CHECK_PHONE_IS_REGIST;
+        RequestParams params = RequestParamsBuild.buildCheckPhoneNumIsRegist(mContext, phoneNum);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = errorMsg;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                GetPhoneNumIsRegistResult resultEntity = JSON.parseObject(Response, GetPhoneNumIsRegistResult.class);
+                if (resultEntity.getIsExist() == AppEnum.UserRegist.EXIST) {
+                    if (mPostHandler != null) {
+                        Message mPostMsg = new Message();
+                        mPostMsg.what = MSG_POST_ERROR;
+                        mPostMsg.obj = mContext.getResources().getString(R.string.Error_Check_Regist_Exist);
+                        mPostHandler.sendMessage(mPostMsg);
+                    }
+                } else {
+                    PostGetVCCodeRequest(phoneNum);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = s;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @param phoneNum
+     */
+    private void PostGetVCCodeRequest(final String phoneNum) {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_GET_VC_CODE;
+        RequestParams params = RequestParamsBuild.buildGetVCCodeRequest(mContext, phoneNum);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = errorMsg;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_OK;
+                    mPostMsg.obj = Response;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = s;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+            }
+        });
+    }
+
+    /**
+     * 取消请求
+     */
+    private void cancelPostHandler() {
+        if (mPostHandler != null) {
+            mPostHandler.removeMessages(MSG_POST_ERROR);
+            mPostHandler.removeMessages(MSG_POST_OK);
+        }
+    }
+
+
+    /**
+     * 按2次退出本页面
+     */
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 3000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出跑跑看", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+        }
+    }
+}

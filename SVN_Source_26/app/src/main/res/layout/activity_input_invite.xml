@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.InputInviteActivity"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="21dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:text="@string/Tv.InputInviteActivity.EditLayout.Title.Invite"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_invite"
+                style="@style/EditLayout_Edittext"
+                android:maxLength="4"
+                android:inputType="text"
+                android:hint="@string/Hint.InputInviteActivity.EditLayout.Invite"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_invite"
+        style="@style/ButtonBase_commit"
+        android:layout_marginTop="30dp"
+        android:text="@string/Button.InputInviteActivity.Commit"/>
+
+</LinearLayout>

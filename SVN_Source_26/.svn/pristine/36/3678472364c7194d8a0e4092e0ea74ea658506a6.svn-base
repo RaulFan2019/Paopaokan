@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_base"
+    android:gravity="bottom|center_horizontal">
+
+    <LinearLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_round_rect_card"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="@color/Btn.FlatButtonBase.common.Text"
+            android:layout_marginTop="24dp"
+            android:text="@string/Tv.RunningActivity.IsStopWalk"/>
+
+        <TextView
+            android:id="@+id/tv_stop_and_save"
+            android:layout_width="211dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/bg_round_rect"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:text="@string/Tv.RunningActivity.StopWalkAndSave"/>
+
+        <TextView
+            android:id="@+id/tv_keep_walking"
+            android:layout_width="211dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_round_rect_grey_dark"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:text="@string/Tv.RunningActivity.KeepWalking" />
+
+    </LinearLayout>
+
+</LinearLayout>

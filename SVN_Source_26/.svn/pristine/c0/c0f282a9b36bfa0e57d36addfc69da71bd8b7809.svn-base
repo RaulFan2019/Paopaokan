@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_control"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:src="@drawable/btn_playback_back" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="#80000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_input_control"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@null"
+            android:src="@drawable/icon_live_voice" />
+
+        <TextView
+            android:id="@+id/tv_input"
+            android:layout_width="288dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bg_edit_live_comment"
+            android:hint="@string/Helper.GiveThumb"
+            android:singleLine="true"
+            android:textColor="#888888"
+            android:textSize="10sp" />
+
+        <ImageButton
+            android:id="@+id/btn_thumb"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@null"
+            android:src="@drawable/icon_live_thumb_no" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_comment_control"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:src="@drawable/icon_comment_on" />
+
+        <ImageButton
+            android:id="@+id/btn_audio_control"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:src="@drawable/icon_audio_on" />
+
+        <ImageButton
+            android:id="@+id/btn_camera_control"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:src="@drawable/icon_video_on" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_live_comments"
+        style="@style/EditLayout_Edittext"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="left|center_vertical"
+        android:background="@null"
+        android:hint="@string/Helper.GiveThumb"
+        android:imeOptions="actionSend"
+        android:maxLength="30"
+        android:singleLine="true"
+        android:textColorHint="#888888"
+        android:textSize="12sp" />
+</LinearLayout>

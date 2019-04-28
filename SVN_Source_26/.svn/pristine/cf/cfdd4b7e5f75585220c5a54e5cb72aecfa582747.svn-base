@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/ListViewItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="65dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- com.app.pao.ui.widget.CircularImage -->
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_search_friends_photo"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_123Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#222222"
+                    android:textSize="14dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_gander"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="5dp"/>
+            </LinearLayout>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_phoneName"
+                style="@style/ListViewItem_LeftTv"
+                />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="68dp"
+            android:layout_height="30dp">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_agree"
+                style="@style/ButtonBase"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn_splash"
+                android:text="@string/Btn.AddFriend"
+                android:textColor="#f06522"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_friend_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/Tv.ApplyFriednList.HasAdd"
+                android:textColor="#bbbbbb"
+                android:textSize="12dp"/>
+        </FrameLayout>
+        
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+
+</LinearLayout>

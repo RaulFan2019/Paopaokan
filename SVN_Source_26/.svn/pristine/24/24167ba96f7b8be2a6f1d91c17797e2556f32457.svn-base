@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LinearlayoutBase"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.ForgetPswInputPhoneNumActivity"
+        app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>
+
+
+    <TextView
+        style="@style/TextViewTitle_tip"
+        android:text="@string/Tv.ForgetPswInputPhoneNumActivity.Title" />
+
+    <LinearLayout style="@style/LinearlayoutBase_Login_weight">
+
+        <LinearLayout
+            style="@style/EditLayout"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Hint.ForgetPswInputPhoneNumActivity.Phonenum" />
+
+                <View style="@style/EditLayout_CuttingLine" />
+
+                <com.app.pao.ui.widget.common.EditTextPhone
+                    android:id="@+id/et_login_byvc_phone_num"
+                    style="@style/EditLayout_Edittext_Phone"
+                    android:hint="@string/Helper.ForgetPswInputPhoneNumActivity.Phonenum" />
+            </LinearLayout>
+
+            <View style="@style/EditLayout_BottomLine" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_next"
+            style="@style/ButtonBase_commit"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_round_rect"
+            android:text="@string/Button.ForgetPswInputPhoneNumActivity.Next" />
+    </LinearLayout>
+</LinearLayout>

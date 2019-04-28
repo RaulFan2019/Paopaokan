@@ -1,0 +1,171 @@
+package com.app.pao.fragment.run;
+
+import android.graphics.Typeface;
+import android.os.Build;
+import android.view.ViewTreeObserver;
+import android.widget.TextView;
+
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.data.db.WorkoutData;
+import com.app.pao.entity.db.DBEntityWorkout;
+import com.app.pao.entity.event.EventRuningHeartrate;
+import com.app.pao.entity.event.EventRuningLocation;
+import com.app.pao.entity.event.EventRuningTime;
+import com.app.pao.fragment.BaseFragment;
+import com.app.pao.service.RunningService;
+import com.app.pao.ui.widget.RevealLayout;
+import com.app.pao.utils.TimeUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.ypy.eventbus.EventBus;
+
+import java.text.DecimalFormat;
+
+/**
+ * Created by Raul on 2015/11/23.
+ * 跑步暂停界面
+ */
+public class RunningPauseFragment extends BaseFragment {
+
+    /* ccontains */
+    private static final String TAG = "RunningPauseFragment";
+
+    /* local view */
+    @ViewInject(R.id.tv_run_pause_length)
+    private TextView mLengthTv;//距离文本
+    @ViewInject(R.id.tv_run_pause_time)
+    private TextView mTimeTv;//时间文本
+    @ViewInject(R.id.tv_run_pause_pace)
+    private TextView mPaceTv;//配速文本
+    @ViewInject(R.id.tv_run_pause_heartrate)
+    private TextView mHeartrateTv;//心率文本
+    @ViewInject(R.id.reveal_layout)
+    private RevealLayout mRevealLayout;
+
+    /* local data */
+    private static final DecimalFormat df = new DecimalFormat("0.00");//距离转换
+
+    private DBEntityWorkout mWorkout;//跑步历史信息
+
+    private String mTimeValue;//已跑步时间
+    private String mLengthValue;//跑步距离
+    private String mPaceValue;//配速
+    private String mHeartrateValue;//心率数据
+
+    /**
+     * 接收到时间变化
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventRuningTime event) {
+        long time = event.getTime();
+        if (time > 0) {
+            mTimeValue = TimeUtils.formatSecondsToShortHourTime(time);
+            mTimeTv.setText(mTimeValue);
+        }
+    }
+
+    /**
+     * 收到心率变化
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventRuningHeartrate event) {
+        int status = event.getStatus();
+        if (status == RunningService.BLE_STATUS_CONNECTED) {
+            mHeartrateValue = "- -";
+        } else if (status == RunningService.BLE_STATUS_DISCONNECT) {
+            mHeartrateValue = "- -";
+        } else {
+            mHeartrateValue = event.heartrate + "";
+        }
+        mHeartrateTv.setText(mHeartrateValue);
+    }
+
+    /**
+     * 收到位置变化
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventRuningLocation event) {
+        mLengthValue = df.format(event.length / 1000f);
+        mLengthTv.setText(mLengthValue);
+        int speed = event.speed;
+        if (speed != 0) {
+            mPaceValue = TimeUtils.formatSecondsToSpeedTime(speed);
+            mPaceTv.setText(mPaceValue);
+        } else {
+            mPaceTv.setText("- -");
+        }
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_run_pause;
+    }
+
+    @Override
+    protected void initParams() {
+        mRevealLayout.setContentShown(false);
+        mRevealLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mRevealLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    //noinspection deprecation
+                    mRevealLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+                mRevealLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRevealLayout.show();
+                    }
+                }, 50);
+            }
+        });
+        Typeface typeFace =Typeface.createFromAsset(getActivity().getAssets(), "fonts/TradeGothicLTStd-BdCn20.otf");
+        mLengthTv.setTypeface(typeFace);
+        mTimeTv.setTypeface(typeFace);
+        mPaceTv.setTypeface(typeFace);
+        mHeartrateTv.setTypeface(typeFace);
+    }
+
+    public void hideView() {
+        if (mRevealLayout != null) {
+            mRevealLayout.hide();
+        }
+    }
+
+    public void showView() {
+        if (mRevealLayout != null) {
+            mRevealLayout.show();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mWorkout = WorkoutData.getUnFinishWorkout(mContext, LocalApplication.getInstance().getLoginUser(mContext).userId);
+        if (mWorkout == null) {
+            return;
+        }
+        mTimeValue = TimeUtils.formatSecondsToShortHourTime(mWorkout.duration);
+        mLengthValue = df.format(mWorkout.getLength() / 1000f);
+        if (mWorkout.getLength() == 0) {
+            mPaceValue = "--:--";
+        } else {
+            mPaceValue = TimeUtils.formatSecondsToSpeedTime((long) (mWorkout.duration * 1000 / mWorkout.length));
+        }
+        mLengthTv.setText(mLengthValue);
+        mTimeTv.setText(mTimeValue);
+        mPaceTv.setText(mPaceValue);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+}

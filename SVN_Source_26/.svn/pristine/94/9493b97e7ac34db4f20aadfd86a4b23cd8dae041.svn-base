@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/SystemSettingsActivity.background">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.SystemSettings"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                android:layout_marginTop="30dp">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_notice"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Switch.SystemSettings.Notice"/>
+
+                    <com.app.pao.ui.widget.SwitchView
+                        android:id="@+id/sv_jpush"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"/>
+                </LinearLayout>
+            </FrameLayout>
+            <!--
+            <View style="@style/Settings_BottomLine"/>
+
+            <LinearLayout
+                android:id="@+id/ll_tts"
+                style="@style/SettingsLinearlayout"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/SettingsTipText"
+                    android:text="@string/Switch.SystemSettings.TTS"/>
+
+                <com.app.pao.ui.widget.SwitchView
+                    android:id="@+id/sv_tts"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"/>
+            </LinearLayout>
+
+            <View style="@style/Settings_BottomLine"/>
+
+            <LinearLayout
+                android:id="@+id/ll_run_video"
+                style="@style/SettingsLinearlayout"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/SettingsTipText"
+                    android:text="@string/Switch.SystemSettings.RunVideo"/>
+
+                <com.app.pao.ui.widget.SwitchView
+                    android:id="@+id/sv_video"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"/>
+            </LinearLayout>
+            -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                android:layout_marginTop="14dp">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_richscan"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Tv.SystemSettings.RichScan"/>
+
+                    <ImageView style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_marginTop="14dp"
+                style="@style/SettingsFramelayout">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_connection_device"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Tv.SystemSettings.Connection.Device"/>
+
+                    <ImageView style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <View style="@style/Settings_BottomLine"/>
+            </LinearLayout>
+
+            <FrameLayout
+                style="@style/SettingsFramelayout">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_evaluate"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Tv.SystemSettings.Evaluate"/>
+
+                    <ImageView style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <View style="@style/Settings_BottomLine"/>
+            </LinearLayout>
+
+            <FrameLayout
+                style="@style/SettingsFramelayout">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_feedback"
+                    style="@style/FlatButtonBase_frame"/>
+
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Tv.SystemSettings.Feedback"/>
+
+                    <ImageView style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <View style="@style/Settings_BottomLine"/>
+            </LinearLayout>
+
+            <FrameLayout
+                style="@style/SettingsFramelayout">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_about"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Tv.SystemSettings.About"/>
+
+                    <ImageView style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <View style="@style/Settings_BottomLine"/>
+            </LinearLayout>
+
+            <FrameLayout
+                style="@style/SettingsFramelayout">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_AccountAndSecurity"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Tv.SystemSettings.AccountAndSecurity"/>
+
+                    <ImageView style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <View style="@style/Settings_BottomLine"/>
+            </LinearLayout>
+
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                android:layout_marginTop="14dp">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_logout"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:layout_marginBottom="42dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsTipText"
+                        android:text="@string/Button.SystemSettings.Logout"
+                        android:textColor="@color/Base.Button"/>
+
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

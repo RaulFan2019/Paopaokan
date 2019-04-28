@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.GroupManage"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <!-- 邀请好友 -->
+    <FrameLayout
+        android:id="@+id/ll_apply"
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/frame_apply"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            android:paddingLeft="@dimen/line_left_margin"
+            android:paddingRight="@dimen/line_right_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/SettingsTipText"
+                    android:text="@string/Tv.GroupManage.Apply"/>
+
+                <ImageView style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 跑团二维码 -->
+    <FrameLayout
+        android:id="@+id/ll_qrcode"
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/frame_qrcode"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            android:paddingLeft="@dimen/line_left_margin"
+            android:paddingRight="@dimen/line_right_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/SettingsTipText"
+                    android:text="@string/Tv.GroupManage.Qrcode"/>
+
+                <ImageView style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 添加管理员 -->
+    <FrameLayout
+        android:id="@+id/ll_add_manager"
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/frame_add_manager"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            android:paddingLeft="@dimen/line_left_margin"
+            android:paddingRight="@dimen/line_right_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/SettingsTipText"
+                    android:text="@string/Tv.GroupManage.AddManager"/>
+
+                <ImageView style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 团标签管理 -->
+    <FrameLayout
+        android:id="@+id/ll_tag_manager"
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/frame_tag_manager"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            android:paddingLeft="@dimen/line_left_margin"
+            android:paddingRight="@dimen/line_right_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/SettingsTipText"
+                    android:text="@string/Tv.GroupManage.TagManager"/>
+
+                <ImageView style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 跑团分享 -->
+    <FrameLayout
+        android:id="@+id/ll_share"
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/frame_share"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            android:paddingLeft="@dimen/line_left_margin"
+            android:paddingRight="@dimen/line_right_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/SettingsTipText"
+                    android:text="@string/Tv.GroupManage.Share"/>
+
+                <ImageView style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 退出跑团 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_exit"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            android:paddingLeft="@dimen/line_left_margin"
+            android:paddingRight="@dimen/line_right_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_exit"
+                    style="@style/SettingsTipText"/>
+
+                <ImageView style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

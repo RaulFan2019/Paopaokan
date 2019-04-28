@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:gravity="center_horizontal">
+
+    <include layout="@layout/include_group_party_edit_gps"/>
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/mv_sign_range"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_gps_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_gps_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.GroupPartyEditGps.Gps.Search"
+                android:textColor="@android:color/black"
+                android:textSize="26dp"/>
+
+            <com.rey.material.widget.ProgressView
+                android:id="@+id/progress_gps_search"
+                style="@style/CircularProgressViewBase"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_gps_range"
+            style="@style/EditLayout"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:layout_width="wrap_content"
+                    android:text="@string/Tv.GroupPartyEditGps.Range"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_gps_range"
+                    style="@style/EditLayout_Edittext"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:text="@string/Helper.GroupPartyEditGps.Range.Default.Value"
+                    android:hint="@string/Helper.GroupPartyEditGps.Range.Default.Value"/>
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:layout_width="wrap_content"
+                    android:text="@string/Tv.GroupPartyEditGps.Unit"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_confirm_sign"
+        style="@style/ButtonBase_commit"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:text="@string/Btn.GroupPartyEditGps.Confirm"/>
+
+</LinearLayout>

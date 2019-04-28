@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayouttitleV1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            style="@style/tvTitleV1"
+            android:text="@string/Tv.Tourist.UserFragment.title"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_settings"
+                style="@style/MenuRightButton"
+                android:visibility="gone"
+                android:src="@drawable/icon_settings"/>
+        </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_basic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <!--  地图层 -->
+        <FrameLayout
+            android:id="@+id/ll_map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.amap.api.maps.MapView
+                android:id="@+id/map_running"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_run_live_room"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                android:background="@drawable/btn_run_live_room" />
+
+            <FrameLayout
+                android:id="@+id/ll_running_fragment_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <!--  控制层 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="144dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="14dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_running_finish"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/selector_btn_run_finish" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_running_contral"
+                        android:layout_width="89dp"
+                        android:layout_height="89dp"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:background="@drawable/selector_btn_run_pause" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_running_map"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/selector_btn_run_map" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/Button.RunningActivity.Finish"
+                    android:textColor="#888888"
+                    android:textSize="14dp" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_control"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/Button.RunningActivity.Pause"
+                    android:textColor="#888888"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/Button.RunningActivity.Map"
+                    android:textColor="#888888"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- 倒计时数字  -->
+    <LinearLayout
+        android:id="@+id/ll_count_num"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_count_num"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="#222222"
+            android:textSize="144dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_dialog_admin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b0000000"
+        android:orientation="horizontal"
+        android:visibility="gone"></LinearLayout>
+</FrameLayout>

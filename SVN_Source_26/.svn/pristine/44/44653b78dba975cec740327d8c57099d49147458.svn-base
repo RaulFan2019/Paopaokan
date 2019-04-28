@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/view_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 地图上层页面 -->
+        <include layout="@layout/include_history_map_upview" />
+
+        <FrameLayout
+            android:id="@+id/view_guid"
+            android:layout_width="140dp"
+            android:layout_height="83dp"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="62dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="130dp"
+                android:layout_height="73dp"
+                android:layout_gravity="left|bottom"
+                android:background="@drawable/bg_guid_video" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_guid_close"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/icon_guid_close" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btn_not_prompt"
+                    android:layout_width="60dp"
+                    android:layout_height="17dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/icon_guid_btn"
+                    android:text="不再提示"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+    <!-- 评论点赞或视频 Fragment -->
+    <LinearLayout
+        android:id="@+id/ll_fragment_social"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+</LinearLayout>

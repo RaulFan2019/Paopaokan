@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout style="@style/LinearlayoutBase"
+             xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 自己的跑步地位 -->
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_month_sort"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="34dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:gravity="center_horizontal">-->
+            <!--&lt;!&ndash;android:background="#fdefe8"&ndash;&gt;-->
+
+            <!--<com.rey.material.widget.TextView-->
+                <!--android:id="@+id/tv_month_sort"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal|center_vertical"-->
+                <!--android:textColor="#888888"-->
+                <!--android:textSize="12sp"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<hwh.com.pulltorefreshlibrary.PullToRefreshLayout-->
+        <!--android:id="@+id/rl_member_name_ranking_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<include layout="@layout/refresh_head"/>-->
+
+        <!--<hwh.com.pulltorefreshlibrary.PullableScrollViewForRecyclerView-->
+        <!--android:id="@+id/sv_group_ranking"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fillViewport="true">-->
+
+        <!--<com.app.pao.ui.widget.FrameLayoutFroScoll-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_member_ranking_month_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <!--</com.app.pao.ui.widget.FrameLayoutFroScoll>-->
+        <!--</hwh.com.pulltorefreshlibrary.PullableScrollViewForRecyclerView>-->
+
+        <!--<include layout="@layout/load_more"/>-->
+        <!--</hwh.com.pulltorefreshlibrary.PullToRefreshLayout>-->
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/rl_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <com.app.pao.ui.widget.LoadingView
+            android:id="@+id/loadview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:loadingText="@string/Tv.Loading"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Tv.ReLoad"
+            android:textColor="#f06522"
+            android:textSize="12sp"
+            android:visibility="invisible"/>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/include_perfectuserinfo_title"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <!-- 编辑头像 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                android:layout_marginTop="20dp"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_edit_avatar"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- com.app.pao.ui.widget.CircularImage -->
+                        <com.app.pao.ui.widget.CircularImage
+                            android:id="@+id/iv_perfectuser_user_avatar"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:background="@drawable/icon_user_photo"
+                            />
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_RightTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.EditAvatar"/>
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"
+                        android:layout_gravity="bottom"/>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 昵称 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_edit_nickname"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_LeftTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.Key.Nickname"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_nickname"
+                            style="@style/LineViewBase_RightTv"/>
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- 二维码 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_qrcode"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_LeftTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.key.QRCode"/>
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_RightTv"/>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/icon_qrcode_not_white"/>
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- 帐号绑定 -->
+            <!--<LinearLayout-->
+            <!--android:id="@+id/ll_edit_safe"-->
+            <!--style="@style/LineViewBase_Settings">-->
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal">-->
+            <!--<com.rey.material.widget.TextView-->
+            <!--style="@style/LineViewBase_LeftTv"-->
+            <!--android:text="@string/Tv.PerfectUserInfoActivity.Key.SafeSet"/>-->
+
+            <!--<com.rey.material.widget.TextView-->
+            <!--android:id="@+id/tv_location"-->
+            <!--style="@style/LineViewBase_RightTv"-->
+            <!--/>-->
+
+            <!--<ImageView-->
+            <!--style="@style/LineViewBase_RightArrow"/>-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+
+            <!-- 所在地 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_edit_location"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_LeftTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.Key.Location"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_user_location"
+                            style="@style/LineViewBase_RightTv"/>
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"/>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 性别 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_edit_gander"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_LeftTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.Key.Gander"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_gander"
+                            style="@style/LineViewBase_RightTv"
+                            />
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"/>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 生日 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_edit_birthday"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_LeftTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.Key.Birthday"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_birthday"
+                            style="@style/LineViewBase_RightTv"
+                            />
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"/>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 身高 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_edit_height"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_LeftTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.Key.Height"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_height"
+                            style="@style/LineViewBase_RightTv"
+                            />
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"/>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 体重 -->
+            <FrameLayout
+                style="@style/SettingsFramelayout"
+                >
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_edit_weight"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/SettingsLinearlayout"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_LeftTv"
+                            android:text="@string/Tv.PerfectUserInfoActivity.Key.Weight"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_weight"
+                            style="@style/LineViewBase_RightTv"
+                            />
+
+                        <ImageView
+                            style="@style/LineViewBase_RightArrow"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/EditLayout_BottomLine"/>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 二维码 -->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="30dp"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_qrcode"-->
+                    <!--android:layout_width="96dp"-->
+                    <!--android:layout_height="96dp"/>-->
+
+                <!--<com.rey.material.widget.TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="14dp"-->
+                    <!--android:text="@string/Tv.PerfectUserInfoActivity.key.QRCode"-->
+                    <!--android:textColor="#666666"-->
+                    <!--android:textSize="14sp"-->
+                    <!--/>-->
+            <!--</LinearLayout>-->
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

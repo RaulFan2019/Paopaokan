@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:gravity="center_horizontal">
+
+    <include layout="@layout/include_group_create_tag"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/EditLayout"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Tv.GroupCreateTag.Name"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_tag_name"
+                    style="@style/EditLayout_Edittext"
+                    android:maxLength="7"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:hint="@string/Helper.GroupCreateTag.Tip"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_create_tag"
+        style="@style/ButtonBase_commit"
+        android:layout_margin="10dp"
+        android:text="@string/Btn.GroupCreateTag.Confirm"/>
+</LinearLayout>

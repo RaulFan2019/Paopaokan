@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout style="@style/LinearlayoutBase"
+             xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 自己的跑步地位 -->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_total_sort"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="34dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:gravity="center_horizontal">-->
+                <!--&lt;!&ndash;android:background="#fdefe8"&ndash;&gt;-->
+
+                <!--<com.rey.material.widget.TextView-->
+                    <!--android:id="@+id/tv_total_sort"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_horizontal|center_vertical"-->
+                    <!--android:textColor="#888888"-->
+                    <!--android:textSize="12sp"/>-->
+            <!--</LinearLayout>-->
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_member_ranking_total_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <com.app.pao.ui.widget.LoadingView
+            android:id="@+id/loadview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:loadingText="@string/Tv.Loading"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Tv.ReLoad"
+            android:textColor="#f06522"
+            android:textSize="12dp"
+            android:visibility="invisible"/>
+    </LinearLayout>
+</FrameLayout>

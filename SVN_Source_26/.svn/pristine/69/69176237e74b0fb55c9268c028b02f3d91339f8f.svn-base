@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayoutBase"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/include_group_remark_edit" />
+
+    <LinearLayout
+        android:id="@+id/ll_base"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            style="@style/EditLayout"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Tv.GroupRemarkEdit.Remark" />
+
+                <View style="@style/EditLayout_CuttingLine" />
+
+                <EditText
+                    android:id="@+id/et_member_remark"
+                    style="@style/EditLayout_Edittext"
+                    android:singleLine="true"
+                    android:hint="@string/Helper.GroupRemarkEdit.Tip"
+                    android:imeOptions="actionDone" />
+            </LinearLayout>
+
+            <View style="@style/EditLayout_BottomLine" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_confirm_remark"
+        style="@style/ButtonBase_commit"
+        android:layout_margin="10dp"
+        android:text="@string/Btn.GroupRemarkEdit.Confirm" />
+</LinearLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="收到跑步的提醒"
+        app:titleTextColor="@android:color/white" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/icon_clock_black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="共收到来自"
+                    android:textColor="#888888"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_person_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#3c3b39"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个人的"
+                    android:textColor="#888888"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_clock_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3c3b39"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个跑步提醒"
+                    android:textColor="#888888"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_clock_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_no_clock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:background="#f5f5f5"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/icon_none_clock" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="还未收到跑步提醒，再多加几个好友吧"
+                android:textColor="#888888"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/include_loadview" />
+    </FrameLayout>
+
+
+</LinearLayout>

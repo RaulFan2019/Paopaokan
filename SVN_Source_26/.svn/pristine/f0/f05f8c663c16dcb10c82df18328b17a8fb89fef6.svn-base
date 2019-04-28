@@ -1,0 +1,697 @@
+package com.app.pao.activity.main;
+
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.friend.SearchFriendActivity;
+import com.app.pao.activity.friend.SearchFriendFromPhoneActivity;
+import com.app.pao.activity.group.CreateGroupTipActivity;
+import com.app.pao.activity.group.SearchGroupActivity;
+import com.app.pao.activity.run.PreperRunActivity;
+import com.app.pao.activity.run.RunningActivityV2;
+import com.app.pao.activity.settings.SystemSettingsActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.data.db.MaidianData;
+import com.app.pao.data.db.MessageData;
+import com.app.pao.data.db.WorkoutData;
+import com.app.pao.entity.db.DBEntityMaidian;
+import com.app.pao.entity.network.GetSmsInviteResult;
+import com.app.pao.entity.network.UpdateEntity;
+import com.app.pao.fragment.dynamic.DynamicFragment;
+import com.app.pao.fragment.friend.FriendListFragment;
+import com.app.pao.fragment.group.GroupFragment;
+import com.app.pao.fragment.settings.LocalUserFragmentV2;
+import com.app.pao.fragment.title.menu.TitleMenuFragment;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.service.ClipboardService;
+import com.app.pao.service.ListenerService;
+import com.app.pao.service.UploadWatcherService;
+import com.app.pao.ui.dialog.v1.MyDialogBuilderV1;
+import com.app.pao.utils.T;
+import com.app.pao.utils.TimeUtils;
+import com.app.pao.utils.UIHelper;
+import com.app.pao.utils.wx.WxShareManager;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lidroid.xutils.view.annotation.event.OnTouch;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Raul on 2015/10/29.
+ * 应用主页面
+ */
+@ContentView(R.layout.activity_main)
+public class MainActivity extends BaseAppCompActivity implements View.OnClickListener, View.OnTouchListener {
+
+    /* contains */
+    private static final String TAG = "MainActivity";
+
+    public static final int TAB_DYNAMIC = 0;
+    public static final int TAB_FRIEND = 1;
+    public static final int TAB_GROUP = 2;
+    public static final int TAB_USER = 3;
+
+    /* local view */
+    @ViewInject(R.id.tv_dynamic)
+    private TextView mDynamicTabTv; //动态文字
+    @ViewInject(R.id.iv_dynamic)
+    private ImageView mDynamicTabIv;    //动态ICON
+    @ViewInject(R.id.tv_friend)
+    private TextView mFriendTabTv;  //好友文字
+    @ViewInject(R.id.iv_friend)
+    private ImageView mFriendTabIv;//好友ICON
+    @ViewInject(R.id.tv_me)
+    private TextView mUserTabTv;    //我 文字
+    @ViewInject(R.id.iv_me)
+    private ImageView mUserTabIv; //我 ICON
+    @ViewInject(R.id.tv_group)
+    private TextView mGroupTabTv; // 团 文字
+    @ViewInject(R.id.iv_group)
+    private ImageView mGroupTabIv; //团 ICON
+    @ViewInject(R.id.iv_group_is_read)
+    private ImageView mGroupIsReadIv;//团的相关消息是否已读
+    @ViewInject(R.id.iv_friend_is_read)
+    private ImageView mFriendIsReadIv;//好友的相关消息是否已读
+
+    /* local data */
+    private Fragment mContentFragment;//当前切换的页面
+    private DynamicFragment mDynamicFragment;//动态页面
+    private GroupFragment mGroupFragmentReplace;
+    private LocalUserFragmentV2 mUserFragmentReplace;
+    private FriendListFragment mFriendListFragment;//好友列表界面
+
+    private TitleMenuFragment mGroupTitleMenuFragment;//跑团菜单栏
+    private TitleMenuFragment mFriendTitleMenuFragment;//好友菜单栏
+
+    public WxShareManager share;
+
+    private boolean isShowMessage;
+
+    private int mFriendMsgCount;//未读好友消息数量
+    private int mGroupMsgCount;//未读跑团消息数量
+    private int startAd;
+    private String adH5Url;
+
+    private static long exitTime = 0;
+
+    /**
+     * 监听消息显示框的点击事件，防止消息打开并点击时下层相应点击的问题
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    @Override
+    @OnTouch({R.id.ll_fragment_message})
+    public boolean onTouch(View v, MotionEvent event) {
+        if (v.getId() == R.id.ll_fragment_message) {
+            //判断团菜单是否展开
+            if (mGroupTitleMenuFragment != null && mGroupTitleMenuFragment.isVisible()) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.title_menu_in, R.anim.title_menu_out);
+                transaction.remove(mGroupTitleMenuFragment).commit();
+                isShowMessage = !isShowMessage;
+                return true;
+            }
+
+            //判断好友菜单是否展开
+            if (mFriendTitleMenuFragment != null && mFriendTitleMenuFragment.isVisible()) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.title_menu_in, R.anim.title_menu_out);
+                transaction.remove(mFriendTitleMenuFragment).commit();
+                isShowMessage = !isShowMessage;
+                return true;
+            }
+        }
+        return isShowMessage;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+
+
+    /**
+     * 点击事件
+     *
+     * @param v
+     */
+    @Override
+    @OnClick({R.id.ll_dynamic, R.id.ll_friend, R.id.ll_run, R.id.ll_me, R.id.ll_group})
+    public void onClick(View v) {
+        if (isShowMessage) {
+            return;
+        }
+        switch (v.getId()) {
+            //点击动态
+            case R.id.ll_dynamic:
+                setTabSelection(TAB_DYNAMIC);
+                break;
+            //点击好友
+            case R.id.ll_friend:
+                setTabSelection(TAB_FRIEND);
+                break;
+            //点击开始跑
+            case R.id.ll_run:
+                LaunchPreperRunActivity();
+                break;
+            //点击跑团
+            case R.id.ll_group:
+                setTabSelection(TAB_GROUP);
+                break;
+            //点击我
+            case R.id.ll_me:
+                setTabSelection(TAB_USER);
+                break;
+        }
+    }
+
+
+    @Override
+    protected void initData() {
+        mDynamicFragment = null;
+        mGroupFragmentReplace = null;
+        mUserFragmentReplace = null;
+        mFriendListFragment = null;
+
+        isShowMessage = false;
+        mFriendMsgCount = 0;
+        mGroupMsgCount = 0;
+        startAd = getIntent().getIntExtra("startAd", 0);
+        adH5Url = PreferencesData.getAdH5Url(mContext);
+        share = new WxShareManager(MainActivity.this);
+    }
+
+    @Override
+    protected void initViews() {
+        if (startAd == 1) {
+            if (adH5Url != null && !adH5Url.equals("")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("url", adH5Url);
+                bundle.putInt("type", AppEnum.WebViewType.AdViewInto);
+                startActivity(RaceWebViewActivity.class, bundle);
+            }
+        }
+        setTabSelection(TAB_DYNAMIC);
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+        //启动监听服务ListenerService
+        Intent listenerIntent = new Intent(MainActivity.this, ListenerService.class);
+        startService(listenerIntent);
+
+        int userId = LocalApplication.getInstance().getLoginUser(mContext).userId;
+
+        if (WorkoutData.getUnFinishWorkout(mContext, userId) != null) {
+            startActivity(RunningActivityV2.class);
+            return;
+        }
+        //启动不断上传Service
+        if (LocalApplication.getInstance().getLoginUser(mContext).getUserId() != AppEnum.DEFAULT_USER_ID) {
+            Intent uploadService = new Intent(MainActivity.this, UploadWatcherService.class);
+            startService(uploadService);
+            //启动剪贴板监听服务
+            LocalApplication.getInstance().setIsActive(true);
+            Intent clipboardService = new Intent(MainActivity.this, ClipboardService.class);
+            startService(clipboardService);
+        }
+        if (getIntent().hasExtra("Jump")) {
+            setTabSelection(getIntent().getIntExtra("Jump", TAB_DYNAMIC));
+        }
+
+        //需要更新
+        String updateInfo = PreferencesData.getUpdateInfo(mContext);
+        if (!updateInfo.equals("")) {
+            final UpdateEntity updateEntity = JSON.parseObject(updateInfo, UpdateEntity.class);
+            mDialogBuilder.showChoiceTwoBtnDialog(mContext, ("新版本:Ver." + updateEntity.getVersionName()), updateEntity
+                    .getInformation(), "取消", "更新");
+            mDialogBuilder.setListener(new MyDialogBuilderV1.ChoiceTwoBtnDialogListener() {
+                @Override
+                public void onLeftBtnClick() {
+
+                }
+
+                @Override
+                public void onRightBtnClick() {
+                    String url = "http://" + updateEntity.getUrl();
+                    UIHelper.openDownLoadService(mContext, url, updateEntity.getAppName());
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        }
+        //TEST
+//        String string = null;
+//        int length = string.length();
+//        startActivity(NewRecordActivityV2.class);
+    }
+
+    /**
+     * 方法必须重写
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+//        startActivity(MainActivity.class);
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void updateData() {
+        int userId = LocalApplication.getInstance().getLoginUser(mContext).userId;
+        if (userId != AppEnum.DEFAULT_USER_ID) {
+            mFriendMsgCount = MessageData.getNewFriendMsgCount(mContext, userId);
+            mGroupMsgCount = MessageData.getNewGroupMsgCount(mContext, userId);
+        } else {
+            mFriendMsgCount = 0;
+            mGroupMsgCount = 0;
+        }
+
+    }
+
+    @Override
+    protected void updateViews() {
+        if (mFriendMsgCount == 0) {
+            mFriendIsReadIv.setVisibility(View.INVISIBLE);
+        } else {
+            mFriendIsReadIv.setVisibility(View.VISIBLE);
+        }
+
+        if (mGroupMsgCount == 0) {
+            mGroupIsReadIv.setVisibility(View.INVISIBLE);
+        } else {
+            mGroupIsReadIv.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void destroy() {
+
+    }
+
+    /**
+     * 根据传入的index参数来设置选中的tab页。
+     */
+    public void setTabSelection(int index) {
+        // 重置按钮
+        resetBtn();
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        hideFragments(transaction);
+        switch (index) {
+            //切换到动态
+            case TAB_DYNAMIC:
+                // 当点击了消息tab时，改变控件的图片和文字颜色
+                mDynamicTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Selected));
+                mDynamicTabIv.setImageResource(R.drawable.icon_dynamic_selected);
+                //若游客
+                if (mDynamicFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    mDynamicFragment = DynamicFragment.newInstance();
+                    transaction.add(R.id.ll_fragment_root, mDynamicFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(mDynamicFragment);
+                }
+                mContentFragment = mDynamicFragment;
+
+                break;
+            //切换到好友
+            case TAB_FRIEND:
+                // 当点击了消息tab时，改变控件的图片和文字颜色
+                //  mFriendTabLayout.setBackgroundResource(R.color.Tab_Select);
+                mFriendTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Selected));
+                mFriendTabIv.setImageResource(R.drawable.icon_friend_selected);
+
+                if (mFriendListFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    mFriendListFragment = FriendListFragment.newInstance();
+                    transaction.add(R.id.ll_fragment_root, mFriendListFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(mFriendListFragment);
+                }
+                mContentFragment = mFriendListFragment;
+
+                break;
+            //切换到跑团
+            case TAB_GROUP:
+                // 当点击了动态tab时，改变控件的图片和文字颜色
+                mGroupTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Selected));
+                mGroupTabIv.setImageResource(R.drawable.icon_group_selected);
+
+                if (mGroupFragmentReplace == null) {
+                    // 如果NewsFragment为空，则创建一个并添加到界面上
+                    mGroupFragmentReplace = GroupFragment.newInstance();
+                    transaction.add(R.id.ll_fragment_root, mGroupFragmentReplace);
+                } else {
+                    // 如果NewsFragment不为空，则直接将它显示出来
+                    transaction.show(mGroupFragmentReplace);
+                }
+                mContentFragment = mGroupFragmentReplace;
+
+                break;
+            //切换到用户
+            case TAB_USER:
+                // 当点击了设置tab时，改变控件的图片和文字颜色
+                mUserTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Selected));
+                mUserTabIv.setImageResource(R.drawable.icon_me_selected);
+
+                // TODO: 2016/3/11
+//                    if (mUserFragment == null) {
+//                        // 如果SettingFragment为空，则创建一个并添加到界面上
+//                        mUserFragment = new LocalUserFragment();
+//                        transaction.add(R.id.ll_fragment_root, mUserFragment);
+//                    } else {
+//                        // 如果SettingFragment不为空，则直接将它显示出来
+//                        transaction.show(mUserFragment);
+//                    }
+//                    mContentFragment = mUserFragment;
+                if (mUserFragmentReplace == null) {
+                    // 如果SettingFragment为空，则创建一个并添加到界面上
+                    mUserFragmentReplace = LocalUserFragmentV2.newInstance();
+                    transaction.add(R.id.ll_fragment_root, mUserFragmentReplace);
+                } else {
+                    // 如果SettingFragment不为空，则直接将它显示出来
+                    transaction.show(mUserFragmentReplace);
+                }
+                mContentFragment = mUserFragmentReplace;
+                break;
+        }
+        transaction.commit();
+    }
+
+    /**
+     * 清除掉所有的选中状态。
+     */
+    private void resetBtn() {
+        mDynamicTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Noraml));
+        mGroupTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Noraml));
+        mFriendTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Noraml));
+        mUserTabTv.setTextColor(getResources().getColor(R.color.Tab_TextView_Noraml));
+
+        mDynamicTabIv.setImageResource(R.drawable.icon_dynamic_normal);
+        mGroupTabIv.setImageResource(R.drawable.icon_group_normal);
+        mFriendTabIv.setImageResource(R.drawable.icon_friend_normal);
+        mUserTabIv.setImageResource(R.drawable.icon_me_normal);
+    }
+
+    /**
+     * 将所有的Fragment都置为隐藏状态。
+     *
+     * @param transaction 用于对Fragment执行操作的事务
+     */
+    private void hideFragments(FragmentTransaction transaction) {
+        if (mDynamicFragment != null) {
+            transaction.hide(mDynamicFragment);
+        }
+        if (mFriendListFragment != null) {
+            transaction.hide(mFriendListFragment);
+        }
+        if (mGroupFragmentReplace != null) {
+            transaction.hide(mGroupFragmentReplace);
+        }
+        if (mUserFragmentReplace != null) {
+            transaction.hide(mUserFragmentReplace);
+        }
+    }
+
+    /**
+     * 跳转到准备跑步页面
+     */
+    private void LaunchPreperRunActivity() {
+        startActivity(PreperRunActivity.class);
+    }
+
+    /**
+     * 跳转到系统设置页面
+     */
+    public void LaunchSysSettingsActivity() {
+        startActivity(SystemSettingsActivity.class);
+    }
+
+    /**
+     * 显示消息列表页面
+     */
+    public void showMessageList() {
+        startActivity(MessageListActivityReplace.class);
+    }
+
+    /**
+     * 显示消息列表页面
+     */
+    public void showGroupTitleMenuList(final boolean hasGroup, final String groupName) {
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.title_menu_in, R.anim.title_menu_out);
+        if (isShowMessage) {
+            transaction.remove(mGroupTitleMenuFragment);
+        } else {
+            //   if (mGroupTitleMenuFragment == null) {
+            ArrayList<String> mMenuTextList = new ArrayList<String>();
+            mMenuTextList.add("扫一扫加团");
+            mMenuTextList.add("输邀请码加跑团");
+            mMenuTextList.add("搜索跑团");
+            mMenuTextList.add("申请建团");
+
+            mGroupTitleMenuFragment = TitleMenuFragment.getInstance(mMenuTextList, new TitleMenuFragment
+                    .OnTitleItemClickListener() {
+                @Override
+                public void OnTitleItemClick(int position) {
+
+                    switch (position) {
+                        //当面加跑团
+                        case 0:
+                            Bundle bundl = new Bundle();
+                            bundl.putInt("hasScanSys", 0);
+                            startActivity(ScanQRCodeActivityReplace.class, bundl);
+                            break;
+                        //输邀请码加跑团
+                        case 1:
+                            startActivity(InputInviteActivity.class);
+                            break;
+                        //搜索跑团
+                        case 2:
+                            startActivity(SearchGroupActivity.class);
+                            break;
+                        //申请建团
+                        case 3:
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("hasgroup", hasGroup);
+                            bundle.putString("groupname", groupName);
+                            startActivity(CreateGroupTipActivity.class, bundle);
+                            break;
+
+                    }
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(R.anim.title_menu_in, R.anim.title_menu_out);
+                    transaction.remove(mGroupTitleMenuFragment).commit();
+                    isShowMessage = !isShowMessage;
+                }
+            });
+
+            transaction.add(R.id.ll_fragment_message, mGroupTitleMenuFragment);
+//            } else {
+//                transaction.show(mGroupTitleMenuFragment);
+//            }
+        }
+        isShowMessage = !isShowMessage;
+        transaction.commit();
+    }
+
+    /**
+     * 显示好友菜单
+     */
+    public void showFriendTitleMenuList() {
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.title_menu_in, R.anim.title_menu_out);
+        if (isShowMessage) {
+            transaction.remove(mFriendTitleMenuFragment);
+        } else {
+            //  if (mFriendTitleMenuFragment == null) {
+            ArrayList<String> mMenuTextList = new ArrayList<String>();
+            mMenuTextList.add("搜索用户");
+//            mMenuTextList.add("好友申请");
+            mMenuTextList.add("添加通讯录好友");
+            mMenuTextList.add("邀请微信好友");
+            mMenuTextList.add("扫一扫");
+            mMenuTextList.add("邀请码加好友");
+
+            mFriendTitleMenuFragment = TitleMenuFragment.getInstance(mMenuTextList, new TitleMenuFragment
+                    .OnTitleItemClickListener() {
+                @Override
+                public void OnTitleItemClick(int position) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(R.anim.title_menu_in, R.anim.title_menu_out);
+                    transaction.remove(mFriendTitleMenuFragment).commit();
+                    isShowMessage = !isShowMessage;
+                    switch (position) {
+                        //用户搜索
+                        case 0:
+                            startActivity(SearchFriendActivity.class);
+                            break;
+                        //添加通讯录
+                        case 1:
+                            startActivity(SearchFriendFromPhoneActivity.class);
+                            break;
+                        //邀请微信好友
+                        case 2:
+//                            getWxInvite();
+                            getSmsInviteText();
+                            break;
+                        //扫一扫
+                        case 3:
+                            MaidianData.saveMaidian(mContext, new DBEntityMaidian(System.currentTimeMillis() + "",
+                                    AppEnum.MaidianType.AddFriendBySys, TimeUtils.NowTime()));
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("hasScanSys", 1);
+                            startActivity(ScanQRCodeActivityReplace.class, bundle);
+                            break;
+                        //邀请码加好友
+                        case 4:
+                            MaidianData.saveMaidian(mContext, new DBEntityMaidian(System.currentTimeMillis() + "",
+                                    AppEnum.MaidianType.AddFriendByInviteNum, TimeUtils.NowTime()));
+                            startActivity(InputInviteActivity.class);
+                            break;
+                    }
+
+                }
+            });
+
+            transaction.add(R.id.ll_fragment_message, mFriendTitleMenuFragment);
+        }
+        isShowMessage = !isShowMessage;
+        transaction.commit();
+    }
+
+    /**
+     * 获取短信分享文本
+     */
+    public void getSmsInviteText() {
+        MaidianData.saveMaidian(mContext, new DBEntityMaidian(System.currentTimeMillis() + "",
+                AppEnum.MaidianType.InviteFriendByWx, TimeUtils.NowTime()));
+        if (mDialogBuilder.progressDialog != null && mDialogBuilder.progressDialog.isShowing()) {
+            return;
+        }
+
+        mDialogBuilder.showProgressDialog(mContext, "请稍等..", false);
+        HttpUtils https = new HttpUtils();
+        String POST_URL = URLConfig.URL_GET_FRIEND_SMS_INVITE;
+        final RequestParams params = RequestParamsBuild.BuildGetSMSInviteRequest(mContext);
+        https.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                T.showShort(mContext, errorMsg);
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                final GetSmsInviteResult result = JSON.parseObject(Response, GetSmsInviteResult.class);
+                if (share.WxIsInstall()) {
+
+                    mDialogBuilder.showShareDialog(mContext, "邀请函已复制", result.getText());
+                    mDialogBuilder.setShareListener(new MyDialogBuilderV1.ShareDialogListener() {
+                        @Override
+                        public void onCancelShare() {
+
+                        }
+
+                        @Override
+                        public void onGoShare() {
+                            ClipboardManager cbManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            ClipData textCd = ClipData.newPlainText("123Go", result.getText());
+                            cbManager.setPrimaryClip(textCd);
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setComponent(new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI"));
+                            intent.setPackage("com.tencent.mm");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    });
+
+                } else {
+                    T.showShort(mContext, "未安装微信");
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+
+            }
+
+            @Override
+            protected void onFinish() {
+                if (mDialogBuilder.progressDialog != null) {
+                    mDialogBuilder.progressDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    public Fragment getmContentFragment() {
+        return mContentFragment;
+    }
+
+    /**
+     * 按2次退出本页面
+     */
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 3000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出跑跑看", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            moveTaskToBack(true);
+//            Intent i = new Intent(Intent.ACTION_MAIN);
+//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            i.addCategory(Intent.CATEGORY_HOME);
+//            startActivity(i);
+        }
+    }
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayoutBase"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TextViewTitle_tip"
+            android:text="@string/Tv.Tourist.Friends" />
+
+        <Button
+            android:id="@+id/btn_friend_to_login"
+            style="@style/ButtonBase_commit"
+            android:layout_width="134dp"
+            android:layout_height="34dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_splash"
+            android:text="@string/Btn.Tourist.Login"
+            android:textColor="#f06522" />
+    </LinearLayout>
+</LinearLayout>

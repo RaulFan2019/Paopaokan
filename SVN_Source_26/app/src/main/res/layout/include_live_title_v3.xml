@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayouttitleV1">
+
+    <com.rey.material.widget.ImageButton
+        android:id="@+id/title_bar_left_menu"
+        style="@style/MenuLeftBackButton" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <com.rey.material.widget.TabPageIndicator
+            android:id="@+id/tbi_history"
+            style="@style/LiveTabPageIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
+    </FrameLayout>
+
+</RelativeLayout>

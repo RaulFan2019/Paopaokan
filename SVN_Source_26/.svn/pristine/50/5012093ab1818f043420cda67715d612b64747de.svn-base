@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/ListViewItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="250dp"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:focusable="false"
+    android:clickable="false"
+    android:gravity="center_vertical">
+
+        <!-- com.app.pao.ui.widget.CircularImage -->
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/iv_photo"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_live_social_info">
+
+            <ImageView
+                android:id="@+id/iv_thumb"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/icon_thumbup_can_not"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="10dp"/>
+
+        </LinearLayout>
+</LinearLayout>

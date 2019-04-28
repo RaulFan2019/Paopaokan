@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_ad_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/ll_ad_skip_but"
+        android:layout_width="31dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        android:layout_gravity="right"
+        android:gravity="center_horizontal"
+        android:background="@drawable/but_skip_ad">
+        <ImageView
+            android:id="@+id/iv_ad_skip_num"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/num_ad_skip_3"/>
+        <TextView
+            android:layout_marginTop="11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="11dp"
+            android:textSize="9sp"
+            android:text="@string/Tv.AdSkip"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,36 @@
+package com.app.pao.entity.model;
+
+import android.bluetooth.BluetoothDevice;
+
+import java.io.Serializable;
+
+/**
+ * BLE蓝牙扫描实体类
+ *
+ * @author Raul
+ */
+public class BLEEntity implements Serializable{
+
+    public BluetoothDevice Device;// 蓝牙设备
+    public String name;// 蓝牙设备名称
+    public int rssi;// rssi
+    public byte[] scanRecord;// 广播数据
+    public int num;// 扫描次数
+
+
+    public BLEEntity(BluetoothDevice Device, int rssi, byte[] scanRecord, String name) {
+        this.Device = Device;
+        this.rssi = rssi;
+        this.scanRecord = scanRecord;
+        this.name = name;
+        num = 1;
+    }
+
+    public BluetoothDevice getDevice() {
+        return Device;
+    }
+
+    public void setDevice(BluetoothDevice device) {
+        Device = device;
+    }
+}

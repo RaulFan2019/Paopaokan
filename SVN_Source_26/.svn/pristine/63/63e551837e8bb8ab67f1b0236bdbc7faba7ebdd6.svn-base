@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_data_splite"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:layout_marginTop="10dp"
+        android:background="#A6000000"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        android:layout_width="30dp"
+                        android:layout_height="18dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/Unit.Km"
+                        android:textColor="#999999"
+                        android:textSize="9sp"/>
+
+                    <com.rey.material.widget.TextView
+                        android:layout_width="30dp"
+                        android:layout_height="18dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/Term.Pace"
+                        android:textColor="#999999"
+                        android:textSize="9sp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_split"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:scrollbars="vertical"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_over_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="45dp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/ll_pace_location"
+                    android:layout_width="40dp"
+                    android:layout_gravity="left"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:singleLine="true"
+                            android:text="@string/Term.AvgPace"
+                            android:textColor="#999999"
+                            android:textSize="9sp"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_splite_avg_pace"
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:singleLine="true"
+                            android:textColor="#ffffff"
+                            android:textSize="9sp"/>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:id="@+id/line_splite_location"
+                    android:visibility="invisible"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="1px"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#80ffffff"></View>
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+            <!--头像 -->
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_splite_avatar"
+                android:layout_marginTop="12dp"
+                android:layout_width="36dp"
+                android:background="#595959"
+                android:layout_height="36dp"/>
+
+            <!-- 姓名 -->
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_splite_nickname"
+                android:layout_marginTop="12dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:textSize="13sp"/>
+
+            <ImageButton
+                android:id="@+id/btn_change_split_to_small"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@null"
+                android:src="@drawable/icon_live_data_small"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

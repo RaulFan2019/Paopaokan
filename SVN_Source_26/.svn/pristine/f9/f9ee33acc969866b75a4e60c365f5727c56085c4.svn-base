@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_change_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最长距离由金牌被换成银牌"
+        android:textColor="@color/grey"/>
+    <TextView
+        android:id="@+id/tv_change_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="战胜人数由92%降为83%"
+        android:textColor="@color/grey_dark"/>
+    <ImageView
+        android:id="@+id/iv_change_medal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:contentDescription="奖牌"
+        android:src="@drawable/icon_no_medal"/>
+</LinearLayout>

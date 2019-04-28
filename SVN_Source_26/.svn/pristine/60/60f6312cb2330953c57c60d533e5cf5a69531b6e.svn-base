@@ -1,0 +1,842 @@
+<resources>
+
+    <!-- common -->
+    <string name="Hint.newPassword">新密码</string>
+    <string name="Hint.password">密\t\t码</string>
+    <string name="Helper.password">请输入密码</string>
+    <string name="Hint.NickName">昵称</string>
+    <string name="Helper.NickName">昵称长度不能超过10位</string>
+    <string name="Tv.Loading">加载中...</string>
+    <string name="Tv.ReLoad">重新加载</string>
+    <string name="Tv.Loading.Playbak">正在准备回放数据...</string>
+
+    <string name="Gander.Man">男</string>
+    <string name="Gander.Women">女</string>
+
+    <string name="Load.loading">正在加载...</string>
+    <string name="Load.waiting">请稍后···</string>
+
+    <string name="down_state">正在下载：%s</string>
+
+    <string name="Btn.AddFriend">加好友</string>
+    <string name="Btn.Agree">同意</string>
+
+    <string name="Tv.ImageCut.Title">缩放和剪切</string>
+    <string name="Btn.ImageCut.CutImage">确定</string>
+
+    <string name="Btn.WxShare.Cancel">取消</string>
+    <string name="Btn.WxShare.GoShare">去微信粘贴</string>
+
+    <!-- 游客 -->
+    <string name="Btn.Tourist.Login">登录</string>
+    <string name="Tv.Tourist.Friends">加入跑跑看, 可以体验全新的社交功能</string>
+    <string name="Tv.Tourist.Groups">加入跑跑看, 可以体验全新的社交功能</string>
+    <string name="Tv.Tourist.Dynamic">加入跑跑看,可以查看好友的动态</string>
+    <string name="Tv.Tourist.Settings">加入跑跑看,体验强大的个人数据分析</string>
+    <!-- 单位-->
+    <string name="Unit.Km">公里</string>
+
+    <!-- 通用名词 -->
+    <string name="Term.Heartrate">心率</string>
+    <string name="Term.Pace">配速</string>
+    <string name="Term.AvgPace">平均配速</string>
+
+    <!-- dialog -->
+    <string name="CheckBox.Dialog">我要当领跑</string>
+    <string name="Spinner.Dialog">我的配速</string>
+    <string name="Btn.Dialog.Cancel">取消</string>
+    <string name="Btn.Dialog.Confirm">确定</string>
+    <string name="Btn.Dialog.SignUp">报名</string>
+
+    <!-- splash activity -->
+    <string name="Btn.SplashActivity.Start">立即体验</string>
+    <string name="Tv.SplashActivity.fragment.one.title">全新的我</string>
+    <string name="Tv.SplashActivity.fragment.two.title">跑步分析</string>
+    <string name="Tv.SplashActivity.fragment.three.title">实时互动</string>
+    <string name="Tv.SplashActivity.fragment.four.title">跑团助手</string>
+
+    <string name="Tv.SplashActivity.fragment.one.explain">你跑过的路不会欺骗你，你流过的汗水不会白流 \n 赢取你战利品的时刻到了！ </string>
+    <string name="Tv.SplashActivity.fragment.two.explain">你的心跳，我知道；\n你的前进，我记录；\n你想要的，我都给你。</string>
+    <string name="Tv.SplashActivity.fragment.three.explain">分享你的精彩到朋友圈，让跑步从此不再孤单</string>
+    <string name="Tv.SplashActivity.fragment.four.explain">约跑、腐败、打卡、统计还有什么我没有想到的吗？</string>
+
+
+    <!-- MainActivity -->
+    <string name="Tv.MainActivity.Tab.TextView.Dynamic">动态</string>
+    <string name="Tv.MainActivity.Tab.TextView.Friend">好友</string>
+    <string name="Tv.MainActivity.Tab.TextView.Run">开始跑</string>
+    <string name="Tv.MainActivity.Tab.TextView.Group">跑团</string>
+    <string name="Tv.MainActivity.Tab.TextView.Me">我</string>
+
+    <!-- LoginActivity -->
+    <string name="Tv.LoginActivity.title">手机号码登录</string>
+    <string name="Hint.LoginActivity.phonenum">手机号</string>
+    <string name="Helper.LoginActivity.phonenum">请输入手机号码</string>
+    <string name="Button.LoginActivity.Login">登录</string>
+    <string name="Button.LoginActivity.ForgetPsw">忘记密码</string>
+    <string name="Button.LoginActivity.Regist">新用户注册</string>
+    <string name="Button.LoginActivity.LoginByWxin">微信登录</string>
+    <string name="Button.LoginActivity.LoginByGuest">立即奔跑</string>
+    <string name="Button.LoginActivity.changeuser">切换帐号</string>
+
+    <string name="Tv.LoginActivity.EditLayout.Title.phonenum">手机号</string>
+    <string name="Tv.LoginActivity.EditLayout.Title.password">密\t\t码</string>
+    <string name="EditText.LoginActivity.EditLayout.phone.Hint">请输入手机号码</string>
+    <string name="EditText.LoginActivity.EditLayout.password.Hint">请输入密码</string>
+
+    <!-- RegisterActivity -->
+    <string name="Title.RegistActivity">注册</string>
+    <string name="Title.RegistActivityAddInfo">完善资料</string>
+    <string name="Tip.RegistActivity">请输入你的手机号</string>
+    <string name="Hint.RegistActivity.Phonenum">手机号</string>
+    <string name="Helper.RegistActivity.Phonenum">请填写手机号码</string>
+    <string name="Button.RegistActivity.regist">注册</string>
+    <string name="Tv.RegistActivity.Privacy">点“注册”按钮即表示你同意</string>
+    <string name="Button.RegistActivity.Privacy">《跑跑看 用户隐私协议》</string>
+
+
+    <!-- ForgetPswInputPhoneNumActivity -->
+    <string name="Title.ForgetPswInputPhoneNumActivity">忘记密码</string>
+    <string name="Tv.ForgetPswInputPhoneNumActivity.Title">通过短信验证码登录</string>
+    <string name="Hint.ForgetPswInputPhoneNumActivity.Phonenum">手机号</string>
+    <string name="Helper.ForgetPswInputPhoneNumActivity.Phonenum">请填写手机号码</string>
+    <string name="Button.ForgetPswInputPhoneNumActivity.Next">下一步</string>
+
+    <!-- ForgetPswInputSmsCodeActivity -->
+    <string name="Title.ForgetPswInputCodeActivity">忘记密码</string>
+    <string name="Tv.ForgetPswInputCodeActivity.Title">短信验证码已发送，请填写验证码</string>
+    <string name="Hint.ForgetPswInputCodeActivity.Phonenum">手机号</string>
+    <string name="Helper.ForgetPswInputCodeActivity.Phonenum">请填写手机号码</string>
+    <string name="Hint.ForgetPswInputCodeActivity.Code">验证码</string>
+    <string name="Helper.ForgetPswInputCodeActivity.Code">请输入验证码</string>
+    <string name="Button.ForgetPswInputCodeActivity.Commit">提交</string>
+    <string name="Button.ForgetPswInputCodeActivity.getCodeAgain">收不到验证码?</string>
+
+
+    <!-- PrivacyActivity -->
+    <string name="Title.PrivacyActivity">用户隐私协议</string>
+    <string name="Tv.PrivacyActivity.body">\t"跑跑看"用户隐私协议版权所属上海互韦涵信息技术有限公司（简称“我们”）。“跑跑看”是一款专业跑步的应用软件。依据法律的规定，我们将在特定情形下收集、使用、保存和披露您的个人信息。以下条款描述了我们如何收集、使用、保存和披露您的个人信息。\n \t1、个人信息的收集\n \t\t1.1 个人信息\n \t\t\t我们使用、保存、使用和披露个人信息是为了帮助您创建账户、识别用户、回应反馈和邮件等行为。"跑跑看"会向您提供关于专业跑步方面服务、发送活动、调查、优惠和促销信息以及其他宣传材料，以为您提供更好的服务。\n\n \t\t1.2 为实现服务目的而收集\n \t\t\t您无需用户账户即可试用“跑跑看”跑步软件。如果您想使用“跑跑看”跑步软件更多功能，您必须注册为“跑跑看”跑步软件用户并且于注册页面上提供相关的个人信息。您必须承诺和保证：\n \t\t\t1.2.1 为实现“跑跑看”的服务目的，“跑跑看”会通过技术手段收集您的个人信息，通过技术手段所收集的个人信息仅限于您的地理位置信息、电话号码、手机通讯录、以及社交账号等使用"跑跑看"跑步软件所必需的信息。\n \t\t\t1.2.2 “跑跑看”跑步软件采取多平台异步开发方式，支持Android以及iOS等多类操作系统的使用。当您使用iOS以及Android系统时，您需要输入您的社交账号或手机号码进行绑定使用。在您通过各种手机操作系统使用“跑跑看”跑步软件的过程中，“跑跑看”跑步软件所收集的信息仅限于您同意使用“跑跑看”跑步软件基本服务所必需的信息。\n \t\t\t1.2.3 经过您的允许，“跑跑看”跑步软件将分析您的手机通讯录和已绑定的社交账号，来帮助您寻找已经在使用“跑跑看”的朋友。“跑跑看”跑步软件通过高强度、不可逆的加密算法（将收集到的号码加密成为一系列不可解密的字符串）来加密您的通讯录信息，并依据该加密后的信息进行好友匹配的操作。\n \t\t\t1.2.4 “跑跑看”跑步软件会保存您使用“跑跑看”跑步软件时产生的所有运动数据，其中包括您的地理位置信息、时间、轨迹、运动数据等。\n\n \t\t1.3 用户提供\n \t\t\t1.3.1 如果您需要使用更多“跑跑看”跑步软件功能，例如将运动数据分享到微博、微信等其他网站或完善您的个人信息，以便享受更多的服务或更加便捷的联系好友，您需要完善您的个人信息，如”昵称“、”头像“或绑定您的其他社交网站账号。\n \t\t\t1.3.2
+        您提供的信息，“跑跑看”跑步软件将最大限度尽合理之商业义务进行保密。经过您的同意，“跑跑看”跑步软件将会向您提供活动、资讯、版本升级等服务。\n\n \t\t1.4 “跑跑看”跑步软件允许用户之间发送信息和其他合法内容。如果您将信息或其他内容发送给另一个用户，“跑跑看”服务器将会为您保存此信息/内容，并将此信息/内容发送给该用户。\n\n \t\t1.5 您提供信息的其他方式\n \t\t\t我们将采用其他方式（例如：电子邮件、信息下载、购买产品或服务、用户支持、反馈以及调查表）来收集您的个人信息。如果您将个人信息填写在其他开放的平台上，其他用户可能会获知您的信息。\n\n \t\t1.6 您的其他信息\n \t\t\t为了便于您使用"跑跑看"跑步软件，我们的服务器将会收集关于您的移动通讯设备的信息，例如型号、设备ID、互联网协议地址、您访问的时间和地点、路由数据包、信息发送人和接收数据（但不是信息本身），以及其他类似的特征记录。我们将使用Cookies和类似统一资源定位器（URL）的导航数据来收集您访问的时间和日期、搜索和查看的信息等。\n\n \t2、个人信息的使用\n \t\t2.1 您的个人信息将只在本隐私政策及提前通知您的更新的政策所载明的范围内使用[不会用于其它目的]。\n \t\t2.2 匿名汇总统计数据不是"跑跑看"跑步软件所定义的个人用户信息，我们将为多种目的，包括但不限于分析和使用模式的报告等，来保存和使用此类信息。"跑跑看"跑步软件有权以任何目的或单方面许可第三方使用和披露匿名汇总统计数据。\n\n \t3、个人信息的披露\n \t\t3.1 除非本隐私政策载明的有限披露，我们会妥善保存您的个人信息并不会泄露客户名单。\n \t\t3.2 您于此授权，以下情形下，我们将会向第三方披露您的个人信息而无需通过您的同意：\n \t\t\t3.2.1 如果我们披露这些信息是用来识别、联系或向可能对我们的权利或财产、网站用户或者其他任何人（包括其他任何人的权利和财产）造成损害之行为提起诉讼之必要；\n \t\t\t3.2.2 法律调查之必要；\n \t\t\t3.2.3 此类披露是法律规定或应向我们送达的传票或其他执法部门发出的令状之必要。\n\n \t4、安全\n \t\t4.1 对我们来说，个人信息的安全非常重要。我们将尽合理的商业努力保障您的个人信息安全，并实施合理的商业程序限制非授权访问、使用或者披露您的个人信息。尽管采取上述措施，但是您应当知晓"跑跑看"跑步软件不能完全避免与个人信息相关的安全危险。\n\n \t5、您应当协助我们以保护您的个人信息安全。例如，不要泄露您的个人密码。\n\n \t6、本隐私政策的修订\n \t\t6.1
+        本隐私政策容许调整，如果我们对使用您的个人信息方法做出任何实质性调整，我们将通过您提供的手机号码用短消息通知您。\n \t\t6.2 我们发出的包含此类变更通知的短消息毫无疑问的组成上述变更通知的有效部分。如果您不希望我们改变对您个人信息的使用，您必须早于您期望停止使用我们的账户之前通知我们。您继续使用和"跑跑看"跑步软件的行为，将被视为您知晓并同意受通知中此类变更条款的约束。\n\n \t7、年龄限制\n \t\t我们鼓励父母或监护人指导未满十八岁的未成年人使用我们的服务。我们建议未成年人鼓励他们的父母或监护人阅读本《隐私政策》，并建议未成年人在提交个人信息之前寻求父母或监护人的同意和指导。\n
+    </string>
+
+    <!-- RegisterInputVCodeActivity -->
+    <string name="Title.RegistInputSMSCodeActivity">注册</string>
+    <string name="Hint.RegistInputSMSCodeActivity.PhoneNum">手机号</string>
+    <string name="Hint.RegistInputSMSCodeActivity.Code">验证码</string>
+    <string name="Helper.RegistInputSMSCodeActivity.Code">请输入验证码</string>
+    <string name="Button.RegistInputSMSCodeActivity.Commit">提交</string>
+    <string name="Button.RegistInputSMSCodeActivity.getCodeAgain">收不到验证码?</string>
+    <string name="Tv.RegistInputSMSCodeActivity.Title">短信验证码已发送，请填写验证码</string>
+    <string name="Tv.SafeResetPassword.Title">为了保障你的数据安全,修改密码前请填写原密码。</string>
+
+    <!-- FinishRegist -->
+    <string name="Title.FinishRegist">注册资料</string>
+    <string name="Hint.FinishRegist.phoneNum">手机号</string>
+    <string name="Helper.FinishRegist.phoneNum">请输入手机号</string>
+    <string name="Tip.FinishRegist.MustInput">(必填)</string>
+    <string name="Hint.FinishRegist.NickName">昵\t\t称</string>
+    <string name="Helper.FinishRegist.NickName">请输入昵称</string>
+    <string name="Button.FinishRegist.Regist">注册</string>
+
+    <!-- WxBindMobileActivity -->
+    <string name="Title.WxBindMobileActivity">绑定手机号</string>
+    <string name="Helper.WxBindMobileActivity.phone.num">请输入手机号码</string>
+    <string name="Hint.WxBindMobileActivity.phone.num">手机号</string>
+    <string name="Hint.WxBindMobileActivity.code">验证码</string>
+    <string name="Helper.WxBindMobileActivity.code">请输入验证码</string>
+    <string name="Button.WxBindMobileActivity.getCode">获取验证码</string>
+    <string name="Button.WxBindMobileActivity.bind.phone">立即绑定</string>
+    <string name="Msg.WxBindMobileActivity.getCode">短信已发送</string>
+
+    <!-- PreperRunActivity-->
+    <string name="Tv.PreperRunActivity.title">准备跑</string>
+    <string name="Tv.PreperRunActivity.Gps.Search">定位中..</string>
+    <string name="Tv.PreperRunActivity.Gps.Ok">开始跑步吗？</string>
+    <string name="Button.PreperRunActivity.Start">开始</string>
+    <string name="Button.PreperRunActivity.Cancel">撤销</string>
+    <string name="Tv.PreperRunActivity.tip">是否立即开始跑步？</string>
+
+    <!-- MultiImageSelectorActivity -->
+    <string name="folder_all">所有图片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">启动摄像头失败</string>
+    <string name="msg_amount_limit">超出最大限制</string>
+    <string name="select_mode">选择模式</string>
+    <string name="mode_single">单选</string>
+    <string name="mode_multi">多选</string>
+    <string name="max_select_amount">最大选择数量</string>
+    <string name="hint_default_amount">默认数量为9</string>
+    <string name="enable_camera">是否启用照相机</string>
+    <string name="enable">是</string>
+    <string name="disable">否</string>
+    <string name="go_select">图片选择</string>
+    <string name="btn_finish">完成</string>
+    <string name="Tv.MultiImageSelectorActivity.title">选择照片</string>
+
+
+    <!-- LoginResetPwdActivity -->
+    <string name="Title.LoginResetPwdActivity">重设密码</string>
+    <string name="Hint.LoginResetPwdActivity.Confirm.psw">确认密码</string>
+    <string name="Helper.LoginResetPwdActivity.Confirm.psw">请验证密码</string>
+    <string name="Hint.LoginResetPwdActivity.psw">密\t\t\t 码</string>
+    <string name="Helper.LoginResetPwdActivity.psw">请输入密码</string>
+    <string name="Button.LoginResetPwdActivity.Commit">完成</string>
+    <string name="Button.LoginResetPwdActivity.Cancel">取消设置</string>
+    <string name="T.LoginResetPwdActivity.Success">修改密码成功!</string>
+
+
+    <!-- MainActivity -->
+    <string name="Tv.UserFragment.title">我的主页</string>
+    <string name="Tv.FriendFragment.title">好友</string>
+    <string name="Tv.GroupFragment.title">跑团</string>
+    <string name="Tv.DynamicFragment.title">动态</string>
+
+    <string name="Tv.Tourist.UserFragment.title">主页</string>
+
+    <!-- UserFragment -->
+    <string name="Menu.Action.Settings">设置</string>
+    <string name="Menu.Action.AddFriends">添加好友</string>
+
+    <string name="Tv.LocalUserFragment.My.Friend">我的好友</string>
+    <string name="Tv.LocalUserFragment.My.Group">我的跑团</string>
+
+    <string name="Tv.LocalUserFragment.My.Medal">我的奖牌</string>
+    <string name="Tv.LocalUserFragment.Medal.Rule">奖牌规则</string>
+
+    <string name="Tv.LocalUserFragment.No.Medal">暂无奖牌</string>
+    <string name="Tv.LocalUserFragment.Go.Run">快去跑步吧！</string>
+
+    <string name="Tv.UserCardFront.Total.Distance">总里程</string>
+    <string name="Tv.UserCardFront.Total.Distance.Unit">公里</string>
+
+    <string name="Tv.UserCardFront.Week.Average.Mileage">平均周跑量</string>
+    <string name="Tv.UserCardFront.Total.Calorie">总消耗</string>
+    <string name="Tv.UserCardFront.Total.Calorie.Unit">大卡</string>
+    <string name="Tv.UserCardFront.Total.Count">跑步总次数</string>
+    <string name="Tv.UserHeader.Total.Remind">收到跑步提醒</string>
+
+    <string name="Tv.UserCardBack.Total.Distance">总里程</string>
+    <string name="Tv.UserCardBack.Total.Distance.Unit">公里</string>
+    <string name="Tv.UserCardBack.Card.Type.1">起步\n纸卡</string>
+    <string name="Tv.UserCardBack.Card.Type.2">50公里\n木卡</string>
+    <string name="Tv.UserCardBack.Card.Type.3">200公里\n水晶卡</string>
+    <string name="Tv.UserCardBack.Card.Type.4">500公里\n琥珀卡</string>
+    <string name="Tv.UserCardBack.Card.Type.5">1000公里\n金卡</string>
+    <string name="Tv.UserCardBack.Card.Type.6">2000公里\n铂金卡</string>
+    <string name="Tv.UserCardBack.Card.Type.7">5000公里\n翡翠卡</string>
+    <string name="Tv.UserCardBack.Card.Type.8">10000公里\n钻石卡</string>
+
+
+    <!-- perfectUserInfoActivity -->
+    <string name="Title.PerfectUserInfoActivity">编辑资料</string>
+    <string name="Tv.PerfectUserInfoActivity.EditAvatar">编辑头像</string>
+    <string name="Tv.PerfectUserInfoActivity.UnSet">未设置</string>
+    <string name="Tv.PerfectUserInfoActivity.Key.Nickname">昵称</string>
+    <string name="Tv.PerfectUserInfoActivity.Key.SafeSet">帐号绑定</string>
+    <string name="Tv.PerfectUserInfoActivity.Key.Location">所在地</string>
+    <string name="Tv.PerfectUserInfoActivity.Key.Gander">性别</string>
+    <string name="Tv.PerfectUserInfoActivity.Key.Birthday">生日</string>
+    <string name="Tv.PerfectUserInfoActivity.Key.Height">身高</string>
+    <string name="Tv.PerfectUserInfoActivity.Key.Weight">体重</string>
+    <string name="Tv.PerfectUserInfoActivity.key.QRCode">我的二维码</string>
+    <string name="Tv.GroupInfoActivity.key.QRCode">跑团二维码</string>
+    <string name="Button.PerfectUserInfoActivity.Save">保存</string>
+    <string name="Button.PerfectUserInfoActivity.Finish">完成</string>
+    <string name="Tv.PutQRCodeInMiddleOfScreen">请将二维码完整置于取景框中</string>
+    <string name="Tv.Sys">扫一扫</string>
+    <string name="Tv.AdSkip">跳过</string>
+
+    <!-- EditNicknameActivity -->
+    <string name="Title.EditNicknameActivity">编辑昵称</string>
+    <string name="Button.EditNicknameActivity.Save">保存</string>
+
+    <!-- EditUserGenderActivity -->
+    <string name="Title.EditUserGenderActivity">选择性别</string>
+
+    <!-- SystemSettings -->
+    <string name="Title.SystemSettings">系统设置</string>
+    <string name="Switch.SystemSettings.Notice">跑跑看推送通知</string>
+    <string name="Switch.SystemSettings.TTS">语音播报</string>
+    <string name="Tip.SystemSettings.TTS">跑步助手将给你实时播报里程配速等信息</string>
+    <string name="Switch.SystemSettings.Live">跑步直播</string>
+    <string name="Switch.SystemSettings.LocMode">网络辅助定位</string>
+    <string name="Tip.SystemSettings.LocMode">网络定位将在GPS定位无法有效工作时起辅助作用</string>
+    <string name="Tip.SystemSettings.Live">好友将可以通过我们的直播间为你加油并发送消息</string>
+    <string name="Switch.SystemSettings.Voice">实时语音消息</string>
+    <string name="Tip.SystemSettings.Voice">好友给你发送的语音消息将可以实时听到</string>
+    <string name="Switch.SystemSettings.Video">视频直播</string>
+    <string name="Switch.SystemSettings.RunVideo">马拉松视频直播</string>
+    <string name="Tv.SystemSettings.RichScan">扫一扫</string>
+    <string name="Tv.SystemSettings.Connection.Device">连接设备</string>
+    <string name="Tv.SystemSettings.Evaluate">给跑跑看评价</string>
+    <string name="Tv.SystemSettings.Feedback">意见反馈</string>
+    <string name="Tv.SystemSettings.About">关于跑跑看</string>
+    <string name="Tv.SystemSettings.AccountAndSecurity">帐号与安全</string>
+    <string name="Button.SystemSettings.Logout">退出登录</string>
+
+    <!-- SafeSettingsActivity -->
+    <string name="Title.SafeSettings">帐号与安全</string>
+    <string name="Tv.SafeSettings.Phone">手机</string>
+    <string name="Tv.SafeSetting.WeXin">微信账号</string>
+    <string name="Tip.SafeSetting.Reset.Psw">重置密码</string>
+    <string name="Btn.SafeSetting.Bound">绑定</string>
+    <string name="Tv.SafeSetting.UnBound">未绑定</string>
+    <string name="Dialog.SafeSetting.Psw.Tip">为保障你的数据安全，修改密码前请填写原密码。</string>
+    <string name="Tv.ShareFriend.WeXin">微信好友</string>
+    <string name="Tv.ShareFriendCircle.WeXin">朋友圈</string>
+
+    <!-- ResetPswActivity -->
+    <string name="Title.ResetPswActivity">重置密码</string>
+    <string name="Tv.ResetPswActivity.New.Psw">密\t\t\t 码</string>
+    <string name="Helper.ResetPswActivity.New.Psw">请输入新密码</string>
+    <string name="Tv.ResetPswActivity.Confirm.Psw">确认密码</string>
+    <string name="Helper.ResetPswActivity.Confirm.Psw">请验证新密码</string>
+    <string name="Btn.ResetPswActivity.Reset.Psw">完成</string>
+
+    <!-- FeedbackActivity -->
+    <string name="Title.FeedbackActivity">意见反馈</string>
+    <string name="Helper.FeedbackActivity">请输入您的意见···</string>
+    <string name="Button.FeedbackActivity">提交</string>
+    <string name="Toast.FeedbackActivity">提交成功！</string>
+
+    <!-- aboutActivity -->
+    <string name="Title.AboutActivity">关于跑跑看</string>
+    <string name="Tv.AboutActivity.Body">\t\t 跑跑看是一款专注于跑步运动的移动应用软件，同时推出IOS 和Android版本。\n\n \t\t跑步直播是我们第一项隆重推出的运动社交功能，无论你在哪里，都能够和好友分享正在跑步的现场。无论相隔多远，陪伴总在身边！\n\n \t\t生命在于运动，而跑步是一种生活习惯和态度，跑跑看的使命就是为广大运动爱好者提供专业、科学的陪伴和服务！\n</string>
+    <string name="Button.AboutActivity.CheckUpdate">检查更新</string>
+
+
+    <!-- ScanBleDeviceActivity -->
+    <string name="Title.ScanBleDeviceActivity">选择心率设备</string>
+    <string name="Btn.ScanBleDeviceActivity.Start.Scan">开始扫描</string>
+    <string name="Btn.ScanBleDeviceActivity.Stop.Scan">停止扫描</string>
+    <string name="Btn.ScanBleDeviceActivity.Restart.Scan">重新扫描</string>
+
+
+    <!-- BleSettingsActivity -->
+    <string name="Title.BleSettingsActivity">连接设备</string>
+    <string name="Tv.BleSettingsActivity.connect.device.tip">已连接设备</string>
+    <string name="Tv.BleSettingsActivity.no.connect.device.tip">无连接设备</string>
+    <string name="Tv.BleSettingsActivity.connect.device.name">设备:</string>
+    <string name="Tv.BleSettingsActivity.connect.device.value">心率:</string>
+    <string name="Tv.BleSettingsActivity.connecting">连接中...</string>
+    <string name="Tv.BleSettingsActivity.scan.device.tip">可用设备</string>
+    <string name="Tv.BleSettingsActivity.no.scan.device.tip">附近未发现心率设备</string>
+    <string name="Tv.BleSettingsActivity.scanning">扫描中...</string>
+    <string name="Btn.BleSettingsActivity.disconnect">断开连接</string>
+    <string name="Btn.BleSettingsActivity.scan.device">扫描设备</string>
+    <string name="Btn.BleSettingsActivity.stop.scan">停止</string>
+
+    <!-- runningActivity -->
+    <string name="Tv.RunningActivity.Time">时长</string>
+    <string name="Tv.RunningActivity.Length">距离(公里)</string>
+    <string name="Tv.RunningActivity.Heartrate">心率</string>
+    <string name="Tv.RunningActivity.Speed">配速(分钟/公里)</string>
+    <string name="Button.RunningActivity.Pause">暂停</string>
+    <string name="Button.RunningActivity.Continue">继续</string>
+    <string name="Button.RunningActivity.Finish">结束</string>
+    <string name="Button.RunningActivity.Map">地图</string>
+    <string name="Tv.RunningActivity.Pause.Length">距离(公里)</string>
+    <string name="Tv.RunningActivity.Pause.Time">时长</string>
+    <string name="Tv.RunningActivity.Pause.Pace">平均配速</string>
+    <string name="Tv.RunningActivity.Pause.Heartrate">心率</string>
+    <string name="Button.RunningActivity.Save">保存</string>
+    <string name="Button.RunningActivity.Drop">取消</string>
+    <string name="Tv.RunningActivity.BottomSheet">是否保存本次跑步历史?</string>
+    <string name="Tv.RunningActivity.IsStopWalk">是否结束跑步?</string>
+    <string name="Tv.RunningActivity.StopWalkAndSave">结束并保存</string>
+    <string name="Tv.RunningActivity.KeepWalking">继续跑步</string>
+
+    <!--searchFriend -->
+    <string name="Hint.SearchFriend">好友手机或好友昵称</string>
+    <string name="Button.SearchFriend.Agree">同意</string>
+    <string name="Tv.SerchFriend.Agree">已添加</string>
+    <string name="Tv.SerchFriend.Apply">已申请</string>
+    <string name="Button.SerchFriend.Apply">添加</string>
+    <string name="Title.SearchFriend">搜索用户</string>
+
+    <!-- 从通讯录添加好友 -->
+    <string name="Title.SearchFriendFromPhone">通讯录</string>
+
+    <!-- ScanQRcode -->
+    <string name="Title.ScanQRcode">扫一扫</string>
+    <string name="Btn.ScanQRcode.Scan">重新扫描</string>
+
+    <!-- 奖牌规则 -->
+    <string name="Title.RuleOfMedal">奖牌规则</string>
+
+    <!-- AddFriendByRequestCode -->
+    <string name="Title.AddFriendByRequstCode">输邀请码加好友</string>
+
+    <!-- UserInfo Of Friend -->
+    <string name="Title.UserInfoFriend">用户资料</string>
+
+    <!-- UserInfo Of not Friend -->
+    <string name="Title.UserInfoNotFriend">用户资料</string>
+
+    <!-- search group -->
+    <string name="Title.SearchGroup">搜索跑团</string>
+    <string name="Hint.SearchGroup">输入跑团名称搜索</string>
+
+    <!-- AddGroupByRequestCode -->
+    <string name="Title.AddGroupByRequestCode">输邀请码加入跑团</string>
+
+    <!-- GroupFragment -->
+    <string name="Tv.GroupFragment.Tab.Group.List">跑团</string>
+    <string name="Tv.GroupFragment.Tab.Group.party.List">活动</string>
+
+    <!-- UserFragment -->
+    <string name="Tv.UserFragment.MyWorkout">我的数据</string>
+    <string name="Tv.UserFragment.LookWorkout">查看跑步历史</string>
+    <string name="Tv.UserFragment.TotalLength">总里程(公里)</string>
+    <string name="Tv.UserFragment.RunAge">跑龄(月)</string>
+    <string name="Tv.UserFragment.Caloli">总消耗(卡路里)</string>
+    <string name="Tv.UserFragment.MaxLength">最长距离</string>
+    <string name="Tv.UserFragment.MaxTime">最长时间</string>
+    <string name="Tv.UserFragment.fastPace">最快配速</string>
+    <string name="Tv.UserFragment.5fastTime">5公里最快时间</string>
+    <string name="Tv.UserFragment.10fastTime">10公里最快时间</string>
+    <string name="Tv.UserFragment.halfMfastTime">半程马拉松最快时间</string>
+    <string name="Tv.UserFragment.holeMfastTime">全程马拉松最快时间</string>
+    <string name="Tv.UserFragment.Best">个人最佳成绩</string>
+    <string name="Tv.UserFragment.Common">正在读取..</string>
+
+    <!-- HistoryList -->
+    <string name="Title.HistoryList">跑步历史</string>
+    <string name="Tv.HistoryList.None">您还没有跑步记录哦~</string>
+
+    <!-- History Info -->
+    <string name="Tab.History.Summary">线路总结</string>
+    <string name="Tab.History.Sub">分段</string>
+    <string name="Tab.History.Heartrate">心率</string>
+    <string name="Tab.History.Camera">视频</string>
+    <string name="Label.HistoryInfo.Lenght">距离/公里</string>
+    <string name="Label.HistoryInfo.Time">时长</string>
+    <string name="Label.HistoryInfo.AvgPace">平均配速</string>
+    <string name="Label.HistoryInfo.Calories">卡路里/千卡</string>
+    <string name="tv_history_speed_quickly">快</string>
+    <string name="tv_history_speed_slowly">慢</string>
+    <string name="tv_history_heartbaet_tip_1">非锻炼区</string>
+    <string name="tv_history_heartbaet_tip_2">热身</string>
+    <string name="tv_history_heartbaet_tip_3">燃脂</string>
+    <string name="tv_history_heartbaet_tip_4">有氧</string>
+    <string name="tv_history_heartbaet_tip_5">无氧</string>
+    <string name="tv_history_heartbaet_tip_6">艰辛</string>
+    <string name="tv_history_heartbaet_avg">平均值</string>
+    <string name="tv_history_heartbaet_max">最高值</string>
+    <string name="tv_history_basicinfo_average_time_speed">平均配速</string>
+    <string name="tv_history_basicinfo_max_time_speed">最快配速</string>
+    <string name="tv_history_basicinfo_km">公里</string>
+    <string name="tv_history_basicinfo_time_speed">配速</string>
+    <string name="tv_history_basicinfo_heartbeat">心率</string>
+    <string name="tv_history_comment">评论</string>
+    <string name="tv_history_thumb">赞</string>
+    <string name="tv_history_replay">回复</string>
+    <string name="comments_sad">快给我打点鸡血吧～</string>
+    <string name="title_history_social">评论点赞</string>
+    <string name="hint_history_social">我来说两句</string>
+    <string name="tv_social_none">赶紧成为第一个送鼓励的人吧</string>
+    <string name="title_history_video">视频</string>
+    <string name="title_history_video_social">评论</string>
+
+    <!-- ThumbUpList -->
+    <string name="Title.ThumbUp">点赞列表</string>
+
+    <!-- dynamic -->
+    <string name="Tv.DynamicList.Length">跑了:</string>
+    <string name="Tv.DynamicList.Pace">配速:</string>
+    <string name="Tv.DynamicList.Time">用时:</string>
+
+    <!-- group list -->
+    <string name="Tv.GroupList.Member">成员:</string>
+    <string name="Tv.GroupList.Length">总里程:</string>
+    <string name="Tv.GroupList.Party">我参与的活动</string>
+    <string name="Tv.GroupList.None">您还没有跑团,赶紧加入跑团吧!</string>
+    <string name="Button.GroupList.None">去搜索</string>
+    <string name="Tv.PartyList.None">当前跑团没有组织活动!</string>
+
+    <!-- RunningFriendList -->
+    <string name="Title.RunningFriendList">正在跑步</string>
+
+    <!-- Live Activity -->
+    <string name="Button.LiveActivity.Settings">设置</string>
+    <string name="Helper.GiveThumb">给我打点鸡血吧~</string>
+
+    <!-- Friend list-->
+    <string name="Tv.FriendListActivity.Apply">好友请求</string>
+    <string name="Tv.FriendListActivity.Length">总里程:</string>
+    <string name="Tv.FriendList.None">您现在还没有好友, 赶紧去加吧!</string>
+    <string name="Button.FriendList.None">去搜索</string>
+
+
+    <!-- Apply Friend List -->
+    <string name="Title.ApplyFriendList">好友请求</string>
+    <string name="Tv.ApplyFriednList.HasAdd">已添加</string>
+
+    <!-- user info Activity -->
+    <string name="Tv.UserInfoActivity.RunWeek">平均周跑量</string>
+    <string name="Tv.UserInfoActivity.TotalTime">总跑时(小时)</string>
+    <string name="Tv.UserInfoActivity.TotalLength">总里程(公里)</string>
+    <string name="Tv.UserInfoActivity.Record">个人最佳成绩</string>
+    <string name="Button.UserInfoActivity.AddFriend">加为好友</string>
+    <string name="Tv.UserInfoActivity.Medal">TA的奖牌</string>
+    <string name="Tv.UserInfoActivity.Mutual.Friend">共同好友</string>
+
+    <!-- 跑团信息 -->
+    <string name="Tv.GroupInfo.WeekRun">人均周跑量:</string>
+    <string name="Tv.GroupInfo.personcount">人数:</string>
+    <string name="Tv.GroupInfo.Member">跑团成员</string>
+    <string name="Tv.GroupInfo.Sort">排行榜</string>
+    <string name="Tv.GroupInfo.Party">跑团活动</string>
+    <string name="Tv.GroupInfo.Tip">跑团简介</string>
+
+    <string name="Btn.GroupInfo.Apply.In.Group">申请入团</string>
+    <string name="Tv.GroupInfo.Group.Organizer">团长</string>
+    <string name="Tv.GroupInfo.Group.Admin">管理员</string>
+    <string name="Tv.GroupInfo.Week.Per.Capita.Speed">周人均配速</string>
+    <string name="Tv.GroupInfo.Week.Per.Capita.Km">周人均跑量</string>
+    <string name="Tv.GroupInfo.This.Week.TOP.3">本周三甲</string>
+    <string name="Tv.GroupInfo.Recent.Party">近期活动</string>
+    <string name="Tv.GroupInfo.No.Recent.Party">暂无近期活动</string>
+    <string name="Tv.GroupInfo.Unit.Km">公里</string>
+    <string name="Btn.GroupInfo.Create.Party">创建活动</string>
+
+    <!--GroupIntroduceActivity-->
+    <string name="Title.GroupIntroduce">跑团介绍</string>
+    <string name="Tv.GroupIntroduce.Tag.Title">跑团标签</string>
+    <string name="Tv.GroupIntroduce.Member.Tag.Title">本人标签</string>
+
+    <string name="Title.EditGroupIntroduce">简介编辑</string>
+
+    <!-- user record -->
+    <string name="Title.UserRecord">个人最佳成绩</string>
+
+    <!-- input invite -->
+    <string name="Title.InputInviteActivity">输入邀请码</string>
+    <string name="Tv.InputInviteActivity.EditLayout.Title.Invite">邀请码</string>
+    <string name="Hint.InputInviteActivity.EditLayout.Invite">请输入邀请码</string>
+    <string name="Button.InputInviteActivity.Commit">确认</string>
+
+    <!-- CreateGroupCheck -->
+    <string name="Title.CreateGroupCheck">身份验证</string>
+    <string name="Tv.CreateGroupCheck.EditLayout.Title.Name">真实姓名</string>
+    <string name="Hint.CreateGroupCheck.EditLayout.Name">请填写真实姓名</string>
+    <string name="Tv.CreateGroupCheck.EditLayout.Title.Phone">手机号</string>
+    <string name="Hint.CreateGroupCheck.EditLayout.Phone">请填写您的手机号</string>
+    <string name="Tv.CreateGroupCheck.EditLayout.Title.Email">Email</string>
+    <string name="Hint.CreateGroupCheck.EditLayout.Email">请填写您的Email地址</string>
+    <string name="Tv.CreateGroupCheck.UserPhoto">个人照片</string>
+    <string name="Tv.CreateGroupCheck.PartyPhoto">活动照片</string>
+    <string name="Button.CreateGroupCheck.Next">下一步</string>
+    <string name="Tv.CreateGroupCommit.EditLayout.Title.Photo">跑团头像</string>
+    <string name="Tv.CreateGroupCommit.EditLayout.Title.Name">跑团名称</string>
+    <string name="Tv.CreateGroupCommit.EditLayout.Title.Location">所在地</string>
+    <string name="Tv.CreateGroupCommit.EditLayout.Title.Description">跑团描述</string>
+    <string name="Hint.CreateGroupCommit.EditLayout.Name">在此输入</string>
+    <string name="Hint.CreateGroupCommit.EditLayout.Location">点击选择</string>
+    <string name="Button.CreateGroupCommit.Commit">提交审核</string>
+    <string name="Hint.CreateGroupCommit.Description">在此输入您的描述</string>
+    <!--CreateGroupCommit -->
+    <string name="Title.CreateGroupCommit">创建跑团</string>
+
+    <!-- Group Member List -->
+    <string name="Title.GroupMemberList">跑团成员</string>
+    <string name="Btn.GroupMemberList.Apply">邀请好友</string>
+    <string name="Hint.SearchGroupMember">搜索</string>
+    <string name="Tv.SearchGroupMember.Apply">申请入团</string>
+
+
+    <!-- Race Webview -->
+    <string name="Title.RaceWebView">赛事直通</string>
+
+    <!-- Race Live List Activity -->
+    <string name="Btn.RaveLiveList.Regist">报名赛事</string>
+    <string name="Tv.RaveLiveList.Length">距离:</string>
+    <string name="Tv.RaveLiveList.Time">用时:</string>
+
+    <!-- Create Group Tip -->
+    <string name="Title.CreateGroupTip">创建跑团提示</string>
+    <string name="Tv.CreateGroupTip.Body.HasGroup">\n\n \t\t每个用户只能创建一个跑团。 \n\n \t\t如需要申请创建新的跑团，请先解散您现有的跑团</string>
+    <string name="Tv.CreateGroupTip.Body.NotHasGroup">\t\t本App的跑团是一个服务于线下跑团的功能。\n\n \t\t每个用户只能创建一个跑团。\n\n \t\t后续页面需要提交个人真实资料以及跑团活动合影</string>
+    <string name="Button.CreateGroupTip">了解并继续</string>
+
+    <!-- Group Introduction -->
+    <string name="Button.Introduction">保存</string>
+
+    <!-- Group Member Sort List -->
+    <string name="Title.GroupMemberSortList">成员排行</string>
+    <string name="Tv.GroupMemberSortList.TAB.Month">本月</string>
+    <string name="Tv.GroupMemberSortList.TAB.Week">本周</string>
+    <string name="Tv.GroupMemberSortList.TAB.Total">总计</string>
+    <string name="Tv.GroupMemberSortList.TAB.Name">按名字</string>
+
+    <!--GroupMemberRankingActivity-->
+    <string name="Title.GroupMemberRanking">成员排行</string>
+
+    <!-- group party list -->
+    <string name="Tv.GroupPartyList.Menu.CreateParty">发布活动</string>
+    <string name="Title.GroupPartyList">跑团活动</string>
+
+    <!-- create party -->
+    <string name="Title.CreateParty">发布活动</string>
+    <string name="Tv.CreateParty.EditLayout.Title.Name">活动名称</string>
+    <string name="Hint.CreateParty.EditLayout.Name">请输入活动名称</string>
+    <string name="Tv.CreateParty.EditLayout.Title.People">活动人群</string>
+    <string name="Tv.CreateParty.EditLayout.Title.Tag">活动标签</string>
+    <string name="Tv.CreateParty.EditLayout.Title.Time">活动时间</string>
+    <string name="Hint.CreateParty.EditLayout.Time">请选择活动时间</string>
+    <string name="Tv.CreateParty.EditLayout.Title.RegistTime">报名截止时间</string>
+    <string name="Hint.CreateParty.EditLayout.RegistTime">请选择报名截止时间</string>
+    <string name="Hint.CreateParty.EditLayout.EndTime">请选择活动结束时间</string>
+    <string name="Tv.CreateParty.EditLayout.Title.EndTime">活动结束时间</string>
+    <string name="Tv.CreateParty.EditLayout.Title.City">活动城市</string>
+    <string name="Hint.CreateParty.EditLayout.City">请选择城市</string>
+    <string name="Tv.CreateParty.EditLayout.Title.Location">详细地点</string>
+    <string name="Hint.CreateParty.EditLayout.Location">请输入活动详细地址</string>
+    <string name="Tv.CreateParty.EditLayout.Title.Description">活动描述</string>
+    <string name="Hint.CreateParty.EditLayout.Description">请输入活动描述内容</string>
+    <string name="Button.CreateParty.Commit">发布</string>
+    <string name="Tv.CreateParty.EditLayout.Rb.All">所有人(包括非团员)</string>
+    <string name="Tv.CreateParty.EditLayout.Rb.Member">仅团员</string>
+    <string name="Tv.CreateParty.EditLayout.Title.Photo">活动照片</string>
+
+    <!-- group party info -->
+    <string name="Title.GroupPartyInfo">活动详情</string>
+    <string name="Tv.GroupPartyInfo.RegistTime">截止报名时间:</string>
+    <string name="Tv.GroupPartyInfo.Location">活动地点:</string>
+    <string name="Tv.GroupPartyInfo.starttime">活动时间:</string>
+    <string name="Tv.GroupPartyInfo.Description">活动简介:</string>
+    <string name="Button.GroupPartyInfo.Cancel">取消活动</string>
+
+    <string name="Tv.GroupPartyInfo.ChangeOwner">负责人</string>
+    <string name="Tv.GroupPartyInfo.My.WorkOut">我的活动记录</string>
+
+    <string name="Tv.PartyInfo.Plan">计划</string>
+    <string name="Tv.PartyInfo.Plan.Length">目标里程:</string>
+    <string name="Tv.PartyInfo.Plan.Location">活动地点:</string>
+    <string name="Tv.PartyInfo.Plan.PartyTime">活动时间:</string>
+    <string name="Tv.PartyInfo.Plan.Tag">活动标签:</string>
+    <string name="Tv.PartyInfo.Plan.Signuptime">报名截止:</string>
+    <string name="Tv.PartyInfo.Plan.Chenkintime">结束时间:</string>
+    <string name="Btn.PartyInfo.Plan.Signup">立即报名</string>
+    <string name="Tv.PartyInfo.Start">进行中</string>
+    <string name="Btn.PartyInfo.Plan.Checkin">跑步打卡</string>
+    <string name="Tv.PartyInfo.End">总结</string>
+    <string name="Tv.PartyInfo.ChenkTip">你的序号/打卡人数</string>
+    <string name="Tv.PartyInfo.LengthTip">你的/平均跑量</string>
+    <string name="Tv.PartyInfo.PaceTip">你的/平均配速</string>
+    <string name="Tv.PartyInfo.Photo">照片墙</string>
+
+    <!-- party member list -->
+    <string name="Title.PartyMember">报名列表</string>
+    <string name="Tv.PartyMember.Owner">组织人</string>
+    <string name="Tv.PartyMember.Leader">领跑</string>
+
+    <!-- group apply member list -->
+    <string name="Title.GroupApplyMemberList">申请入团</string>
+    <string name="Tv.GroupApplyMemberList.Add">已加入</string>
+
+    <!-- Race Webview -->
+    <string name="Title.GroupSummary">活动总结</string>
+
+    <!-- MyPartyActivity -->
+    <string name="Title.MyPartyActivity">我的活动</string>
+
+    <!-- Group Manage -->
+    <string name="Title.GroupManage">跑团管理</string>
+    <string name="Tv.GroupManage.Apply">邀请好友</string>
+    <string name="Tv.GroupManage.Qrcode">跑团二维码</string>
+    <string name="Tv.GroupManage.AddManager">添加管理员</string>
+    <string name="Tv.GroupManage.TagManager">标签管理</string>
+    <string name="Tv.GroupManage.Share">跑团分享</string>
+
+    <!-- Group Tag Manage -->
+    <string name="Title.GroupTagManage">跑团标签管理</string>
+    <string name="Tv.GroupTagManage.None">跑团还没有标签</string>
+    <string name="Btn.GroupTagManage.Add">新增</string>
+
+    <!-- Group Add Manager -->
+    <string name="Title.GroupAddManager">添加管理员</string>
+    <string name="Hint.GroupAddManager.Search">搜索</string>
+
+    <!-- Group Qrcode -->
+    <string name="Title.GroupQrcode">跑团二维码</string>
+    <string name="Tv.GroupQrcode">请将二维码完整置于取景框中</string>
+
+    <!-- Group dissmis -->
+    <string name="Title.DismisGroup">解散跑团</string>
+    <string name="Tv.DissmisGroup.EditLayout.Title.Description">解散原因</string>
+
+    <!-- 跑团邀请好友 -->
+    <string name="Title.GroupApplyFriendList">邀请好友</string>
+
+    <!-- GroupSingleTagActivity -->
+    <string name="Title.GroupSingleTag">标签管理</string>
+    <string name="Tv.GroupSingleTag.Tip">团成员</string>
+    <string name="Btn.GroupSingleTag.DeleteSingle">删除标签</string>
+    <string name="Btn.GroupSingleTag.ConfirmSet">保存修改</string>
+
+    <!-- GroupCreateTagActivity -->
+    <string name="Title.GroupCreateTag">创建标签</string>
+    <string name="Tv.GroupCreateTag.Name">名称</string>
+    <string name="Helper.GroupCreateTag.Tip">请填写标签名称</string>
+    <string name="Btn.GroupCreateTag.Confirm">完成</string>
+
+    <!-- GroupRemarkEditActivity -->
+    <string name="Title.GroupRemarkEdit">编辑团备注</string>
+    <string name="Tv.GroupRemarkEdit.Remark">备注</string>
+    <string name="Helper.GroupRemarkEdit.Tip">请填写团备注</string>
+    <string name="Btn.GroupRemarkEdit.Confirm">完成</string>
+
+    <!-- GroupMemberTagListActivity -->
+    <string name="Title.GroupMemberTagList">设定团标签</string>
+    <string name="Btn.GroupMemberTagList.Confirm">选定</string>
+
+
+    <!-- GroupPartySelectWorkOutActivity -->
+    <string name="Title.GroupPartySelectWorkOut">选择活动记录</string>
+    <string name="Tv.GroupPartySelectWorkOut.Unit">KM</string>
+    <string name="Btn.GroupPartySelectWorkOut.add">手动添加记录</string>
+
+    <!-- GroupPartyManagerActivity -->
+    <string name="Title.GroupPartyManager">活动负责人</string>
+
+    <!-- GroupPartyPhotoWallActivity -->
+    <string name="Title.GroupPartyPhotoWall">活动照片墙</string>
+    <string name="Btn.GroupPartyPhotoWall.My.Photo">管理我的活动照片</string>
+    <string name="Tv.GroupWall.None">暂无照片</string>
+
+    <!-- GroupPartyMyPhotoActivity -->
+    <string name="Title.GroupPartyMyPhoto">我的照片</string>
+    <string name="Btn.GroupPartyMyPhoto.Delete">删除</string>
+    <string name="Btn.GroupPartyMyPhoto.Cancel">取消</string>
+    <string name="Btn.GroupPartyMyPhoto.Add">新增</string>
+
+    <!-- GroupPartyUserPhotoActivity -->
+    <string name="Title.GroupPartyUserPhoto">XX的照片</string>
+
+    <!-- GroupPartyEditSummaryActivity -->
+    <string name="Title.GroupPartyEditSummary">活动总结编辑</string>
+
+    <string name="Tv.GroupPartyEditSummary.Tip">小结</string>
+    <string name="Et.Hint.GroupPartyEditSummary.Summary.Title">标题</string>
+    <string name="Et.Hint.GroupPartyEditSummary.Summary.Content">内容</string>
+    <string name="Btn.GroupPartyEditSummary.Add.Photo">添加照片</string>
+    <string name="Btn.GroupPartyEditSummary.Submit">保存</string>
+    <string name="Btn.GroupPartyEditSummary.Cancel">取消</string>
+
+    <!-- GroupPartyAddSummaryActivity -->
+    <string name="Title.GroupPartyAddSummary">增加活动总结</string>
+    <string name="Tv.GroupPartyAddSummary.Title">标题</string>
+    <string name="Helper.GroupPartyAddSummary.Tip">请填写总结标题</string>
+    <string name="Tv.GroupPartyAddSummary.Content">内容</string>
+    <string name="Helper.GroupPartyAddSummary.Content.Tip">请填写总结内容</string>
+    <string name="Btn.GroupPartyAddSummary.Add">确认</string>
+    <string name="Tv.GroupPartyAddSummary.Photo">照片</string>
+
+    <!-- GroupPartyAllPhotoActivity -->
+    <string name="Title.GroupPartyAllPhoto">选择相片</string>
+    <string name="Tv.GroupPartyAllPhoto.add">新增</string>
+
+    <!-- GroupPartyEditGpsActivity -->
+    <string name="Title.GroupPartyEditGps">编辑定位签到</string>
+    <string name="Tv.GroupPartyEditGps.Range">签到范围</string>
+    <string name="Helper.GroupPartyEditGps.Range.Default.Value">100</string>
+    <string name="Tv.GroupPartyEditGps.Unit">米</string>
+    <string name="Tv.GroupPartyEditGps.Gps.Search">定位中...</string>
+    <string name="Tv.GroupPartyEditGps.Gps.Ok">定位成功.</string>
+    <string name="Btn.GroupPartyEditGps.Confirm">确定</string>
+
+    <!-- GroupPartyGpsSignInActivity -->
+    <string name="Title.GroupPartyGpsSignIn">定位签到</string>
+    <string name="Tv.GroupPartyGpsSignIn.Gps.Search">定位中...</string>
+    <string name="Tv.GroupPartyGpsSignIn.Gps.Ok">定位成功</string>
+    <string name="Btn.GroupPartyGpsSignIn.SignIn">签到</string>
+
+    <!-- GroupPartyMemberListActivity -->
+    <string name="Title.GroupPartyMemberList">活动成员</string>
+    <string name="Tv.Item.GroupPartyMemberList.Sign.In">已签到</string>
+    <string name="Btn.Item.GroupPartyMemberList.Review.Sign.in">审核签到</string>
+    <string name="Tv.Item.GroupPartyMemberList.Lead">领跑</string>
+
+    <!-- Message List -->
+    <string name="Title.MessageList">消息中心</string>
+    <string name="Tv.MessageList.None">您还没有消息哦!</string>
+
+    <!-- Show photo  -->
+    <string name="Title.ShowPhoto">查看图片</string>
+
+    <!-- RunningSettings -->
+    <string name="Title.RunningSettings">跑步设置</string>
+
+    <!-- LiveSettings-->
+    <string name="Title.LiveSettings">直播设置</string>
+
+    <!--PerfectUserInfo  -->
+    <string name="Title.PerfectUserInfo">完善资料</string>
+    <string name="Tv.PerfectUserInfo">燃烧卡路里的精确计算需要您的性别，年龄，身高和体重，\n\n \t\t 其它的让跑跑看来做。</string>
+
+
+    <!-- Group Member -->
+    <string name="Button.GroupMember.Remove">移出跑团</string>
+    <string name="Tv.GroupMember.Remark">团名片</string>
+    <string name="Tv.GroupMember.Tag">团标签</string>
+    <string name="Tv.GroupMember.Party">参与的活动</string>
+    <string name="Tv.GroupMember.LastActivity">最近一次</string>
+
+    <!-- GroupUserPartyListActivity -->
+    <string name="Title.GroupUserPartyList">XX的活动</string>
+
+
+    <!-- PlayBack History -->
+    <string name="Tv.HistoryPlaybackActivity.Length">距离</string>
+    <string name="Tv.HistoryPlaybackActivity.Time">时间</string>
+    <string name="Tv.HistoryPlaybackActivity.Pace">配速</string>
+    <string name="Tv.HistoryPlaybackActivity.Heartrate">心率</string>
+    <string name="Title.Playback">回放</string>
+    <string name="Tv.HistoryPlaybackActivity.TotalLength">跑了</string>
+    <string name="Tv.HistoryPlaybackActivity.TotalTime">用时</string>
+    <string name="Tv.HistoryPlaybackActivity.AvgPace">平均配速</string>
+    <string name="Tv.HistoryPlaybackActivity.AvgHeart">平均心率</string>
+
+    <!-- running lock -->
+    <string name="running_lock_title">跑跑看 运动中...</string>
+    <string name="running_status_titile_length">距离</string>
+    <string name="running_status_titile_time_speed">配速</string>
+    <string name="running_map_time">时长</string>
+
+    <!-- Create History by Hand -->
+    <string name="Title.AddHistoryByHand">手动增加活动记录</string>
+    <string name="Tv.AddHistoryByHand.Length">距离</string>
+    <string name="Hint.AddHistoryByHand.EditLayout.Length">请输入距离</string>
+    <string name="Tv.AddHistoryByHand.EditLayout.Title.Time">开始时间</string>
+    <string name="Tv.AddHistoryByHand.EditLayout.Title.Duration">用时</string>
+    <string name="Hint.AddHistoryByHand.EditLayout.Duration">请选择用时</string>
+    <string name="Tv.AddHistoryByHand.EditLayout.Title.Pace">配速</string>
+    <string name="Hint.AddHistoryByHand.EditLayout.Pace">请选择配速</string>
+    <string name="Hint.AddHistoryByHand.EditLayout.StartTime">请选择开始时间</string>
+
+    <!-- signUpPartyActivity -->
+    <string name="title.signUpPartyActivity">活动报名</string>
+
+    <!-- ruleOfMedal -->
+    <string name="title.ruleOfMedal">奖牌规则</string>
+    <string name="tv.ruleOfGoldMedal">战胜90%以上的人将获得金牌</string>
+    <string name="tv.ruleOfSilverMedal">战胜70%以上的人将获得银牌</string>
+    <string name="tv.ruleOfCopperMedal">战胜40%以上的人将获得铜牌</string>
+    <string name="tv.ruleOfIronMedal">只要有记录将获得铁牌</string>
+    <string name="tv.ruleOfMedalToStartChallenge">您尚未开始该项挑战</string>
+
+    <!-- ClipGroupDialogActivity -->
+    <string name="title.ClipGroupDialogActivity">发现跑团邀请</string>
+
+    <!-- ClipUserDialogActivity -->
+    <string name="title.ClipUserDialogActivity">发现好友邀请</string>
+
+    <string name="tv.threeButChoiceDialogSet">设置</string>
+
+    <string name="hint.opinionFromUser">意见和建议</string>
+    <string name="tv.opinionFromUser">提交</string>
+
+    <string name="tv.newRecordCongratulate">恭喜你有新记录!</string>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayouttitleV1"
+    android:background="@android:color/transparent">
+
+    <ImageButton
+        android:id="@+id/btn_clock"
+        style="@style/MenuRightButton"
+        android:layout_width="40dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:background="?android:attr/actionBarItemBackground"
+        android:src="@drawable/icon_clock_white" />
+
+    <LinearLayout
+        android:id="@+id/ll_loc_info"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="15dp"
+            android:background="@drawable/icon_preper_locaion" />
+
+        <TextView
+            android:id="@+id/tv_location_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_share"
+        style="@style/MenuRightButton"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/btn_share_live" />
+
+</LinearLayout>

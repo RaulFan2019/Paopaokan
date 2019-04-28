@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.CreateGroupCheck"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="21dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:layout_width="65dp"
+                android:text="@string/Tv.CreateGroupCheck.EditLayout.Title.Name"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/EditLayout_Edittext"
+                android:hint="@string/Hint.CreateGroupCheck.EditLayout.Name"
+                android:inputType="text"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:layout_width="65dp"
+                android:text="@string/Tv.CreateGroupCheck.EditLayout.Title.Phone"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_phone"
+                style="@style/EditLayout_Edittext"
+                android:hint="@string/Hint.CreateGroupCheck.EditLayout.Phone"
+                android:inputType="phone"
+                android:maxLength="11"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:layout_width="65dp"
+                android:text="@string/Tv.CreateGroupCheck.EditLayout.Title.Email"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_email"
+                style="@style/EditLayout_Edittext"
+                android:hint="@string/Hint.CreateGroupCheck.EditLayout.Email"
+                android:inputType="textEmailAddress"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+
+    <!-- 照片区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.CreateGroupCheck.UserPhoto"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:id="@+id/view_user_photo"
+                android:layout_width="120dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/bg_default_photo"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.CreateGroupCheck.PartyPhoto"
+                android:textColor="#222222"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:id="@+id/view_party_photo"
+                android:layout_width="120dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/bg_default_photo"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- 按钮区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_next"
+            style="@style/ButtonBase_commit"
+            android:text="@string/Button.CreateGroupCheck.Next"/>
+    </LinearLayout>
+
+</LinearLayout>

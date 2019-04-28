@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayouttitleV1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/title_bar_left_menu"
+            style="@style/MenuLeftBackButton"/>
+
+        <TextView
+            android:id="@+id/tv_title_group_name"
+            style="@style/tvTitleV1"
+            android:layout_width="0dp"
+            android:text="@string/Title.GroupSummary"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.ImageButton
+                android:id="@+id/ibtn_edit_summary"
+                style="@style/MenuRightButton"
+                android:src="@drawable/icon_menu_edit"/>
+
+            <com.rey.material.widget.ImageButton
+                android:id="@+id/ibtn_share_summary"
+                style="@style/MenuRightButton"
+                android:src="@drawable/icon_share_normal"/>
+        </LinearLayout>
+</LinearLayout>

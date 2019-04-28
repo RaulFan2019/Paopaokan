@@ -1,0 +1,52 @@
+package com.app.pao.fragment.dynamic;
+
+import android.view.View;
+import android.widget.ImageButton;
+
+import com.app.pao.R;
+import com.app.pao.fragment.BaseFragment;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+
+/**
+ * Created by Administrator on 2015/12/14.
+ */
+public class TouristDynamicFragment extends BaseFragment implements View.OnClickListener{
+    @ViewInject(R.id.btn_message)
+    private ImageButton mtitleBtn;
+    @ViewInject(R.id.btn_qrcode)
+    private com.rey.material.widget.ImageButton qrcodeBtn;
+
+    public static TouristDynamicFragment newInstance() {
+        TouristDynamicFragment fragment = new TouristDynamicFragment();
+        return fragment;
+    }
+
+    @Override
+    @OnClick({R.id.btn_go_to_login})
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_go_to_login:
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_tourist_dynamic;
+    }
+
+    @Override
+    protected void initParams() {
+        initView();
+    }
+
+    private void initView(){
+        mtitleBtn.setVisibility(View.GONE);
+        qrcodeBtn.setVisibility(View.GONE);
+
+    }
+
+
+}

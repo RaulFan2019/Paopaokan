@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/SystemSettingsActivity.background">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:title="@string/Title.PerfectUserInfo"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:background="#f4f4f4"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/Tv.PerfectUserInfo"
+            android:textColor="#888888"
+            android:textSize="12dp"
+            />
+    </LinearLayout>
+
+    <!-- 性别 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout"
+        >
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_edit_gander"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/SettingsLinearlayout"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/LineViewBase_LeftTv"
+                    android:text="@string/Tv.PerfectUserInfoActivity.Key.Gander"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_gander"
+                    style="@style/LineViewBase_RightTv"
+                    />
+
+                <ImageView
+                    style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 生日 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout"
+        >
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_edit_birthday"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/SettingsLinearlayout"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/LineViewBase_LeftTv"
+                    android:text="@string/Tv.PerfectUserInfoActivity.Key.Birthday"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_birthday"
+                    style="@style/LineViewBase_RightTv"
+                    />
+
+                <ImageView
+                    style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 身高 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_edit_height"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/SettingsLinearlayout"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/LineViewBase_LeftTv"
+                    android:text="@string/Tv.PerfectUserInfoActivity.Key.Height"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_height"
+                    style="@style/LineViewBase_RightTv" />
+
+                <ImageView
+                    style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 体重 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout"
+        >
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_edit_weight"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/SettingsLinearlayout"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/LineViewBase_LeftTv"
+                    android:text="@string/Tv.PerfectUserInfoActivity.Key.Weight"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_weight"
+                    style="@style/LineViewBase_RightTv"
+                    />
+
+                <ImageView
+                    style="@style/LineViewBase_RightArrow"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_finish"
+            style="@style/ButtonBase_commit"
+            android:layout_gravity="center_vertical"
+            android:text="@string/Button.PerfectUserInfoActivity.Finish"/>
+    </LinearLayout>
+
+</LinearLayout>

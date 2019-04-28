@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_user_opinion_time"
+            style="@style/LineViewBase_Key_Tip"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:paddingRight="20dp"
+            android:layout_marginLeft="68dp"
+            android:orientation="horizontal"
+            android:gravity="right">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_marginStart="48dp"
+                android:background="@drawable/bg_user_opinion">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_user_opinion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:textSize="15dp"
+                    android:text="11111111111111111111111111111111111111111111111111"/>
+
+            </LinearLayout>
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/ci_user_avatar"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginLeft="8dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp" />
+        </LinearLayout>
+
+
+
+</LinearLayout>

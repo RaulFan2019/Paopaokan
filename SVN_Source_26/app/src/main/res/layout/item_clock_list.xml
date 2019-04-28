@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/iv_avatar"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginRight="12dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#3c3b39"
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/iv_gander"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:background="@drawable/icon_man" />
+
+                <TextView
+                    android:id="@+id/tv_loc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#888888"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:textColor="#888888"
+            android:textSize="12dp" />
+
+        <View
+            android:id="@+id/v_clock"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:background="@drawable/icon_clock_1" />
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent" />
+</LinearLayout>

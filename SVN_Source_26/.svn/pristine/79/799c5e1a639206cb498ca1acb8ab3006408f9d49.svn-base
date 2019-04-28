@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayouttitleV1">
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/tv_title_user_name"
+        style="@style/tvTitleV1"
+        android:text="@string/Tv.DynamicFragment.title" />
+
+    <com.rey.material.widget.ImageButton
+        android:id="@+id/btn_qrcode"
+        style="@style/MenuRightButton"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/icon_menu_scan" />
+
+    <com.rey.material.widget.ImageButton
+        android:id="@+id/btn_message"
+        style="@style/MenuRightButton"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/icon_menu_message" />
+
+</LinearLayout>

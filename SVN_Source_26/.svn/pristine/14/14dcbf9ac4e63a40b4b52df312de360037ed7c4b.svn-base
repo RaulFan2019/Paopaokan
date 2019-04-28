@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/include_edit_user_gender_title"></include>
+
+    <FrameLayout
+        android:id="@+id/fl_man"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/Gander.Man"/>
+
+        <ImageView
+            android:id="@+id/iv_man_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/icon_check"
+            />
+    </FrameLayout>
+
+    <View
+        style="@style/EditLayout_BottomLine"
+        android:layout_gravity="bottom"/>
+
+    <FrameLayout
+        android:id="@+id/fl_women"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/Gander.Women"/>
+
+        <ImageView
+            android:id="@+id/iv_women_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/icon_check"
+            />
+    </FrameLayout>
+</LinearLayout>

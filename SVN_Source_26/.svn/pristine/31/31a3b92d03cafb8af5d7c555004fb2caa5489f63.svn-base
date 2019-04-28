@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/ll_item"
+        style="@style/ListViewItem"
+        android:layout_height="66dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="?android:attr/selectableItemBackground">
+
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/ci_user_avatar"
+            android:layout_width="38dp"
+            android:layout_height="38dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/grey"
+                    android:textSize="15sp"
+                    android:text="112233"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <ImageView
+                        android:id="@+id/iv_user_gender"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginLeft="5dp">
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_user_location_province"
+                        style="@style/LineViewBase_Key_Tip"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginLeft="5dp">
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_user_location_city"
+                        style="@style/LineViewBase_Key_Tip"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_is_running"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_immediately_run_orange"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+
+</LinearLayout>

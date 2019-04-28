@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              style="@style/LinearlayoutBase"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/include_scan_ble_device_title"/>
+
+    <ListView
+        android:id="@+id/ble_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#eeeeee" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_control_scan"
+        style="@style/ButtonBase_commit"
+        android:layout_margin="20dp"
+        android:text="@string/Btn.ScanBleDeviceActivity.Start.Scan"/>
+
+</LinearLayout>

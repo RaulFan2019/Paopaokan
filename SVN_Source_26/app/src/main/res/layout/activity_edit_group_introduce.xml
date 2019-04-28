@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             style="@style/LinearlayoutBase"
+    android:gravity="center_horizontal">
+
+<include layout="@layout/include_edit_group_introduce_title"/>
+
+        <EditText
+            android:id="@+id/et_introduce"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/bg_round_rect_white"
+            android:gravity="top|left"
+            android:layout_margin="10dp"
+            android:maxLength="300"
+            android:padding="10dp"
+            android:paddingBottom="14dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="14dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/EditText.Hint"
+            android:selectAllOnFocus="true"
+            android:textSize="14dp"/>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_save_edit"
+            style="@style/ButtonBase_commit"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="90dp"
+            android:text="@string/Button.Introduction"/>
+
+</LinearLayout>

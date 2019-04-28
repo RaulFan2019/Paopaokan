@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <include layout="@layout/include_friend_title"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextViewTitle_tip"
+                android:text="@string/Tv.Tourist.Friends"/>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_friend_to_login"
+                style="@style/ButtonBase_commit"
+                android:layout_width="134dp"
+                android:layout_height="34dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:background="@drawable/btn_splash"
+                android:text="@string/Btn.Tourist.Login"
+                android:textColor="#f06522"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

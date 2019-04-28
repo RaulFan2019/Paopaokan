@@ -1,0 +1,239 @@
+package com.app.pao.activity.main;
+
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.BaseAppCompActivityV2;
+import com.app.pao.activity.login.LoginActivity;
+import com.app.pao.activity.login.LoginUserChangeActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.data.db.UserData;
+import com.app.pao.data.db.WorkoutData;
+import com.app.pao.entity.network.GetDynamicListResult;
+import com.app.pao.entity.network.UpdateEntity;
+import com.app.pao.service.AdService;
+import com.app.pao.service.GetPhoneTypeService;
+import com.app.pao.service.SendCrashLogService;
+import com.app.pao.service.SendMaidianService;
+import com.app.pao.utils.DeviceUtils;
+import com.app.pao.utils.Log;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+
+import cn.jpush.android.api.JPushInterface;
+
+/**
+ * 欢迎页
+ * 在整个APP堆栈底部,不被杀掉
+ */
+@ContentView(R.layout.activity_welcome)
+public class WelcomeActivity extends BaseAppCompActivityV2 {
+
+    /* local view */
+    @ViewInject(R.id.ll_welcome)
+    private LinearLayout mRootLl;
+
+    /* local data */
+    private int mUserId;//用户ID
+    private String mUserPassword;//用户密码
+    private boolean showAd = false;
+
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initViews() {
+        //全屏
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+        //启动广告图片下载Service
+        Intent intent = new Intent(this, AdService.class);
+        startService(intent);
+
+        //启动上传报错CrashService
+        Intent crashIntent = new Intent(this, SendCrashLogService.class);
+        startService(crashIntent);
+
+        //启动上传埋点列表SendMaidianService
+        Intent maidianIntent = new Intent(this, SendMaidianService.class);
+        startService(maidianIntent);
+
+        //启动获取手机类型服务
+        Intent getPhoneIntent = new Intent(this, GetPhoneTypeService.class);
+        startService(getPhoneIntent);
+
+        checkUpdate();
+    }
+
+    @Override
+    protected void updateData() {
+        mUserId = PreferencesData.getUserId(getApplicationContext());
+        mUserPassword = PreferencesData.getPassword(getApplicationContext());
+    }
+
+    @Override
+    protected void updateViews() {
+        JPushInterface.onResume(this);
+        AnimLaunch();
+    }
+
+    @Override
+    protected void destroy() {
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    /**
+     * 启动APP的主要内容
+     */
+    private void launchMain() {
+        //判断版本号是否更新, 若更新跳转到引导页
+        if (PreferencesData.getOldVersion(this) < DeviceUtils.getVersionCode(this.getPackageName())) {
+            startActivity(SplashActivity.class);
+            PreferencesData.setOldVersion(getApplicationContext(), DeviceUtils.getVersionCode(this.getPackageName()));
+            showAd = true;
+            return;
+        }
+
+        //若正在跑步
+        if (LocalApplication.getInstance().getLoginUser(getApplicationContext()) != null) {
+            if (WorkoutData.getUnFinishWorkout(getApplicationContext(),
+                    LocalApplication.getInstance().getLoginUser(getApplicationContext()).userId) != null) {
+                LocalApplication.getInstance().setLoginUser(UserData.getUserById(getApplicationContext(), mUserId));
+                Bundle bundle = new Bundle();
+                startActivity(MainActivity.class, bundle);
+                showAd = true;
+                return;
+            }
+        }
+        //若已经Show过广告页
+        if (!showAd) {
+            //跳转到广告页面
+            showAd = true;
+            startActivity(AdActivity.class);
+            return;
+        }
+
+        startNextActivity();
+    }
+
+    private void startNextActivity() {
+        showAd = true;
+        //游客状态
+        if (mUserId == AppEnum.DEFAULT_USER_ID) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isFirst", true);
+            startActivity(LoginActivity.class, bundle);
+            return;
+        }
+        if (LocalApplication.getInstance().getLoginUser(getApplicationContext()) == null) {
+            PreferencesData.setUserId(getApplicationContext(), AppEnum.DEFAULT_USER_ID);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isFirst", true);
+            startActivity(LoginActivity.class, bundle);
+            return;
+        }
+        //若非游客，并且密码为空时，进入账号选择页面
+        if (AppEnum.DEFAULT_USER_PASSWORD.equals(mUserPassword)) {
+            Bundle bundle = new Bundle();
+            startActivity(LoginUserChangeActivity.class, bundle);
+            return;
+        }
+        //若密码不为空进入主页面
+        Bundle bundle = new Bundle();
+        startActivity(MainActivity.class, bundle);
+        LocalApplication.getInstance().setLoginUser(UserData.getUserById(getApplicationContext(), mUserId));
+    }
+
+    /**
+     * 页面启动动画
+     */
+    private void AnimLaunch() {
+        AlphaAnimation aa = new AlphaAnimation(0.1f, 1.0f);
+        aa.setDuration(2000);
+        if (mRootLl == null || aa == null) {
+            launchMain();
+            return;
+        }
+        mRootLl.startAnimation(aa);
+        aa.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                // 跳转
+                launchMain();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+        });
+    }
+
+    /**
+     * 检查更新
+     */
+    private void checkUpdate() {
+        HttpUtils http = new HttpUtils();
+        http.send(HttpRequest.HttpMethod.GET, URLConfig.URL_CHECK_UPDATE, new RequestCallBack<String>() {
+
+            @Override
+            public void onFailure(HttpException error, String msg) {
+
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+//                Log.v(TAG, responseInfo.result);
+                try {
+                    String jsonString = responseInfo.result;
+                    UpdateEntity mUpdateEntity = JSON.parseObject(jsonString, UpdateEntity.class);
+                    //需要升级
+                    if (mUpdateEntity != null && DeviceUtils.getVersionCode(getApplication().getPackageName()) < Integer
+                            .valueOf(mUpdateEntity.getVersionCode()).intValue()) {
+                        PreferencesData.setUpdateInfo(getApplicationContext(), jsonString);
+                    } else {
+                        PreferencesData.setUpdateInfo(getApplicationContext(), "");
+                    }
+                } catch (JSONException exception) {
+
+                }
+            }
+        });
+    }
+}

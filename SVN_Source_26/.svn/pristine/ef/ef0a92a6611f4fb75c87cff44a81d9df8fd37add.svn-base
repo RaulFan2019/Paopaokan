@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.app.pao.ui.widget.RevealLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reveal_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="148dp"
+            android:background="#f5f5f5"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_run_running_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="00:00:00"
+                android:textColor="#222222"
+                android:textSize="52sp" />
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/Tv.RunningActivity.Time"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:background="#f5f5f5"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_running_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="0.00"
+                android:textColor="#222222"
+                android:textSize="116sp" />
+
+            <com.rey.material.widget.TextView
+                style="@style/TextViewTitle_Unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/Tv.RunningActivity.Length"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#f5f5f5"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_running_heartrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- -"
+                    android:textColor="#222222"
+                    android:textSize="28sp" />
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Term.Heartrate"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_vertical"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_run_running_pace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- -"
+                    android:textColor="#222222"
+                    android:textSize="28sp" />
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Tv.RunningActivity.Speed"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.app.pao.ui.widget.RevealLayout>

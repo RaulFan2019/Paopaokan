@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_shape_v2"
+    android:minHeight="178dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_content_shape_v2"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_share_title"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical|left"
+            android:singleLine="true"
+            android:textColor="#222222"
+            android:textSize="15dp" />
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:id="@+id/tv_share_context"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="25dp"
+            android:text="content"
+            android:textColor="@color/Dialog.text.content"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Bg.Button.grey">
+
+            <TextView
+                android:id="@+id/tv_share_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/Btn.WxShare.Cancel"
+                android:textColor="@color/grey"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/Base.Button">
+
+            <TextView
+                android:id="@+id/tv_share_go"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/Btn.WxShare.GoShare"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

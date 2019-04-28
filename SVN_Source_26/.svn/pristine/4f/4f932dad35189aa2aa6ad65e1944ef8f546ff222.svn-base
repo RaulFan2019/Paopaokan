@@ -1,0 +1,525 @@
+package com.app.pao.activity.login;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.main.MainActivity;
+import com.app.pao.activity.regist.RegistAddInfoActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.data.db.UserData;
+import com.app.pao.entity.network.GetCommonLoginResult;
+import com.app.pao.entity.network.GetPhoneNumIsRegistResult;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.ui.dialog.v1.MyDialogBuilderV1;
+import com.app.pao.utils.DeviceUtils;
+import com.app.pao.utils.StringUtils;
+import com.app.pao.utils.T;
+import com.app.pao.utils.business.LoginUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.Button;
+
+/**
+ * Created by Administrator on 2015/11/20.
+ * 微信绑定手机号码页面
+ */
+@ContentView(R.layout.activity_wx_bind_mobile)
+public class WxBindMobileActivity extends BaseAppCompActivity implements View.OnClickListener {
+    private static final String TAG = "WxBindMobileActivity";
+
+    private static final int MSG_POST_ERROR = 0;
+    private static final int MSG_POST_OK = 1;
+
+    /* local view */
+    @ViewInject(R.id.tb_bind_phone)
+    private Toolbar toolbar;
+    @ViewInject(R.id.et_bind_phone_num)
+    private EditText mPhoneNumEt;//需要绑定的手机号码
+    @ViewInject(R.id.et_bind_sms_code)
+    private EditText mSmsCodeEt;//手机短信验证码
+    @ViewInject(R.id.btn_get_bind_sms_code)
+    private Button mGetSmsCodeBtn;//获取验证码按钮
+    @ViewInject(R.id.btn_bind_phone_num)
+    private Button mBindPhoneNumBtn;//开始绑定验证码按钮
+
+    /* local data */
+    private GetCommonLoginResult mLoginEntity;//微信授权 登录返回值
+
+    private SendTimer mSendTime;// 发送短信倒计时
+
+    private int mUserId = 0;
+    private boolean isExist = false;
+    private String mPhoneNum;//电话号码
+    private String mSmsCode;//短信验证码
+    private String mCountryIso;//国际号
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_POST_ERROR:
+                    if (mDialogBuilder.progressDialog != null) {
+                        mDialogBuilder.progressDialog.dismiss();
+                    }
+                    T.showLong(mContext, msg.obj.toString());
+                    break;
+                case MSG_POST_OK:
+                    if (mDialogBuilder.progressDialog != null) {
+                        mDialogBuilder.progressDialog.dismiss();
+                    }
+                    //设置手机号码
+                    mLoginEntity.setMobile(mPhoneNum);
+                    mLoginEntity.setName(mPhoneNum);
+                    //将信息存储至本地
+                    LoginUtils.CommonLogin(mContext, mLoginEntity, "weixin");
+                    LocalApplication.getInstance().setLoginUser(null);
+                    if (isExist) {
+                        startActivity(MainActivity.class);
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("type", AppEnum.RegistType.WeixinRegist);
+                        bundle.putSerializable("entity", mLoginEntity);
+                        startActivity(RegistAddInfoActivity.class, bundle);
+                    }
+                    break;
+            }
+        }
+    };
+
+    /**
+     * Toolbar 点击事件
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 按钮监听
+     *
+     * @param v
+     */
+    @Override
+    @OnClick({R.id.btn_bind_phone_num, R.id.btn_get_bind_sms_code})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_get_bind_sms_code:
+                getSmsCode();
+                break;
+            case R.id.btn_bind_phone_num:
+                startBindMobile();
+                break;
+        }
+    }
+
+
+    @Override
+    protected void initData() {
+        Intent i = getIntent();
+        mLoginEntity = (GetCommonLoginResult) i.getSerializableExtra("WxLoginEntity");
+        //获取当前微信用户的Id
+        mUserId = mLoginEntity.getId();
+        // 初始化倒计时
+        mSendTime = new SendTimer(60000, 1000);
+        mCountryIso = DeviceUtils.GetCountryIso(mContext);
+    }
+
+    @Override
+    protected void initViews() {
+        setSupportActionBar(toolbar);
+        mPhoneNumEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence str, int arg1, int arg2, int arg3) { // 已经改变了的。
+                String contents = str.toString();
+                int length = contents.length();
+                if (length == 4) {
+                    if (contents.substring(3).equals(new String(" "))) {
+                        contents = contents.substring(0, 3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {
+                        contents = contents.substring(0, 3) + " " + contents.substring(3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                } else if (length == 9) {
+                    if (contents.substring(8).equals(new String(" "))) {
+                        contents = contents.substring(0, 8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {// +
+                        contents = contents.substring(0, 8) + " " + contents.substring(8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence str, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+
+    }
+
+    @Override
+    protected void destroy() {
+        cancelHandler();
+    }
+
+    /**
+     * 取消Handler发送
+     */
+    private void cancelHandler() {
+        if (mHandler != null) {
+            mHandler.removeMessages(MSG_POST_ERROR);
+            mHandler.removeMessages(MSG_POST_OK);
+        }
+    }
+
+    /**
+     * 开始绑定手机号码
+     */
+    private void startBindMobile() {
+        //检查手机号码
+        mPhoneNum = mPhoneNumEt.getText().toString().replace(" ", "");
+        String error = StringUtils.checkPhoneNumInputError(mContext, mPhoneNum, mCountryIso);
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+//            mPhoneNumEt.setError(error);
+            T.showShort(mContext, error);
+            return;
+        }
+        //检查验证码
+        mSmsCode = mSmsCodeEt.getText().toString();
+        error = StringUtils.checkVCCodeError(mContext, mSmsCode);
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+//            mSmsCodeEt.setError(error);
+            T.showShort(mContext, error);
+            return;
+        }
+        //通过服务器判断验证码是否正确
+        checkSmsCodeBySevice();
+    }
+
+    /**
+     * 开始获取验证码
+     */
+    private void getSmsCode() {
+        //检查手机号码
+        mPhoneNum = mPhoneNumEt.getText().toString().replace(" ", "");
+        String error = StringUtils.checkPhoneNumInputError(mContext, mPhoneNum, mCountryIso);
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+            mPhoneNumEt.setError(error);
+            T.showShort(mContext, error);
+            return;
+        }
+        //判断手机号码是否注册
+        checkPhoneIsRegist();
+//        mDialogBuilder.showProgressDialog(mContext, "正在获取验证码...", false);
+//        startTimer();
+//        getBindSmsCode();
+    }
+
+    /**
+     * 检查短信验证码是否合法,若合法 开始绑定手机号
+     */
+    private boolean checkSmsCode() {
+        mSmsCode = mSmsCodeEt.getText().toString();
+        String error = StringUtils.checkVCCodeError(mContext, mSmsCode);
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+            mSmsCodeEt.setError(error);
+            T.showShort(mContext, error);
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * 检查手机号码是否已经被注册
+     */
+    private void checkPhoneIsRegist() {
+        mDialogBuilder.showProgressDialog(mContext, "检查号码中...", false);
+
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_CHECK_PHONE_IS_REGIST;
+        RequestParams params = RequestParamsBuild.buildCheckPhoneNumIsRegistByWeixin(mPhoneNum, mUserId);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = errorMsg;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                if (Response == null || Response.isEmpty()) {
+                    return;
+                }
+                mDialogBuilder.msgTv.setText("正在获取验证码...");
+                GetPhoneNumIsRegistResult entity = JSON.parseObject(Response, GetPhoneNumIsRegistResult.class);
+                if (entity.isBound == AppEnum.UserBind.BIND) {
+                    if (mHandler != null) {
+                        Message msg = new Message();
+                        msg.what = MSG_POST_ERROR;
+                        msg.obj = "该手机号已被绑定";
+                        mHandler.sendMessage(msg);
+                    }
+                    return;
+                }
+                //若手机未注册才可以
+                if (entity.getIsExist() == AppEnum.UserRegist.NOT_EXIST) {
+                    isExist = false;
+                } else {
+                    isExist = true;
+                }
+                //发送短信
+                startTimer();
+                getBindSmsCode();
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = s;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 获取短信验证码
+     */
+    private void getBindSmsCode() {
+
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_GET_VC_CODE;
+        RequestParams params = RequestParamsBuild.buildGetVCCodeRequest(mContext, mPhoneNum);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = errorMsg;
+                    mHandler.sendMessage(msg);
+                }
+                mSendTime.cancel();
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                //短信发送成功
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = mContext.getResources().getString(R.string.Msg_WxBindMobileActivity_getCode);
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = s;
+                    mHandler.sendMessage(msg);
+                }
+                mSendTime.cancel();
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 绑定手机号码
+     */
+    private void bindPhoneNum() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPDATE_USER_INFO;
+        RequestParams params = RequestParamsBuild.buildResetUserMobileRequestByWeixin(mPhoneNum, mUserId);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = errorMsg;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                //发送成功
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_OK;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = s;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 通过服务器判断验证码是否正确
+     */
+    private void checkSmsCodeBySevice() {
+        mDialogBuilder.showProgressDialog(mContext, "绑定中...", false);
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+            @Override
+            public void onCancelBtnClick() {
+                cancelHandler();
+            }
+
+            @Override
+            public void onCancel() {
+                cancelHandler();
+            }
+        });
+
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_CHECK_VC_CODE;
+        RequestParams params = RequestParamsBuild.buildCheckVCCodeRequest(mContext, mPhoneNum, mSmsCode);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = errorMsg;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                //绑定电话号码
+                bindPhoneNum();
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mHandler != null) {
+                    Message msg = new Message();
+                    msg.what = MSG_POST_ERROR;
+                    msg.obj = s;
+                    mHandler.sendMessage(msg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    // 发送倒计时
+    class SendTimer extends CountDownTimer {
+
+        public SendTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            mGetSmsCodeBtn.setText(millisUntilFinished / 1000 + "");
+        }
+
+        @Override
+        public void onFinish() {
+            mGetSmsCodeBtn.setEnabled(true);
+            mGetSmsCodeBtn.setText(getString(R.string.Button_WxBindMobileActivity_getCode));
+            mGetSmsCodeBtn.setBackgroundResource(R.drawable.bg_round_rect);
+        }
+
+    }
+
+    //开始倒计时
+    private void startTimer() {
+        mSendTime.start();
+        mGetSmsCodeBtn.setEnabled(false);
+        mGetSmsCodeBtn.setBackgroundResource(R.drawable.bg_round_rect_disable);
+    }
+}

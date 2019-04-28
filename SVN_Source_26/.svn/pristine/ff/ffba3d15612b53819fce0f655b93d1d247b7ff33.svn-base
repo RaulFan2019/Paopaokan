@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayouttitleV1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/title_bar_left_menu"
+            style="@style/MenuLeftBackButton"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_title_group_single_tag"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/Title.GroupSingleTag"
+            style="@style/tvTitleV1"/>
+
+        <!--<com.rey.material.widget.Button-->
+            <!--android:id="@+id/btn_create_party"-->
+            <!--style="@style/ButtonBase_common"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="right|center_vertical"-->
+            <!--android:background="@null"-->
+            <!--android:text="@string/Tv.GroupPartyList.Menu.CreateParty"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:textSize="16sp"/>-->
+
+</LinearLayout>

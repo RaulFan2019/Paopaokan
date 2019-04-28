@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/我的项目/pao123/SVN_Source_android_studio/trunk/view_image_selector/src/main/res/values/color.xml -->
+    <eat-comment/>
+    <color name="item_grid_back_press">#10000000</color>
+    <color name="white">#ffffff</color>
+    <!-- From: file:/D:/我的项目/pao123/SVN_Source_android_studio/trunk/view_image_selector/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="folder_cover_size">72dp</dimen>
+    <dimen name="image_size">120dp</dimen>
+    <dimen name="space_size">2dp</dimen>
+    <!-- From: file:/D:/我的项目/pao123/SVN_Source_android_studio/trunk/view_image_selector/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">view_image_selector</string>
+</resources>

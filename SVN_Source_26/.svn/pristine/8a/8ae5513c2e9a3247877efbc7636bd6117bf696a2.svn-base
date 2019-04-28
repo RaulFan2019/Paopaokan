@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.app.pao"
+        minSdkVersion 18
+        targetSdkVersion 22
+        versionCode 148
+        versionName "V 2.6.1.0"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            zipAlignEnabled true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['jniLibs']
+        }
+    }
+
+    //处理由于电脑内存问题导致的finished with non-zero exit value 3 等
+//    dexOptions {
+//        javaMaxHeapSize "4g"
+//    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    jcenter()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile(name: 'material-1.2.1', ext: 'aar')
+    compile(name: 'xutils-3.3.34', ext: 'aar')
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:design:23.0.1'
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile project(':view_image_selector')
+    compile project(':umlibrary')
+    compile project(':qrcode')
+    compile project(':pickviewlibrary')
+    compile project(':photoview')
+    compile project(':libmarsdaemon')
+    compile 'com.android.support:multidex:1.0.0'
+}

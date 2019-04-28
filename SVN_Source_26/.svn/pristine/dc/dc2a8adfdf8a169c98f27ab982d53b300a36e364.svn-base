@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/include_group_single_tag"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_single_tag_member"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <!--android:divider="#ff00ff"-->
+    <!--android:dividerHeight="62dp"-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_confirm_save"
+            style="@style/ButtonBase_commit"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/Btn.GroupSingleTag.ConfirmSet"/>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_delete_tag"
+            style="@style/ButtonBase_commit"
+            android:background="@drawable/bg_round_rect_grey_dark"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textColor="@color/grey"
+            android:text="@string/Btn.GroupSingleTag.DeleteSingle"/>
+    </LinearLayout>
+
+</LinearLayout>

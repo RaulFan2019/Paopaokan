@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_change_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#f06522"
+        android:textSize="12sp"/>
+    <ImageView
+        android:id="@+id/iv_change_medal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:contentDescription="奖牌"
+        android:src="@drawable/icon_no_medal"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_change_type_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/tv_change_type_mid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f06522"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/tv_change_type_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"
+            android:textSize="14sp"/>
+    </LinearLayout>
+</LinearLayout>

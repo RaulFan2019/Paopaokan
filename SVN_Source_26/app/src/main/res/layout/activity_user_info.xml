@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayoutBase">
+
+    <com.app.pao.ui.widget.pulltozoomview.PullToZoomScrollViewEx
+        android:id="@+id/sv_local_user_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <include layout="@layout/include_user_friend_info_title" />
+    <!-- 菜单布局 -->
+    <LinearLayout
+        android:id="@+id/ll_fragment_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="52dp"
+        android:orientation="vertical" />
+    <!-- 加载布局 -->
+    <include layout="@layout/include_loadview" />
+</FrameLayout>

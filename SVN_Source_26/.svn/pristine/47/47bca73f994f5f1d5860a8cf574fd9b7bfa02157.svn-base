@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- check phone num -->
+    <string name="Error.Check.Phonenum.Empty">手机号码不能为空!</string>
+    <string name="Error.Check.Phonenum.Illegal">请输入正确的手机号码!</string>
+    <string name="Error.Check.Password.Empty">密码不能为空!</string>
+    <string name="Error.Check.Password.Length">密码长度必须在6~16范围内</string>
+    <string name="Error.Check.Password.Comfirm">两次密码不一致</string>
+    <string name="Error.Check.Regist.Exist">手机号码已注册</string>
+    <string name="Error.Check.Bind.Exist">手机号码已注册，若要绑定微信请在设置中绑定。</string>
+    <string name="Error.Check.Login.NotExist">帐号未注册</string>
+    <string name="Error.Check.VcCode.Empty">验证码不能为空</string>
+    <string name="Error.Check.VcCode.Length">验证码长度为4</string>
+    <string name="Error.Check.Password.Same">两次输入的密码不一致</string>
+    <string name="Error.Check.Nickname.Empty">昵称不能为空</string>
+    <string name="Error.Check.Nickname.Length">昵称长度少于10内</string>
+    <string name="Error.Check.Avatar.Empty">请设置个人头像</string>
+    <string name="Error.Check.Invite.Empty">邀请码不能为空!</string>
+    <string name="Error.Check.Invite.Length">邀请码长度为4位!</string>
+    <string name="Error.Check.Invite.Error">邀请码只能是字母和数字!</string>
+    <string name="Error.Check.Truename.Empty">姓名不能为空</string>
+    <string name="Error.Check.Email.Empty">邮箱不能为空</string>
+    <string name="Error.Check.Email.Error">邮箱格式不正确</string>
+    <string name="Error.Check.Groupname.Empty">跑团名不能为空</string>
+    <string name="Error.Check.Groupname.Length">跑团名长度少于10内</string>
+    <string name="Error.Check.Description.Empty">跑团描述不能为空</string>
+    <string name="Error.Check.PartyName.Empty">名称不能为空</string>
+    <string name="Error.Check.PartyName.Length">名称长度不能大于10</string>
+    <string name="Error.Check.PartyDescription.Empty">描述不能为空</string>
+    <string name="Error.Check.PartyDescription.Length">描述长度不能大于100</string>
+    <string name="Error.Check.PartyLocation.Empty">具体位置不能为空</string>
+    <string name="Error.Check.PartyLocation.Length">具体位置长度不能大于30</string>
+
+
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:gravity="center_horizontal">
+    <include layout="@layout/include_group_party_gps_sign_in"/>
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/mv_sign_range"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_gps_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_gps_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.GroupPartyGpsSignIn.Gps.Search"
+                android:textColor="@android:color/black"
+                android:textSize="26dp"/>
+
+            <com.rey.material.widget.ProgressView
+                android:id="@+id/progress_gps_search"
+                style="@style/CircularProgressViewBase"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_sign_in_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp"/>
+    </LinearLayout>
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_confirm_sign"
+        style="@style/ButtonBase_commit"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:text="@string/Btn.GroupPartyGpsSignIn.SignIn"/>
+</LinearLayout>

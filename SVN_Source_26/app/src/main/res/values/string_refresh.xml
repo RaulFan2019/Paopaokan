@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pull.to.refresh">下拉刷新</string>
+    <string name="release.to.refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新...</string>
+    <string name="refresh.succeed">刷新成功</string>
+    <string name="refresh.fail">刷新失败</string>
+    <string name="pullup.to.load">上拉加载更多</string>
+    <string name="release.to.load">释放立即加载</string>
+    <string name="loading">正在加载...</string>
+    <string name="load.succeed">加载成功</string>
+    <string name="load.fail">加载失败</string>
+</resources>

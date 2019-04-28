@@ -1,0 +1,1438 @@
+package com.app.pao.service;
+
+import android.app.ActivityManager;
+import android.app.KeyguardManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Debug;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.PowerManager;
+import android.os.RemoteException;
+import android.os.SystemClock;
+import android.support.annotation.Nullable;
+
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.run.RunningActivity;
+import com.app.pao.activity.run.RunningLockActivity;
+import com.app.pao.config.AppConfig;
+import com.app.pao.config.AppEnum;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.data.RunningData;
+import com.app.pao.data.db.HeartrateData;
+import com.app.pao.data.db.LapData;
+import com.app.pao.data.db.LocationData;
+import com.app.pao.data.db.OriginalPositionData;
+import com.app.pao.data.db.SpliteData;
+import com.app.pao.data.db.UploadData;
+import com.app.pao.data.db.WorkoutData;
+import com.app.pao.entity.db.DBEntityHeartrate;
+import com.app.pao.entity.db.DBEntityLap;
+import com.app.pao.entity.db.DBEntityLocation;
+import com.app.pao.entity.db.DBEntityOriginalPosition;
+import com.app.pao.entity.db.DBEntitySplite;
+import com.app.pao.entity.db.DBEntityWorkout;
+import com.app.pao.entity.db.DBUserEntity;
+import com.app.pao.entity.event.EventBLE;
+import com.app.pao.entity.event.EventNewWorkout;
+import com.app.pao.entity.event.EventRuningHeartrate;
+import com.app.pao.entity.event.EventRuningLocation;
+import com.app.pao.entity.event.EventRuningTime;
+import com.app.pao.entity.event.EventRunningComment;
+import com.app.pao.entity.event.EventRunningThumb;
+import com.app.pao.entity.model.ProcessInfo;
+import com.app.pao.utils.CalorieUtils;
+import com.app.pao.utils.DeviceUtils;
+import com.app.pao.utils.EventUtils;
+import com.app.pao.utils.FileUtils;
+import com.app.pao.utils.GpsUtils;
+import com.app.pao.utils.Log;
+import com.app.pao.utils.TTsUtils;
+import com.app.pao.utils.TimeUtils;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ypy.eventbus.EventBus;
+
+
+/**
+ * Created by Raul on 2015/10/29.
+ * 跑步时的状态和数据管理服务
+ */
+public class RunningService extends Service implements AMapLocationListener {
+
+    /* contains */
+    private static final String TAG = "RunningService";
+    private static final boolean DEBUG = false;
+
+    protected Context mContext = RunningService.this;//上下文
+
+    //GPS获取参数
+    private static final int GPS_Interval = 2000;//获取GPS信息时间频率 单位:毫秒
+    private static final int GpsAccuracy = 400;//精度控制
+    private static final boolean USE_SMOOTH = false;//是否使用平滑
+    private static final int LIMIT_MIN_PACE = 36;//速度过滤参数
+    private static final int LIMIT_MAX_PACE = 10000;//速度最大过滤参数
+    private int mNetworkGpsCount = 0;
+
+    // 跑步命令
+    public static final int CMD_PAUSE = 1;// 暂停命令
+    public static final int CMD_CONTINUE = 2;// 继续命令
+    public static final int CMD_FINISH = 3;// 结束命令
+
+    // 蓝牙状态变化
+    public static final int BLE_STATUS_CONNECTED = 0;// 已连接
+    public static final int BLE_STATUS_GET_HEARTRATE = 1;// 获取心率值
+    public static final int BLE_STATUS_DISCONNECT = 2;// 失去连接
+
+    private static final int alarmWakeUpInterval = 15 * 60 * 1000;
+    //    private static final int alarmCheckClientInterval = 20;
+    private static final int alarmSaveUploadInterval = 60 * 1000;
+    private static final int alarmCheckDaemonInterval = 15 * 1000;
+    private static final long DelayTimeMax = 60 * 1000 * 5;
+    private static final int heartbeatVoiceInterval = 2 * 60;//心率播报频率
+
+    //向外发送Handler MSG
+    public static final String ACTION_NEW_LOCATION = "com.app.pao.runningservice.location";
+    public static final String ACTION_NEW_TIME = "com.app.pao.runningservice.time";
+    public static final String ACTION_NEW_HEARTRATE = "com.app.pao.runningservice.heartrate";
+
+
+    //通知相关
+    private static final Class<?>[] mSetForegroundSignature = new Class[]{
+            boolean.class};
+    private static final Class<?>[] mStartForegroundSignature = new Class[]{
+            int.class, Notification.class};
+    private static final Class<?>[] mStopForegroundSignature = new Class[]{
+            boolean.class};
+    private static final int NOTIFICATION_ID = 1;
+    private static boolean mReflectFlg = false;
+
+    /* local data */
+    /* 通知相关 */
+    private Method mSetForeground;
+    private Method mStartForeground;
+    private Method mStopForeground;
+    private Object[] mSetForegroundArgs = new Object[1];
+    private Object[] mStartForegroundArgs = new Object[2];
+    private Object[] mStopForegroundArgs = new Object[1];
+    private NotificationManager mNM;
+
+    private Messenger mMessenger;//发送命令信使
+
+    private RunningReceiver mLockReceiver;
+    // 跑步历史参数
+    private static DBUserEntity mUserEntity;//用户信息
+    private static DBEntityWorkout mDBWorkout; // 数据库中保存的跑步历史
+    private static float mCalorie = 0; // 消耗的卡路里值
+    public static long mRunningTime = 0;// 跑步用时
+    public static float mRunningLength = 0;// 跑步距离
+    private static int mSpeed;// 可靠速度
+
+    // lap参数
+    private static long mLapTime = 0;// lap 用时
+    private static float mLapLength = 0;// lap 距离
+    private static DBEntityLap mDBLap;// 数据库lap信息
+
+    // splite参数
+    private static float mSpliteLength = 0;
+    private static long mSpliteTime = 0;
+    private static DBEntitySplite mDBSplit;
+
+    // 位置相关
+    /* 定位相关 */
+    private AMapLocationClient locationClient;
+    private AMapLocationClientOption locationOption = null;
+    private static LatLng mLastLLatLng;// 用于计算距离
+
+    // 用于计算速度的参数
+    private static long mLastTimeForSpeed;// 用于计算速度的时间
+    private float mLastLengthForSpeed;// 用于计算长度的时间
+
+    //平滑
+    private double[] x_num_buffer = new double[6];
+    private double[] x_den_buffer = new double[6];
+    private double[] y_num_buffer = new double[6];
+    private double[] y_den_buffer = new double[6];
+    private int smoothSize = 0;
+    private static double[] Num = new double[]{0.000177626186556307, -0.000292321692208296, 0.000184219758154182, 0.000184219758154182, -0.000292321692208296, 0.000177626186556307};
+    private static double[] Den = new double[]{1, -4.42555540567879, 7.86384955099945, -7.01074593810779, 3.13497400641412, -0.562383165121981};
+
+    private static long startTime;
+    private static long startTimeSave;
+    private static long startTimeLight;
+    private static long startTimeDaemon;
+
+
+    private static long NextTime = 0;
+    private static long NextTimeSave = 0;
+    private static long NextTimeLight = 0;
+    private static long NextTimeDaemon = 0;
+
+    private int mHeartrateSaveSize = 0;// 每3个心率保存一次
+
+    private boolean isRunning = false;
+    private int checkNullLocationCount = 0;
+    private int currHeartbeat = 0;//当前心率
+
+    /* 播放相关 */
+    private MediaPlayer mVoicePlayer;
+    private ArrayList<String> mVoiceList = new ArrayList<>();
+    private boolean playVoiceNow = false;
+
+    /* 定时操作 */
+    //定时保存上传数据
+    private static Handler mSaveUploadInfoHandler = null;
+    private static Runnable mSaveUploadInfoRa = null;
+    //计时器
+    private static Handler mTimerHandler = null;
+    private static Runnable mTimerRa = null;
+    //定时点亮屏幕
+    private static Handler mLightHandler = null;
+    private static Runnable mLightRa = null;
+
+    //定时检查守护服务进程
+    private static Handler mDaemonHandler = null;
+    private static Runnable mDaemonRa = null;
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    Handler myHandler;
+    private int timer = 0;
+
+    /**
+     * 收到跑步的消息或命令
+     */
+    public class RunningHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case CMD_PAUSE:// 收到暂停
+                    isRunning = false;
+                    stopTimer();
+                    stopSaveUploadInfo();
+                    stopLocation();
+                    FinishLap();
+                    break;
+                case CMD_CONTINUE:// 收到继续
+                    isRunning = true;
+                    startTimer();
+                    startSaveUploadInfo();
+                    initGps();
+                    if (mDBLap.status == AppEnum.RunningStatus.FINISH) {
+                        mDBLap = RunningData.createNewLap(mContext, mDBWorkout, mUserEntity);
+                        mLapTime = 0;
+                    }
+                    break;
+                case CMD_FINISH:// 收到完成
+                    //注销接收器
+                    unregisterReceiver(mLockReceiver);
+                    stopWakeUpTime();
+                    stopCheckDaemon();
+                    destroyVoicePlayer();
+                    finishWorkout();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        bindNotification();
+        initRunParams();
+        initAlarmData();
+        startWakeUpTime();
+        startCheckDaemon();
+        initVoicePlayer();
+        initRunningReceiver();
+        EventBus.getDefault().register(this);
+
+
+        //初始化蓝牙
+        if (!PreferencesData.getBlueToothDeviceMac(RunningService.this).equals("")) {
+            String DeviceMac = PreferencesData.getBlueToothDeviceMac(mContext);
+//            Log.v(TAG, "DeviceMac:" + DeviceMac);
+            Intent intent = new Intent(mContext, BLEService.class);
+            intent.putExtra("CMD", BLEService.CMD_CONNECT_RUNNING);
+            intent.putExtra("deviceMac", DeviceMac);
+            startService(intent);
+        }
+        //记录跑步开始的状态
+        writeRunningLog("RUNNING SERVICE START\n");
+    }
+
+    /**
+     * on Start Command
+     *
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        int cmd = CMD_CONTINUE;
+        if (intent != null && intent.hasExtra("CMD")) {
+            cmd = intent.getIntExtra("CMD", CMD_CONTINUE);
+        }
+//        Log.v(TAG, "CMD:" + cmd);
+        Message msg = Message.obtain(null, cmd, 0, 0);
+        try {
+            mMessenger.send(msg);
+        } catch (RemoteException e) {
+            return START_STICKY;
+        }
+        return START_STICKY;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        //取消前台通知
+        stopForegroundCompat(NOTIFICATION_ID);
+        EventBus.getDefault().unregister(this);
+        //停止从BLE获取心率数据
+        Intent intent = new Intent(this, BLEService.class);
+        intent.putExtra("CMD", BLEService.CMD_DISCONECT);
+        startService(intent);
+        //结束的时候发送状态日志
+        writeRunningLog("DESTROY RUNNING SERVICE\n");
+        super.onDestroy();
+    }
+
+    /**
+     * 接收到新的ble数据
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventBLE event) {
+        if (isRunning) {
+            if (event.getMsgType() == BLEService.MSG_GET_NEW_HEARTRATE) {
+                mHeartrateSaveSize++;
+                currHeartbeat = event.getHeartRate();
+                EventUtils.sendForegroundEvent(new EventRuningHeartrate(BLE_STATUS_GET_HEARTRATE, currHeartbeat));
+                if (mHeartrateSaveSize > 2) {
+                    DBEntityHeartrate heartrateEntity = new DBEntityHeartrate(System.currentTimeMillis(),
+                            mDBWorkout.getName(), mDBLap.getLapId(), mDBSplit.getId(), mRunningTime / 1000, currHeartbeat,
+                            AppEnum.UploadStatus.START);
+                    HeartrateData.saveHeartrate(mContext, heartrateEntity);
+                    mHeartrateSaveSize++;
+                    mHeartrateSaveSize = 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * 接收到workoutid信息
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventNewWorkout event) {
+        if (mDBWorkout.starttime.equals(event.workoutname)) {
+            mDBWorkout.setWorkoutId(event.id);
+            WorkoutData.updateWorkout(mContext, mDBWorkout);
+        }
+    }
+
+    /**
+     * 收到点赞
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventRunningThumb event) {
+        if (PreferencesData.getRunningVoiceEnable(mContext)) {
+            mVoiceList.add("thumb");
+            if (!playVoiceNow) {
+                playVoice();
+            }
+        }
+    }
+
+    /**
+     * 收到语音消息
+     *
+     * @param event
+     */
+    public void onEventMainThread(EventRunningComment event) {
+//        Log.v(TAG, "EventRunningComment");
+        if (PreferencesData.getRunningVoiceEnable(mContext)) {
+            for (int i = 0; i < event.commentsEntities.size(); i++) {
+                mVoiceList.add(event.commentsEntities.get(i).getMediaurl());
+            }
+            if (!playVoiceNow) {
+                playVoice();
+            }
+        }
+    }
+
+
+    /**
+     * 获取到新的GPS定位信息
+     *
+     * @param location
+     */
+    @Override
+    public void onLocationChanged(AMapLocation location) {
+        if (!isRunning) {
+            return;
+        }
+        //保存原始数据
+//        if (AppConfig.BUILD_TYPE == AppEnum.BuildType.BUILD_ALPHA) {
+            DBEntityOriginalPosition originalPosition = new DBEntityOriginalPosition(System.currentTimeMillis(),
+                    mDBWorkout.getStarttime(), location.getLatitude(), location.getLongitude(), location.getAccuracy(),
+                    mRunningTime / 1000, location.getErrorCode(), AppEnum.UploadStatus.START);
+            OriginalPositionData.saveLocation(mContext, originalPosition);
+//        }
+//        Log.v(TAG, "location.getErrorCode():" + location.getErrorCode());
+//        Log.v(TAG, "location.getLocationType():" + location.getLocationType());
+        //定位不成功，扔掉
+        if (location.getErrorCode() != AMapLocation.LOCATION_SUCCESS) {
+            return;
+        }
+        //缓存定位结果扔掉
+        if (location.getLocationType() == AMapLocation.LOCATION_TYPE_FIX_CACHE) {
+            return;
+        }
+        //若定位来源是基站，并且定位数量小于2，那么扔掉
+        if (location.getLocationType() == AMapLocation.LOCATION_TYPE_CELL) {
+            mNetworkGpsCount++;
+            if (mNetworkGpsCount < 2) {
+                return;
+            }
+        } else {
+            mNetworkGpsCount = 0;
+        }
+
+        if (location != null && isRunning) {
+            if (location.getLatitude() > 10
+                    && location.getLongitude() > 10
+                    && location.getAccuracy() < GpsAccuracy) {
+                updateLocation(location);
+            }
+        }
+    }
+
+    /**
+     * 保存地址信息
+     *
+     * @param location
+     */
+    private void updateLocation(AMapLocation location) {
+        double orgLa = location.getLatitude();
+        double orgLo = location.getLongitude();
+        // 若上次位置信息不为空
+        if (mLastLLatLng != null) {
+            float tempLength = AMapUtils.calculateLineDistance(mLastLLatLng,
+                    new LatLng(location.getLatitude(), location.getLongitude()));
+
+            // 保存splite海拔信息
+            if (location.hasAltitude()) {
+                double Altitude = location.getAltitude();
+                if (Altitude > mDBSplit.getMaxaltitude()) {
+                    mDBSplit.setMaxaltitude(Altitude);
+                }
+                if (Altitude < mDBSplit.getMinaltitude()) {
+                    mDBSplit.setMinaltitude(Altitude);
+                }
+                // 保存跑步历史海拔信息
+                if (Altitude > mDBWorkout.getMaxHeight()) {
+                    mDBWorkout.setMaxHeight(Altitude);
+                }
+                if (Altitude < mDBWorkout.getMinHeight()) {
+                    mDBWorkout.setMaxHeight(Altitude);
+                }
+            }
+
+            //平滑处理
+            if (USE_SMOOTH) {
+                doSmooth(location.getLatitude(), location.getLongitude());
+                location.setLatitude(x_den_buffer[0]);
+                location.setLongitude(y_den_buffer[0]);
+                tempLength = AMapUtils.calculateLineDistance(mLastLLatLng, new LatLng(x_den_buffer[0], y_den_buffer[0]));
+                mSpeed = (int) ((mRunningTime - mLastTimeForSpeed) / tempLength);
+            }
+
+            if (tempLength == 0) {
+                mSpeed = 0;
+            } else {
+                mSpeed = (int) ((mRunningTime - mLastTimeForSpeed) / tempLength);
+            }
+//            }
+            //速度不符合正常速度的
+            if (mSpeed < LIMIT_MIN_PACE
+//                    || mSpeed > LIMIT_MAX_PACE
+                    ) {
+                mSpeed = 0;
+            }
+//            若速度是0 不做任何记录
+            if (mSpeed == 0) {
+                return;
+            }
+
+            // 保存速度信息
+            mRunningLength += tempLength;
+            mSpeed = (int) ((mRunningTime - mLastTimeForSpeed) / tempLength);
+            mLapLength += tempLength;
+            mSpliteLength += tempLength;
+            mLastTimeForSpeed = mRunningTime;
+            mLastLengthForSpeed = mRunningLength;
+            // 保存距离信息
+            mDBWorkout.setLength(mRunningLength);
+            mDBLap.setLength(mLapLength);
+        }
+
+        // 保存split信息
+        if (mDBSplit.getStatus() == AppEnum.RunningStatus.RUNNING) {
+            if (mSpliteLength < 1000) {
+                mDBSplit.setLength(mSpliteLength);
+                mDBSplit.setDuration(mSpliteTime / 1000);
+                SpliteData.updateSplite(mContext, mDBSplit);
+                // 分段结束
+            } else {
+                saveSplit(mLastLLatLng, location);
+            }
+        }
+        mLastLLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        mDBWorkout.setDuration(mRunningTime / 1000);
+        mDBLap.setDuration(mLapTime / 1000);
+        WorkoutData.updateWorkout(mContext, mDBWorkout);
+        LapData.updateLap(mContext, mDBLap);
+
+        // 保存location信息到DB
+        DBEntityLocation templocation = new DBEntityLocation(System.currentTimeMillis(), mDBWorkout.getName(),
+                mDBLap.getStarttime(), location.getLatitude(), location.getLongitude(), location.getAltitude(),
+                location.getAccuracy(), location.getAccuracy(), (mLapTime / 1000), mSpeed,
+                AppEnum.UploadStatus.START, orgLa, orgLo);
+        LocationData.saveLocation(mContext, templocation);
+
+        EventUtils.sendForegroundEvent(new EventRuningLocation(mRunningLength, mSpeed));
+    }
+
+    /**
+     * 计时器
+     */
+    private void startTimer() {
+        startTime = System.currentTimeMillis();
+        mTimerRa.run();
+    }
+
+    /**
+     * 开始更新上传内容
+     */
+    private void startSaveUploadInfo() {
+        startTimeSave = System.currentTimeMillis();
+        mSaveUploadInfoRa.run();
+    }
+
+    /**
+     * 启动唤醒
+     */
+    private void startWakeUpTime() {
+        startTimeLight = System.currentTimeMillis();
+        mLightRa.run();
+    }
+
+    /**
+     * 启动检查守护服务进程
+     */
+    private void startCheckDaemon() {
+        startTimeDaemon = System.currentTimeMillis();
+        mDaemonRa.run();
+    }
+
+    /**
+     * 启动检查守护服务进程
+     */
+    private void stopCheckDaemon() {
+        mDaemonHandler.removeCallbacks(mDaemonRa);
+    }
+
+
+    /**
+     * 停止更新时间
+     */
+    private void stopTimer() {
+        mTimerHandler.removeCallbacks(mTimerRa);
+    }
+
+    /**
+     * 停止上传
+     */
+    private void stopSaveUploadInfo() {
+        mSaveUploadInfoHandler.removeCallbacks(mSaveUploadInfoRa);
+    }
+
+    /**
+     * 停止唤醒
+     */
+    private void stopWakeUpTime() {
+        mLightHandler.removeCallbacks(mLightRa);
+    }
+
+    /**
+     * 初始化声音播放器
+     */
+    private void initVoicePlayer() {
+        mVoicePlayer = new MediaPlayer();
+        mVoicePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+//                Log.v(TAG,"onCompletion");
+                mVoicePlayer = null;
+                mVoiceList.remove(0);
+                playVoice();
+            }
+        });
+        mVoicePlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+//                Log.v(TAG,"onError");
+                mVoicePlayer = null;
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 销毁播放器
+     */
+    private void destroyVoicePlayer() {
+        mVoicePlayer.release();
+    }
+
+    /**
+     * 初始化跑步接收器
+     */
+    private void initRunningReceiver() {
+        mLockReceiver = new RunningReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        this.registerReceiver(mLockReceiver, filter);
+
+    }
+
+
+    /**
+     * 初始化GPS取点服务
+     */
+    private void initGps() {
+        locationClient = new AMapLocationClient(RunningService.this);
+        locationOption = new AMapLocationClientOption();
+        // 设置定位模式为仅设备模式
+        if (!PreferencesData.getOnlyIsGpsLocMode(mContext)) {
+//            Log.v(TAG, "GPS");
+            locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Device_Sensors);
+        } else {
+//            Log.v(TAG, "NETWORK");
+            locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        }
+
+        // 设置定位监听
+        locationClient.setLocationListener(this);
+
+        locationOption.setInterval(GPS_Interval);//定位间隔
+        locationOption.setNeedAddress(false);//不需要返回位置信息
+        locationOption.setOnceLocation(false);//持续定位
+        // 设置定位参数
+        locationClient.setLocationOption(locationOption);
+
+        // 启动定位
+        locationClient.startLocation();
+    }
+
+    /**
+     * 停止定位
+     */
+    private void stopLocation() {
+        if (null != locationClient) {
+            locationClient.stopLocation();
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
+    }
+
+    /**
+     * 发送界面展现的时间
+     */
+    private void sendRuningTime(long time) {
+        EventUtils.sendForegroundEvent(new EventRuningTime(time));
+    }
+
+
+    /**
+     * 服务邦定通知服务
+     */
+    private void bindNotification() {
+        mNM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        try {
+            mStartForeground = RunningService.class.getMethod("startForeground", mStartForegroundSignature);
+            mStopForeground = RunningService.class.getMethod("stopForeground", mStopForegroundSignature);
+        } catch (NoSuchMethodException e) {
+            mStartForeground = mStopForeground = null;
+        }
+
+        try {
+            mSetForeground = getClass().getMethod("setForeground",
+                    mSetForegroundSignature);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException(
+                    "OS doesn't have Service.startForeground OR Service.setForeground!");
+        }
+
+        Notification.Builder builder = new Notification.Builder(this);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, RunningActivity.class), 0);
+        builder.setContentIntent(contentIntent);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+//        builder.setTicker("Foreground Service Start");
+        builder.setContentTitle("跑跑看");
+        builder.setContentText("正在采集Gps信息..");
+        Notification notification = builder.build();
+
+        startForegroundCompat(NOTIFICATION_ID, notification);
+    }
+
+
+    /**
+     * 初始化跑步参数
+     */
+    private void initRunParams() {
+        if (USE_SMOOTH) {
+            initSmoothData();
+        }
+        boolean timeCorrect = false;
+        //获取用户信息
+        mUserEntity = LocalApplication.getInstance().getLoginUser(RunningService.this);
+        mDBWorkout = WorkoutData.getUnFinishWorkout(mContext, mUserEntity.userId);
+        //若跑步历史为空,创建一个新的跑步
+        if (mDBWorkout == null) {
+            mDBWorkout = RunningData.createNewWorkout(mContext, mUserEntity);
+        } else {
+            if (mDBWorkout.length == 0) {
+            } else {
+                timeCorrect = true;
+            }
+        }
+        mDBLap = LapData.getUnFinishLap(mContext, mDBWorkout.starttime);
+        if (mDBLap == null) {
+            mDBLap = RunningData.createNewLap(mContext, mDBWorkout, mUserEntity);
+        }else {
+            DBEntityLocation dbEntityLocation = LocationData.getLocationByLap(RunningService.this,mDBLap,false);
+            if(dbEntityLocation != null){
+                mLastLLatLng = new LatLng(dbEntityLocation.latitude,dbEntityLocation.longitude);
+            }
+        }
+        mDBSplit = SpliteData.getUnFinishSplite(mContext, mDBWorkout.starttime);
+        if (mDBSplit == null) {
+            mDBSplit = RunningData.createNewSplit(mContext, mDBWorkout.length, mDBWorkout);
+        }
+        // 初始化时间参数
+        mRunningTime = mDBWorkout.duration * 1000;
+        mSpliteTime = mDBSplit.duration * 1000;
+        mLapTime = mDBLap.duration * 1000;
+        mCalorie = mDBWorkout.calorie;
+        // 初始化距离参数
+        mRunningLength = mDBWorkout.length;
+        mLapLength = mDBLap.length;
+        mSpliteLength = mDBSplit.length;
+        // 速度参数
+        mSpeed = 0;
+        mLastLengthForSpeed = mRunningLength;
+        mLastTimeForSpeed = mRunningTime;
+        // 初始化信使
+        mMessenger = new Messenger(new RunningHandler());
+        isRunning = true;
+
+        //时间修正
+        if (timeCorrect) {
+            long changeTime = TimeUtils.getTimesetFromStartTime(mDBLap.starttime, TimeUtils.NowTime());
+            long correctTime = (changeTime * 1000) - mLapTime;
+            mRunningTime += correctTime;
+            mSpliteTime += correctTime;
+            mLapTime += correctTime;
+        }
+    }
+
+
+    private void initAlarmData() {
+
+        // 定时保存上传信息
+        mSaveUploadInfoHandler = new Handler();
+        mSaveUploadInfoRa = new Runnable() {
+            @Override
+            public void run() {
+                saveUploadInfoData();
+            }
+        };
+        mSaveUploadInfoHandler.removeCallbacks(mSaveUploadInfoRa);
+
+        //计时器
+        mTimerHandler = new Handler();
+        mTimerRa = new Runnable() {
+            @Override
+            public void run() {
+                updateTimer();
+            }
+        };
+        mTimerHandler.removeCallbacks(mTimerRa);
+
+        //定时点亮屏幕
+        mLightHandler = new Handler();
+        mLightRa = new Runnable() {
+            @Override
+            public void run() {
+                brightKeyguard();
+            }
+        };
+        mLightHandler.removeCallbacks(mLightRa);
+
+        //定时检查守护服务进程
+        mDaemonHandler = new Handler();
+        mDaemonRa = new Runnable() {
+            @Override
+            public void run() {
+                checkDaemon();
+            }
+        };
+        mDaemonHandler.removeCallbacks(mDaemonRa);
+    }
+
+    /**
+     * 结束跑步历史
+     */
+    private void finishWorkout() {
+        isRunning = false;
+        // 保存位置信息
+        if (mUserEntity.userId != AppEnum.DEFAULT_USER_ID) {
+            UploadData.saveLocationInfo(mContext, mDBWorkout, mDBLap, mUserEntity.userId);
+        }
+        // 结束lap
+        if (mDBLap.getStatus() != AppEnum.RunningStatus.FINISH) {
+            FinishLap();
+        }
+        // 保存split 信息
+        FinishSplit(mDBSplit, mSpliteLength, mSpliteTime, 0, 0, true);
+        // 保存跑步历史信息
+        mDBWorkout.status = AppEnum.RunningStatus.FINISH;
+        mDBWorkout.duration = (mRunningTime / 1000);
+        if (mDBWorkout.length > 0) {
+            mDBWorkout.avgPace = ((int) (mDBWorkout.duration * 1000 / mDBWorkout.length));// 计算平均配速
+        } else {
+            mDBWorkout.avgPace = 0;// 计算平均配速
+        }
+        // 计算卡路里
+        mCalorie = CalorieUtils.getCalorie(RunningService.this, 0, mDBWorkout.duration, mDBWorkout.length * 1.0f);
+        mDBWorkout.calorie = mCalorie;
+        //计算平均心率,最大心率,最小心率
+        int avgHeartrate = 0;
+        int maxHeartrate = 0;
+        int minHeartrate = 0;
+        int total = 0;
+        List<DBEntityHeartrate> heartlist = HeartrateData.getAllHeartrateFromWork(mContext, mDBWorkout.starttime);
+        if (heartlist.size() != 0) {
+            for (DBEntityHeartrate entity : heartlist) {
+                total += entity.getBmp();
+                if (maxHeartrate < entity.bmp) {
+                    maxHeartrate = entity.bmp;
+                }
+                if (minHeartrate > entity.bmp) {
+                    minHeartrate = entity.bmp;
+                }
+            }
+            avgHeartrate = total / heartlist.size();
+        }
+
+        mDBWorkout.setAvgHeartrate(avgHeartrate);
+        mDBWorkout.setMaxHeartrate(maxHeartrate);
+        mDBWorkout.setMinHeartrate(minHeartrate);
+
+        WorkoutData.updateWorkout(mContext, mDBWorkout);
+        //若登录的人不是游客,创建上传信息
+        if (mUserEntity.userId != AppEnum.DEFAULT_USER_ID) {
+            UploadData.finishWorkout(mContext, mDBWorkout, mUserEntity.userId);
+        }
+        // 若距离小于100米, 距离太短不记录
+        if (mDBWorkout.length < 100) {
+            WorkoutData.deleteWorkout(mContext, mDBWorkout.starttime);
+        }
+        stopSelf();
+    }
+
+
+    /**
+     * 结束lap信息
+     */
+    private void FinishLap() {
+        if (mDBLap.status == AppEnum.RunningStatus.FINISH) {
+            return;
+        }
+        if (USE_SMOOTH) {
+            initSmoothData();
+        }
+        mDBLap.duration = (mLapTime / 1000);
+        mDBLap.status = AppEnum.RunningStatus.FINISH;
+
+        if (USE_SMOOTH) {
+            //补不足的18个点
+            List<DBEntityLocation> locList = LocationData.getLocationListByLap(mContext, mDBLap);
+//        T.showShort(mContext, "有 " + locList.size() + "个点");
+            if (locList.size() > 18) {
+                long timeoffset = locList.get(locList.size() - 1).timeoffset;
+                long id = locList.get(locList.size() - 1).id;
+                float tempLength = 0;
+                for (int i = (locList.size() - 18); i < locList.size(); i++) {
+                    DBEntityLocation loc = locList.get(i);
+                    id++;
+//                    Log.v(TAG, i + ":loc.latitude :" + loc.latitude + ",loc.originallatitude" + loc.originallatitude);
+                    loc.id = id;
+                    loc.latitude = loc.originallatitude;
+                    loc.longitude = loc.originallongitude;
+                    loc.timeoffset = timeoffset;
+                    loc.uploadStatus = AppEnum.UploadStatus.START;
+//                    Log.v(TAG, i + ":loc.latitude :" + loc.latitude + ",loc.originallatitude" + loc.originallatitude);
+                    // 保存location信息到DB
+                    LocationData.saveLocation(mContext, loc);
+                    if (mLastLLatLng != null) {
+                        tempLength = AMapUtils.calculateLineDistance(mLastLLatLng, new LatLng(loc.latitude, loc.longitude));
+                        mRunningLength += tempLength;
+                        mLapLength += tempLength;
+                        mSpliteLength += tempLength;
+                        mLastLLatLng = new LatLng(loc.latitude, loc.longitude);
+                    }
+                }
+                mDBWorkout.length = mRunningLength;
+                mDBLap.length = mLapLength;
+                mDBSplit.length = mSpliteLength;
+                WorkoutData.updateWorkout(mContext, mDBWorkout);
+                Intent intent = new Intent(ACTION_NEW_LOCATION);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("event", new EventRuningLocation(mRunningLength, mSpeed));
+                intent.putExtras(bundle);
+                sendBroadcast(intent);
+            }
+        }
+
+        UploadData.saveOriginalLocationInfo(mContext, mDBWorkout, mUserEntity.userId);
+//        UploadData.saveLocationInfo(mContext, mDBWorkout, mDBLap, mUserEntity.userId);
+        LapData.updateLap(mContext, mDBLap);
+        mLastLLatLng = null;
+        //若用户不是游客
+        if (mUserEntity.userId != AppEnum.DEFAULT_USER_ID) {
+            RunningData.FinishLap(mContext, mUserEntity.userId, mDBWorkout.starttime, mDBLap);
+        }
+    }
+
+
+    /**
+     * 保存分段
+     *
+     * @param LastLLatLng
+     * @param location
+     */
+    private void saveSplit(LatLng LastLLatLng, AMapLocation location) {
+        int splitSize = (int) (mSpliteLength / 1000);
+        long time = (long) (mSpliteTime * 1000 / mSpliteLength);
+        double LatitudeChange = (location.getLatitude() - LastLLatLng.latitude) / splitSize;
+        double LongitudeChange = (location.getLongitude() - LastLLatLng.longitude) / splitSize;
+        for (int i = 0; i < splitSize; i++) {
+            FinishSplit(mDBSplit, 1000, time, (LatitudeChange * (i + 1) + LastLLatLng.latitude),
+                    (LongitudeChange * (i + 1) + LastLLatLng.longitude), false);
+            long lastSplitId = mDBSplit.getId();
+            mDBSplit = new DBEntitySplite(System.currentTimeMillis(), (lastSplitId + 1),
+                    mDBWorkout.getName(), 0, 0, 0, 0.00d, 0.00d, AppEnum.RunningStatus.RUNNING, 0, 0);
+            mSpliteTime = mSpliteTime - time;
+            mSpliteLength = mSpliteLength - 1000;
+        }
+
+        // Log.v(TAG, "创建新的splite信息");
+        SpliteData.saveSplite(mContext, mDBSplit);
+    }
+
+    /**
+     * 结束split
+     */
+    private void FinishSplit(DBEntitySplite DBSplit, float length, long time,
+                             double Latitude, double Longitude, boolean lastSplit) {
+        // Log.v(TAG, "结束splite");
+        int avgHeartRate = HeartrateData.getAvgheartrateInSplite(mContext, mDBWorkout.starttime, DBSplit.getId());
+        DBSplit.length = length;
+        DBSplit.duration = (time / 1000);
+        DBSplit.status = AppEnum.RunningStatus.FINISH;
+        DBSplit.avgheartrate = avgHeartRate;
+        DBSplit.Latitude = Latitude;
+        DBSplit.Longitude = (Longitude);
+
+        int speed = 0;
+        if (DBSplit.length != 0) {
+            speed = (int) (DBSplit.duration * 1000 / DBSplit.length);
+            if (speed != 0) {
+                if (mDBWorkout.maxSpeed < speed) {
+                    mDBWorkout.maxSpeed = speed;
+                }
+                if (mDBWorkout.minSpeed == 0) {
+                    mDBWorkout.minSpeed = speed;
+                }
+                if (mDBWorkout.minSpeed > speed) {
+                    mDBWorkout.minSpeed = speed;
+                }
+            }
+        }
+        SpliteData.updateSplite(mContext, DBSplit);
+        UploadData.finishSplite(mContext, DBSplit, mUserEntity.userId);
+        if (!lastSplit) {
+            TTsUtils.perKm(RunningService.this, (int) (mRunningLength / 1000), (int) (mRunningTime / 1000), speed);
+        }
+    }
+
+    /**
+     * 电量屏幕
+     */
+    private void brightKeyguard() {
+        if (!isRunning) {
+            return;
+        }
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        //获取电源管理器对象
+        PowerManager.WakeLock wl;
+        if (PreferencesData.getPhoneType(RunningService.this) == AppEnum.PhoneType.HUAWEI
+                && PreferencesData.getOnlyIsGpsLocMode(mContext)) {
+            wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager
+                    .SCREEN_DIM_WAKE_LOCK, "bright");
+        } else {
+            wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager
+                    .PARTIAL_WAKE_LOCK, "bright");
+        }
+        //获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+        wl.acquire();
+        //点亮屏幕
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        //得到键盘锁管理器对象
+        KeyguardManager.KeyguardLock kl = km.newKeyguardLock("unLock");
+        //解锁
+        kl.disableKeyguard();
+        kl.reenableKeyguard();
+        //重新启用自动加锁
+        wl.release();
+        long now = SystemClock.uptimeMillis();
+
+        if (NextTimeLight == now + (alarmWakeUpInterval - now % alarmWakeUpInterval)) {
+            return;
+        }
+
+        NextTimeLight = now + (alarmWakeUpInterval - now % alarmWakeUpInterval);
+        startTimeLight = System.currentTimeMillis();
+        mLightHandler.postAtTime(mLightRa, NextTimeLight);
+    }
+
+    /**
+     * 检查守护进程
+     */
+    private void checkDaemon() {
+        if (!DeviceUtils.isWorked(RunningService.this, "com.app.pao.service.ListenerService")) {
+            //启动监听服务
+            Intent listenerIntent = new Intent(RunningService.this, ListenerService.class);
+            startService(listenerIntent);
+        }
+        long now = SystemClock.uptimeMillis();
+        if (NextTimeDaemon == now + (alarmCheckDaemonInterval - now % alarmCheckDaemonInterval)) {
+            return;
+        }
+        NextTimeDaemon = now + (alarmCheckDaemonInterval - now % alarmCheckDaemonInterval);
+        startTimeDaemon = System.currentTimeMillis();
+        mDaemonHandler.postAtTime(mDaemonRa, NextTimeDaemon);
+    }
+
+    private void launchLockActivity(Context context) {
+        KeyguardManager km = (KeyguardManager)
+                context.getSystemService(Context.KEYGUARD_SERVICE);
+        if (km.inKeyguardRestrictedInputMode()) {
+            Intent alarmLockIntent = new Intent(context,
+                    RunningLockActivity.class);
+            alarmLockIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            alarmLockIntent.putExtra("time", mRunningTime / 1000);
+            alarmLockIntent.putExtra("length", mRunningLength);
+            alarmLockIntent.putExtra("speed", mSpeed);
+            context.startActivity(alarmLockIntent);
+        }
+    }
+
+    class RunningReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//            Log.v(TAG, "RunningLockReceiver onReceive");
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_SCREEN_ON)) {
+                launchLockActivity(context);
+            }
+        }
+    }
+
+
+    /**
+     * 检查高德服务
+     */
+    private void checkClient() {
+        if (null != locationClient) {
+            locationClient.startLocation();
+        } else {
+            writeRunningLog("GAODE CLIENT IS NULL !\n");
+            stopLocation();
+            initGps();
+        }
+    }
+
+    /**
+     * 保存上传内容
+     */
+    private void saveUploadInfoData() {
+//        Log.v(TAG, "saveUploadInfoData");
+        if (!isRunning) {
+            return;
+        }
+        mDBWorkout.duration = (mRunningTime / 1000);
+        WorkoutData.updateWorkout(mContext, mDBWorkout);
+        // 非游客,保存上传数据
+        if (mUserEntity.userId != AppEnum.DEFAULT_USER_ID) {
+            int savelocsize = UploadData.saveLocationInfo(mContext, mDBWorkout, mDBLap, mUserEntity.userId);
+            UploadData.saveHeartrateInfo(mContext, mDBWorkout, mDBLap, mUserEntity.userId);
+            UploadData.saveOriginalLocationInfo(mContext, mDBWorkout, mUserEntity.userId);
+            if (savelocsize == 0) {
+                checkNullLocationCount++;
+                //3分钟都没定位 重启
+                if (checkNullLocationCount > 2) {
+                    checkNullLocationCount = 0;
+//                  brightKeyguard();
+                    stopLocation();
+                    initGps();
+                    writeRunningLog("RESET GPS\n");
+                }
+            } else {
+                checkNullLocationCount = 0;
+            }
+        }
+        long now = SystemClock.uptimeMillis();
+        if (NextTimeSave == now + (alarmSaveUploadInterval - now % alarmSaveUploadInterval)) {
+            return;
+        }
+        NextTimeSave = now + (alarmSaveUploadInterval - now % alarmSaveUploadInterval);
+
+        startTimeSave = System.currentTimeMillis();
+        mSaveUploadInfoHandler.postAtTime(mSaveUploadInfoRa, NextTimeSave);
+    }
+
+    /**
+     * 更新时间
+     */
+    private void updateTimer() {
+//        Log.v(TAG, "updateTimer isRunning:" + isRunning);
+        if (!isRunning) {
+            return;
+        }
+        long disparityTime = System.currentTimeMillis() - startTime;// 时间
+        mRunningTime += disparityTime;
+        mLapTime += disparityTime;
+        mSpliteTime += disparityTime;
+        // 这里发送到activity
+        sendRuningTime(mRunningTime / 1000);
+        if ((mRunningTime / 1000) % heartbeatVoiceInterval == 0
+                && currHeartbeat != 0 && (mRunningTime / 1000) != 0 ){
+            TTsUtils.playHeartbeat(RunningService.this, currHeartbeat);
+        }
+        long now = SystemClock.uptimeMillis();
+        if (NextTime == now + (1000 - now % 1000)) {
+            return;
+        }
+        NextTime = now + (1000 - now % 1000);
+        startTime = System.currentTimeMillis();
+        mTimerHandler.postAtTime(mTimerRa, NextTime);
+    }
+
+    private void playVoice() {
+//        Log.v(TAG,"playVoice");
+        initVoicePlayer();
+        playVoiceNow = true;
+        if (mVoicePlayer != null && mVoiceList != null && mVoiceList.size() > 0) {
+            try {
+                String url = mVoiceList.get(0);
+                if (url.equals("thumb")) {
+                    AssetFileDescriptor fileDescriptor = RunningService.this.getAssets().openFd("running_voice.mp3");
+                    mVoicePlayer.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(), fileDescriptor.getLength());
+                } else {
+                    mVoicePlayer.setDataSource(mVoiceList.get(0));
+                }
+                mVoicePlayer.prepare();
+                mVoicePlayer.start();
+            } catch (IllegalArgumentException e) {
+//                Log.v(TAG, "IllegalArgumentException");
+                mVoicePlayer = null;
+                mVoiceList.remove(0);
+                playVoice();
+                return;
+            } catch (IOException e) {
+//                Log.v(TAG, "IOException");
+                mVoicePlayer = null;
+                mVoiceList.remove(0);
+                playVoice();
+                return;
+            }
+        } else {
+            playVoiceNow = false;
+        }
+    }
+
+    /**
+     * GPS发生异常时的Log
+     */
+    private void writeRunningLog(final String Title) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                // Save the log on SD card if available
+                if (Environment.getExternalStorageState().equals(
+                        Environment.MEDIA_MOUNTED)) {
+                    String sdcardPath = AppConfig.CRASH_PATH;
+                    File crashPath = new File(sdcardPath);
+                    if (!crashPath.exists()) {
+                        crashPath.mkdir();
+                    }
+                    //Gps状态
+                    String GpsStatus = "Gps状态: " + GpsUtils.getStatus(mContext) + "\n";
+                    //内存
+                    String memStr = "系统内存:" + DeviceUtils.getTotalMemory() + "\n";
+                    //电量
+                    Intent batteryInfoIntent = DeviceUtils.getBatterPower(mContext);
+                    String powerStatus = "电量: " + batteryInfoIntent.getIntExtra("level", 0) + "\n";
+
+                    //进程列表
+//            ArrayList<ProcessInfo> processInfoList = getRunningAppProcessInfo();
+//            String processInfo = "进程列表:";
+//            for (ProcessInfo info : processInfoList) {
+//                processInfo += "\n======\n";
+//                processInfo += "pid:" + info.getPid();
+//                processInfo += "\nuid:" + info.getUid();
+//                processInfo += "\nmemsize:" + info.getMemSize();
+//                processInfo += "\nname:" + info.getProcessName();
+//                processInfo += "\npkname:";
+//                for (String str : info.getPkgnameList()) {
+//                    processInfo += str + ",";
+//                }
+//            }
+                    String loginfo = Title + GpsStatus + memStr + powerStatus;
+                    writeLog(loginfo, sdcardPath + "/");
+            }
+        }});
+    }
+
+
+    private void writeLog(String log, String name) {
+        String timestamp = System.currentTimeMillis() + "";
+        String filename = name + timestamp;
+        try {
+            FileOutputStream stream = new FileOutputStream(filename);
+            OutputStreamWriter output = new OutputStreamWriter(stream);
+            BufferedWriter bw = new BufferedWriter(output);
+
+            bw.write(log);
+            bw.newLine();
+            bw.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<ProcessInfo> getRunningAppProcessInfo() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        ArrayList<ProcessInfo> processInfoList = new ArrayList<ProcessInfo>();
+        List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
+            int pid = appProcessInfo.pid;
+            int uid = appProcessInfo.uid;
+            String processName = appProcessInfo.processName;
+            int[] myMempid = new int[]{pid};
+            Debug.MemoryInfo[] memoryInfo = mActivityManager.getProcessMemoryInfo(myMempid);
+            //kb
+            int memSize = memoryInfo[0].dalvikPrivateDirty;
+            ProcessInfo processInfo = new ProcessInfo();
+            processInfo.setPid(pid);
+            processInfo.setUid(uid);
+            processInfo.setMemSize(memSize);
+            processInfo.setPocessName(processName);
+            processInfo.pkgnameList = appProcessInfo.pkgList;
+            processInfoList.add(processInfo);
+        }
+        return processInfoList;
+    }
+
+    /**
+     * 和通知相关的 API
+     **/
+    void invokeMethod(Method method, Object[] args) {
+        try {
+            method.invoke(this, args);
+        } catch (InvocationTargetException e) {
+            // Should not happen.
+//            Log.w("ApiDemos", "Unable to invoke method", e);
+        } catch (IllegalAccessException e) {
+            // Should not happen.
+//            Log.w("ApiDemos", "Unable to invoke method", e);
+        }
+    }
+
+    /**
+     * This is a wrapper around the new startForeground method, using the older
+     * APIs if it is not available.
+     */
+    void startForegroundCompat(int id, Notification notification) {
+        if (mReflectFlg) {
+            // If we have the new startForeground API, then use it.
+            if (mStartForeground != null) {
+                mStartForegroundArgs[0] = Integer.valueOf(id);
+                mStartForegroundArgs[1] = notification;
+                invokeMethod(mStartForeground, mStartForegroundArgs);
+                return;
+            }
+
+            // Fall back on the old API.
+            mSetForegroundArgs[0] = Boolean.TRUE;
+            invokeMethod(mSetForeground, mSetForegroundArgs);
+            mNM.notify(id, notification);
+        } else {
+            /* 还可以使用以下方法，当sdk大于等于5时，调用sdk现有的方法startForeground设置前台运行，
+             * 否则调用反射取得的sdk level 5（对应Android 2.0）以下才有的旧方法setForeground设置前台运行 */
+            if (Build.VERSION.SDK_INT >= 5) {
+                startForeground(id, notification);
+            } else {
+                // Fall back on the old API.
+                mSetForegroundArgs[0] = Boolean.TRUE;
+                invokeMethod(mSetForeground, mSetForegroundArgs);
+                mNM.notify(id, notification);
+            }
+        }
+    }
+
+    /**
+     * This is a wrapper around the new stopForeground method, using the older
+     * APIs if it is not available.
+     */
+    void stopForegroundCompat(int id) {
+        if (mReflectFlg) {
+            // If we have the new stopForeground API, then use it.
+            if (mStopForeground != null) {
+                mStopForegroundArgs[0] = Boolean.TRUE;
+                invokeMethod(mStopForeground, mStopForegroundArgs);
+                return;
+            }
+
+            // Fall back on the old API.  Note to cancel BEFORE changing the
+            // foreground state, since we could be killed at that point.
+            mNM.cancel(id);
+            mSetForegroundArgs[0] = Boolean.FALSE;
+            invokeMethod(mSetForeground, mSetForegroundArgs);
+        } else {
+            /* 还可以使用以下方法，当sdk大于等于5时，调用sdk现有的方法stopForeground停止前台运行，
+             * 否则调用反射取得的sdk level 5（对应Android 2.0）以下才有的旧方法setForeground停止前台运行 */
+
+            if (Build.VERSION.SDK_INT >= 5) {
+                stopForeground(true);
+            } else {
+                // Fall back on the old API.  Note to cancel BEFORE changing the
+                // foreground state, since we could be killed at that point.
+                mNM.cancel(id);
+                mSetForegroundArgs[0] = Boolean.FALSE;
+                invokeMethod(mSetForeground, mSetForegroundArgs);
+            }
+        }
+    }
+
+    /*-- 平滑算法 --*/
+
+    /**
+     * 初始化平滑参数
+     */
+    private void initSmoothData() {
+        x_num_buffer = new double[6];
+        x_den_buffer = new double[6];
+        y_num_buffer = new double[6];
+        y_den_buffer = new double[6];
+        smoothSize = 0;
+    }
+
+    /**
+     * 平滑
+     */
+    private void doSmooth(double latitude, double longitude) {
+        smoothSize++;
+        if (smoothSize < 6) {
+            for (int i = 0; i < 6; i++) {
+                x_num_buffer[i] = latitude;
+                x_den_buffer[i] = latitude;
+                y_num_buffer[i] = longitude;
+                y_den_buffer[i] = longitude;
+            }
+        } else {
+            for (int i = 4; i > -1; i--) {
+                x_num_buffer[i + 1] = x_num_buffer[i];
+                x_den_buffer[i + 1] = x_den_buffer[i];
+                y_num_buffer[i + 1] = y_num_buffer[i];
+                y_den_buffer[i + 1] = y_den_buffer[i];
+            }
+            x_num_buffer[0] = latitude;
+            y_num_buffer[0] = longitude;
+
+            x_den_buffer[0] = (MultiplicationSumCalculation(x_num_buffer, Num, 0) - MultiplicationSumCalculation(x_den_buffer, Den, 1)) / Den[0];
+            y_den_buffer[0] = (MultiplicationSumCalculation(y_num_buffer, Num, 0) - MultiplicationSumCalculation(y_den_buffer, Den, 1)) / Den[0];
+        }
+    }
+
+    /**
+     * 点乘运算
+     */
+    public static double MultiplicationSumCalculation(double[] Num1, double[] Num2, int start) {
+        double sum = 0;
+        for (int i = start; i < Num2.length; i++) {
+            sum += Num1[i] * Num2[i];
+        }
+        return sum;
+    }
+}

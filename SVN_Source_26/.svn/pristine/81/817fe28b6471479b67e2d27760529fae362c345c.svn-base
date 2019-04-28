@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.ScanQRcode"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/result_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray"
+        android:scaleType="fitXY" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_scan"
+        style="@style/ButtonBase_commit"
+        android:layout_marginTop="34dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/Btn.ScanQRcode.Scan"/>
+</LinearLayout>

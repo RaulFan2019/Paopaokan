@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.RegistActivity"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <com.rey.material.widget.TextView
+        style="@style/TextViewTitle_tip"
+        android:text="@string/Tip.RegistActivity"/>
+
+    <LinearLayout
+        style="@style/LinearlayoutBase_Login_weight">
+        <LinearLayout
+            style="@style/EditLayout"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Hint.RegistActivity.Phonenum"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_regist_phone_num"
+                    style="@style/EditLayout_Edittext_Phone"
+                    android:hint="@string/Helper.RegistActivity.Phonenum"
+                    />
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_regist"
+            style="@style/ButtonBase_commit"
+            android:layout_marginTop="34dp"
+            android:text="@string/Button.RegistActivity.regist"
+            android:background="@drawable/bg_round_rect" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.RegistActivity.Privacy"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/btn_privacy"
+                style="@style/FlatButtonBase_common"
+                android:layout_marginTop="14dp"
+                android:text="@string/Button.RegistActivity.Privacy"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

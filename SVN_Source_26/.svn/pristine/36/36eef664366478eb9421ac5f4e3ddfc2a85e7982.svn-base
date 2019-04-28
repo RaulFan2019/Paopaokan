@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayouttitleV1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/title_bar_left_menu"
+            style="@style/MenuLeftBackButton"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_title_group_party_gps_sign_in"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/Title.GroupPartyGpsSignIn"
+            style="@style/tvTitleV1"/>
+
+        <!--<com.rey.material.widget.TextView-->
+            <!--android:id="@+id/tv_title_add_summary"-->
+            <!--style="@style/ButtonBase_commit"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:layout_marginStart="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/Btn.GroupPartyAddSummary.Add"/>-->
+
+</LinearLayout>

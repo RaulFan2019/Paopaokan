@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.RegistActivity"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/tv_login_resetpwd_title"
+        style="@style/TextViewTitle_tip"/>
+
+    <LinearLayout
+        style="@style/LinearlayoutBase_Login_weight">
+
+
+        <LinearLayout
+            style="@style/EditLayout"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Hint.password"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_login_reset_psw"
+                    style="@style/EditLayout_Edittext_Psw"
+                    android:layout_weight="1"
+                    android:hint="@string/Helper.password"/>
+
+
+                <com.rey.material.widget.ImageButton
+                    android:id="@+id/ibtn_reset_password_show"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:src="@drawable/cb_showpwd"/>
+
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_login_resetpwd_commit"
+            style="@style/ButtonBase_commit"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:text="@string/Button.FeedbackActivity"
+            android:background="@drawable/bg_round_rect"/>
+
+    </LinearLayout>
+</LinearLayout>

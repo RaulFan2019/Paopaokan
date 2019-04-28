@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayouttitleV1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/title_bar_left_menu"
+            style="@style/MenuLeftBackButton"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/tvTitleV1"
+            android:text="@string/Title.EditUserGenderActivity"/>
+
+</LinearLayout>

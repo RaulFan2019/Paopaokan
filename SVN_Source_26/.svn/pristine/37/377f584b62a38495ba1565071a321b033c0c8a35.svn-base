@@ -1,0 +1,103 @@
+package com.app.pao.service;
+
+import android.app.IntentService;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import com.app.pao.config.AppConfig;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.db.MaidianData;
+import com.app.pao.entity.db.DBEntityMaidian;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.utils.FileUtils;
+import com.app.pao.utils.Log;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Administrator on 2016/2/15.
+ * 发送埋点数据
+ */
+public class SendMaidianService extends IntentService {
+
+
+    private static List<DBEntityMaidian> datas;
+
+    private static final String TAG = "SendMaidianService";
+
+    /**
+     * Creates an IntentService.  Invoked by your subclass's constructor.
+     *
+     * @param name Used to name the worker thread, important only for debugging.
+     */
+    public SendMaidianService(String name) {
+        super(name);
+    }
+
+    public SendMaidianService() {
+        super(TAG);
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        datas = MaidianData.getAllMaidianList(SendMaidianService.this);
+        if (datas != null && datas.size() > 0) {
+//            Log.v(TAG, "datas.size:" + datas.size());
+            uploadMaidianData();
+        }
+    }
+
+
+    private void uploadMaidianData() {
+        JSONObject uploadObj = new JSONObject();
+        JSONArray uploadArray = new JSONArray();
+        try {
+            for (DBEntityMaidian entityMaidian : datas) {
+                JSONObject obj = new JSONObject();
+                obj.put("code", entityMaidian.code);
+                obj.put("time", entityMaidian.time);
+                uploadArray.add(obj);
+            }
+            uploadObj.put("operations", uploadArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPLOAD_MAIDIAN;
+        RequestParams params = RequestParamsBuild.buildUploadMaidianRequest(SendMaidianService.this, uploadObj.toJSONString());
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(this) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+//                Log.v(TAG, "error:" + errorMsg);
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+//                Log.v(TAG, Response);
+                MaidianData.deleteAllMaidianList(SendMaidianService.this, datas);
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+//                Log.v(TAG, "onFailureResponse:" + s);
+            }
+
+            @Override
+            protected void onFinish() {
+            }
+        });
+    }
+}

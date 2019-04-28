@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        style="@style/LinearlayouttitleV1">
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.rey.material.widget.ImageButton
+                android:id="@+id/title_bar_left_menu"
+                style="@style/MenuLeftBackButton"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/tvTitleV1"
+                android:text="@string/Title.EditNicknameActivity"/>
+        </LinearLayout>
+            <Button
+                android:id="@+id/commit"
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:text="@string/Button.EditNicknameActivity.Save"
+                android:textColor="@color/white"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:text="@string/Hint.NickName"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_nickname"
+                style="@style/EditLayout_Edittext"
+                android:maxLength="10"
+                android:hint="@string/Helper.NickName"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+
+</LinearLayout>

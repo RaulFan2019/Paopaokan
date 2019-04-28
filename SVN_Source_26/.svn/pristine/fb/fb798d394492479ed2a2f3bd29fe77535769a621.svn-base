@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/include_group_tag_manage"/>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <hwh.com.pulltorefreshlibrary.PullToRefreshLayout
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/refresh_head"/>
+            <!-- 支持所有实现Pullable接口的View -->
+
+            <hwh.com.pulltorefreshlibrary.PullableScrollViewForRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.app.pao.ui.widget.FrameLayoutFroScoll
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_tag_manage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        
+                        <LinearLayout
+                            android:id="@+id/ll_tag_none"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:visibility="invisible">
+
+                            <com.rey.material.widget.TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="200dp"
+                                android:text="@string/Tv.GroupTagManage.None"/>
+
+                            <com.rey.material.widget.Button
+                                android:id="@+id/btn_goto_search_group"
+                                style="@style/ButtonBase_commit"
+                                android:layout_width="150dp"
+                                android:layout_height="44dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/Button.GroupList.None"/>
+                        </LinearLayout>
+                    </com.app.pao.ui.widget.FrameLayoutFroScoll>
+                </LinearLayout>
+
+            </hwh.com.pulltorefreshlibrary.PullableScrollViewForRecyclerView>
+
+            <include layout="@layout/load_more"/>
+
+        </hwh.com.pulltorefreshlibrary.PullToRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <com.app.pao.ui.widget.LoadingView
+                android:id="@+id/loadview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:loadingText="@string/Tv.Loading"
+                />
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_reload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.ReLoad"
+                android:textColor="#f06522"
+                android:textSize="12sp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

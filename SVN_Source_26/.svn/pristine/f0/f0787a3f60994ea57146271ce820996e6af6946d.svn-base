@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_first_pinyin"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#f9f9f9"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/line_left_margin">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_first_pinyin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/grey"
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent" />
+
+</LinearLayout>

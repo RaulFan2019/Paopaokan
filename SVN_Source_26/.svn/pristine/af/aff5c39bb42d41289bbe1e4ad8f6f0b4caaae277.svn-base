@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_base"
+    style="@style/ListViewItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tag="http://schemas.android.com/apk/res-auto"
+    android:layout_height="66dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/ci_member_photo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_member_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:id="@+id/iv_is_login_user"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/icon_me_selected"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <com.app.pao.ui.widget.tagview.TagView
+                    android:id="@+id/tagv_group_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    tag:layoutSingleLine="true"
+                    tag:textPaddingBottom="0dp"
+                    tag:textPaddingLeft="2dp"
+                    tag:textPaddingRight="2dp"
+                    tag:textPaddingTop="0dp"/>
+                </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_is_orz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Tv.PartyMember.Owner"
+            android:textColor="@color/grey_dark"/>
+
+        <TextView
+            android:id="@+id/tv_is_leader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/Tv.PartyMember.Leader"
+            android:textColor="@color/grey_dark"/>
+
+    </LinearLayout>
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+</LinearLayout>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_horizontal"
+    tools:context="com.app.pao.activity.settings.BleSettingsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.BleSettingsActivity"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Tv.BleSettingsActivity.connect.device.tip"
+            android:textSize="12sp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp">
+
+            <LinearLayout
+                android:id="@+id/ll_connect_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="invisible"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/icon_ble_device"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.BleSettingsActivity.connect.device.name"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_ble_device_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.BleSettingsActivity.connect.device.value"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_ble_heartrate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_no_connect_device_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Tv.BleSettingsActivity.no.connect.device.tip"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ble_device_scan_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.BleSettingsActivity.scan.device.tip"
+                android:textSize="12sp"/>
+
+            <com.rey.material.widget.ProgressView
+                android:id="@+id/pv_scanning"
+                style="@style/CircularProgressViewBase"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:visibility="gone"
+                app:cpd_strokeSize ="2dp"
+                android:layout_marginStart="5dp"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:minHeight="108dp">
+
+            <ListView
+                android:id="@+id/lv_ble_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+
+                android:scrollbars="none"/>
+
+            <TextView
+                android:id="@+id/tv_no_scan_device_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Tv.BleSettingsActivity.no.scan.device.tip"
+                android:textColor="@color/android:black"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_scan"
+        style="@style/ButtonBase_commit"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/Btn.BleSettingsActivity.scan.device"/>
+
+</LinearLayout>

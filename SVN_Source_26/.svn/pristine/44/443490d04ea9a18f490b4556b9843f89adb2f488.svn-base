@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_video"
+        android:layout_width="match_parent"
+        android:layout_height="202dp">
+
+        <include layout="@layout/include_history_video" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <!-- 视频标题 -->
+            <LinearLayout
+                android:id="@+id/ll_video_control"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="21dp"
+                    android:background="#f06522" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/title_history_video"
+                    android:textColor="#3c3b39"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_video_count"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:text="0"
+                    android:textColor="#bbbbbb"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/v_video_control"
+                    android:layout_width="10dp"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/icon_down"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="match_parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="match_parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#f5f5f5" />
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="match_parent" />
+            <!-- 评论标题 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="21dp"
+                    android:background="#f06522" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/title_history_video_social"
+                    android:textColor="#3c3b39"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center_vertical">
+
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/icon_comment_grey" />
+
+                    <TextView
+                        android:id="@+id/tv_comments_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="0"
+                        android:textColor="#bbbbbb"
+                        android:textSize="10dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="match_parent" />
+            <!-- 评论列表 -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_social"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent" />
+
+    <!-- 输入区域  -->
+    <LinearLayout
+        android:id="@+id/ll_input"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#fcfbf9"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/ll_input_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_et_social"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_mine"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+
+            <EditText
+                android:id="@+id/et_social"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="14dp"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="@string/hint_history_social"
+                android:imeOptions="actionSend"
+                android:maxLength="30"
+                android:singleLine="true"
+                android:textColor="#3c3b39"
+                android:textColorHint="#bbbbbb"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="65dp"
+              android:layout_gravity="bottom"
+              android:background="@drawable/bg_menu_bar"
+              android:gravity="bottom"
+              android:minHeight="70dp"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/ll_dynamic"
+        style="@style/TabRootLayout">
+
+        <ImageView
+            android:id="@+id/iv_dynamic"
+            style="@style/TabRootLayout_ImageView"
+            android:src="@drawable/icon_dynamic_selected"/>
+
+        <TextView
+            android:id="@+id/tv_dynamic"
+            style="@style/TabRootLayout_TextView"
+            android:text="@string/Tv.MainActivity.Tab.TextView.Dynamic"/>
+    </LinearLayout>
+
+    <FrameLayout
+        style="@style/TabRootLayout">
+
+        <ImageView
+            android:id="@+id/iv_group_is_read"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/icon_meessage_has_read"/>
+
+        <LinearLayout
+            android:id="@+id/ll_group"
+            style="@style/TabRootLayout"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_group"
+                style="@style/TabRootLayout_ImageView"
+                android:src="@drawable/icon_group_normal"/>
+
+            <TextView
+                android:id="@+id/tv_group"
+                style="@style/TabRootLayout_TextView"
+                android:text="@string/Tv.MainActivity.Tab.TextView.Group"/>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_run"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_run"
+            style="@style/TabRootLayout_ImageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_start_run"/>
+    </LinearLayout>
+
+    <FrameLayout
+        style="@style/TabRootLayout">
+
+        <ImageView
+            android:id="@+id/iv_friend_is_read"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/icon_meessage_has_read"/>
+
+        <LinearLayout
+            android:id="@+id/ll_friend"
+            style="@style/TabRootLayout"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_friend"
+                style="@style/TabRootLayout_ImageView"
+                android:src="@drawable/icon_friend_normal"/>
+
+            <TextView
+                android:id="@+id/tv_friend"
+                style="@style/TabRootLayout_TextView"
+                android:text="@string/Tv.MainActivity.Tab.TextView.Friend"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_me"
+        style="@style/TabRootLayout">
+
+        <ImageView
+            android:id="@+id/iv_me"
+            style="@style/TabRootLayout_ImageView"
+            android:src="@drawable/icon_me_normal"/>
+
+        <TextView
+            android:id="@+id/tv_me"
+            style="@style/TabRootLayout_TextView"
+            android:text="@string/Tv.MainActivity.Tab.TextView.Me"/>
+    </LinearLayout>
+</LinearLayout>

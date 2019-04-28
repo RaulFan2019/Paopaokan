@@ -1,0 +1,127 @@
+package com.app.pao.service;
+
+import android.app.IntentService;
+import android.content.Intent;
+import android.util.Log;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.config.AppConfig;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.entity.network.GetAdPicUrlResult;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+
+import java.io.File;
+
+/**
+ * Created by Raul on 2015/12/28.
+ * 首屏广告下载服务
+ */
+public class AdService extends IntentService {
+
+    /* contains */
+    private static final String TAG = "AdService";
+
+    public static final String ACTION = "com.app.pao.service.adservice";
+
+
+    /**
+     * Creates an IntentService.  Invoked by your subclass's constructor.
+     *
+     * @param name Used to name the worker thread, important only for debugging.
+     */
+    public AdService(String name) {
+        super(name);
+    }
+
+    public AdService() {
+        super(TAG);
+    }
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_DOWNLOAD_AD_PIC;
+        RequestParams params = RequestParamsBuild.buildDownloadAdpicRequest(AdService.this);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(this) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                GetAdPicUrlResult result = JSON.parseObject(Response, GetAdPicUrlResult.class);
+//                Log.v(TAG, "onRightResponse");
+                File downloadFile = new File(AppConfig.DEFAULT_SAVE_FILE_PATH);
+                if (!result.url.equals(PreferencesData.getAdUrl(AdService.this))) {
+                    //下载之前会将download文件夹清空
+                    if (downloadFile.exists()
+                            && downloadFile.isDirectory()) {
+//                        Log.v(TAG, "dirFileIsDirectory");
+                        File[] children = downloadFile.listFiles();
+                        int size = children.length;
+                        for (int i = 0; i < size; i++) {
+                            children[i].delete();
+                        }
+                    }
+                    //下载新的广告页面
+                    downloadpic(result);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    private void downloadpic(final GetAdPicUrlResult result) {
+        HttpUtils http = new HttpUtils();
+        http.download(result.url, AppConfig.DEFAULT_SAVE_FILE_PATH + AppConfig.DEFAULT_AD_FILE_NAME, true, true, new
+                RequestCallBack<File>() {
+
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onLoading(long total, long current, boolean isUploading) {
+//                Log.v(TAG,"onLoading:" + current + "/" + total);
+                    }
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+//                Log.v(TAG, "onFailure:" + msg);
+                    }
+
+                    @Override
+                    public void onSuccess(ResponseInfo<File> responseInfo) {
+//                Log.v(TAG, responseInfo.result.getPath());
+                        PreferencesData.setAdPath(AdService.this, responseInfo.result.getPath());
+                        //存储广告页面图片的url
+                        PreferencesData.setAdUrl(AdService.this, result.url);
+                        //存储点击广告页面后进入该广告页面的url
+                        PreferencesData.setAdH5Url(AdService.this, result.h5url);
+                    }
+                });
+    }
+}

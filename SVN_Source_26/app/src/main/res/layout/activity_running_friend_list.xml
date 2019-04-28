@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.RunningFriendList"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <hwh.com.pulltorefreshlibrary.PullToRefreshLayout
+        android:id="@+id/refresh_layout_friend_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/refresh_head"/>
+
+        <hwh.com.pulltorefreshlibrary.PullableRecylerView
+            android:id="@+id/lv_running_list"
+            style="@style/ListView">
+        </hwh.com.pulltorefreshlibrary.PullableRecylerView>
+
+        <include layout="@layout/load_more"></include>
+    </hwh.com.pulltorefreshlibrary.PullToRefreshLayout>
+</LinearLayout>

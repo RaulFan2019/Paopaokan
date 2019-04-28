@@ -1,0 +1,965 @@
+package com.app.pao.activity.regist;
+
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.location.LocationListener;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.ActivityStackManager;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.main.MainActivity;
+import com.app.pao.activity.settings.MultiImageSelectorActivity;
+import com.app.pao.config.AppConfig;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.data.db.UserData;
+import com.app.pao.entity.db.DBUserEntity;
+import com.app.pao.entity.model.ProvinceBean;
+import com.app.pao.entity.network.GetCommonLoginResult;
+import com.app.pao.entity.network.GetRegistResult;
+import com.app.pao.entity.network.GetUploadAvatarResult;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.ui.dialog.v1.MyDialogBuilderV1;
+import com.app.pao.ui.utils.XmlParserHandler;
+import com.app.pao.ui.widget.CircularImage;
+import com.app.pao.utils.FileUtils;
+import com.app.pao.utils.ImageUtils;
+import com.app.pao.utils.Log;
+import com.app.pao.utils.StringUtils;
+import com.app.pao.utils.T;
+import com.app.pao.utils.TimeUtils;
+import com.app.pao.utils.business.LoginUtils;
+import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.Button;
+import com.rey.material.widget.TextView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import cn.jpush.android.api.JPushInterface;
+import hwh.com.pickviewlibrary.OptionsPickerView;
+import hwh.com.pickviewlibrary.TimePickerView;
+
+/**
+ * Created by LY on 2016/4/26.
+ */
+@ContentView(R.layout.activity_regist_add_info)
+public class RegistAddInfoActivity extends BaseAppCompActivity implements View.OnClickListener {
+
+
+    private static final String TAG = "RegistAddInfoActivity";
+    private static final int REQUEST_CHANGE_IMAGE = 0x01;
+    private static final int REQUEST_CUT_IMAGE = 0x02;
+    private static final int SEND_ENPTY_MSG = 0;
+    private static final int SEND_OK_MSG = 1;
+    private static final int SEND_ERROR_MSG = 2;
+    private static final int SEND_WEIXIN_OK_MSG = 3;
+
+    @ViewInject(R.id.toolbar)
+    private Toolbar mToolbar;//标题栏
+    @ViewInject(R.id.iv_user_avatar)
+    private CircularImage mUserAvatarCi;//头像编辑
+    @ViewInject(R.id.et_nickname)
+    private EditText mNicknameEt;//昵称编辑框
+    @ViewInject(R.id.iv_man_select)
+    private ImageView mManSelectIv;//性别选择图标男
+    @ViewInject(R.id.tv_man_select)
+    private TextView mManSelectTv;//性别选择文本男
+    @ViewInject(R.id.iv_woman_select)
+    private ImageView mWomanSelectIv;//性别选择图标女
+    @ViewInject(R.id.tv_woman_select)
+    private TextView mWomanSelectTv;//性别选择文本女
+    @ViewInject(R.id.tv_birthday)
+    private TextView mBirthdayTv;//生日文本
+    @ViewInject(R.id.tv_height)
+    private TextView mHeightTv;//身高文本
+    @ViewInject(R.id.tv_weight)
+    private TextView mWeightTv;//体重文本
+    @ViewInject(R.id.tv_user_location)
+    private TextView mLocationTv;//所在地文本
+    @ViewInject(R.id.btn_regist_commit)
+    private Button mCommitBut;//提交按钮
+
+    private TimePickerView mBirthdayPick;//生日设置框
+    private OptionsPickerView mLocationPick;//地址设置框
+    private OptionsPickerView mSetPick; //身高体重设置框
+
+    private String mBirthday = "1991-01-01";
+    private int mHeight = 170;
+    private int mWeight = 50;
+    private String mProvince = "上海";
+    private String mCity = "浦东新区";
+    private String mAvatar = "";
+    private String mNickName = "";
+
+    private String mPhoneNum;//传过来的手机号
+    private String mPassword;//传过来的密码
+    private int type;//注册类型
+    private GetCommonLoginResult entity;
+    private BitmapUtils mBitMapU;
+
+    private ArrayList<String> mSelectImagePathList;//图像列表
+    private File mAvatarF;//头像文件
+    private boolean isNickname, isAvatar;
+    private int gender = AppEnum.UserGander.MAN;
+
+    private DBUserEntity mUserEntity;//用户信息
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (handler == null) {
+                return;
+            }
+            switch (msg.what) {
+                case SEND_ENPTY_MSG:
+                    if (!isAvatar) {
+                        mUserAvatarCi.setBackgroundResource(R.drawable.icon_avatar_gray);
+                    }
+                    if (!isNickname) {
+                        mNicknameEt.setHintTextColor(Color.parseColor("#888888"));
+                    }
+                    break;
+                case SEND_OK_MSG:
+                    mDialogBuilder.progressDialog.dismiss();
+                    startActivity(MainActivity.class);
+                    ActivityStackManager.getAppManager().finishAllTempActivity();
+                    break;
+                case SEND_ERROR_MSG:
+                    T.showShort(mContext, (String) msg.obj);
+                    mDialogBuilder.progressDialog.dismiss();
+                    break;
+                case SEND_WEIXIN_OK_MSG:
+                    mDialogBuilder.progressDialog.dismiss();
+                    startActivity(MainActivity.class);
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void initData() {
+        mPhoneNum = getIntent().getStringExtra("phonenum");
+        mPassword = getIntent().getStringExtra("password");
+        type = getIntent().getIntExtra("type", 1);
+        isNickname = false;
+        isAvatar = false;
+        mBitMapU = new BitmapUtils(mContext);
+        if (type == AppEnum.RegistType.WeixinRegist) {
+            entity = (GetCommonLoginResult) getIntent().getSerializableExtra("entity");
+            mBirthday = entity.birthdate;
+            if (entity.height != 0) {
+                mHeight = entity.height;
+            }
+            if (entity.weight != 0) {
+                mWeight = entity.weight;
+            }
+            mProvince = entity.locationprovince;
+            mCity = entity.locationcity;
+            mAvatar = entity.avatar;
+        }
+
+        //获取当前年份
+        Calendar calendar = Calendar.getInstance();
+        int curYear = calendar.get(Calendar.YEAR);
+
+        //初始化生日选择器
+        mBirthdayPick = new TimePickerView(mContext, TimePickerView.Type.YEAR_MONTH_DAY, 1950, curYear);
+        //初始化地址选择器
+        mLocationPick = new OptionsPickerView(mContext);
+        //初始化体重身高设置选择器
+        mSetPick = new OptionsPickerView(mContext);
+    }
+
+    @Override
+    protected void initViews() {
+        setSupportActionBar(mToolbar);
+        ImageUtils.loadImage(mBitMapU, mAvatar, mUserAvatarCi);
+
+        if (type == AppEnum.RegistType.WeixinRegist) {
+            mNicknameEt.setText(entity.nickname);
+            mUserEntity = LocalApplication.getInstance().getLoginUser(mContext);
+            if (entity.getGender() == AppEnum.UserGander.MAN) {
+                mManSelectIv.setBackgroundResource(R.drawable.icon_man_selected);
+                mManSelectTv.setTextColor(Color.parseColor("#67abff"));
+                mWomanSelectIv.setBackgroundResource(R.drawable.icon_woman_gray);
+                mWomanSelectTv.setTextColor(Color.parseColor("#888888"));
+                gender = AppEnum.UserGander.MAN;
+            } else {
+                mManSelectIv.setBackgroundResource(R.drawable.icon_man_gray);
+                mManSelectTv.setTextColor(Color.parseColor("#888888"));
+                mWomanSelectIv.setBackgroundResource(R.drawable.icon_woman_selected);
+                mWomanSelectTv.setTextColor(Color.parseColor("#fe6b8d"));
+                gender = AppEnum.UserGander.WOMEN;
+            }
+        }
+
+        mBirthdayTv.setText(mBirthday);
+        mWeightTv.setText(mWeight + "");
+        mHeightTv.setText(mHeight + "");
+
+
+        mLocationTv.setText(mProvince + " " + mCity);
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+
+    }
+
+    @Override
+    protected void destroy() {
+
+    }
+
+    /**
+     * Toolbar 点击事件
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * on Activity result
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CHANGE_IMAGE) {
+            if (resultCode == RESULT_OK) {
+                mSelectImagePathList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                ImageUtils.startPhotoCut(this, Uri.fromFile(new File(mSelectImagePathList.get(0))), REQUEST_CUT_IMAGE);
+            }
+        } else if (requestCode == REQUEST_CUT_IMAGE) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(AppConfig.cutFileUri));
+                    Bitmap resultBmap = ImageUtils.compressBitmap(bitmap);
+                    mAvatarF = FileUtils.saveBigBitmap(resultBmap);
+                    mUserAvatarCi.setImageBitmap(resultBmap);
+                    isAvatar = true;
+//                    Log.v(TAG,"REQUEST_CUT_IMAGE");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    @OnClick({R.id.iv_user_avatar, R.id.ll_man_select, R.id.ll_woman_select, R.id.ll_edit_birthday,
+            R.id.ll_edit_height, R.id.ll_edit_weight, R.id.ll_edit_location, R.id.btn_regist_commit})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_user_avatar:
+                changePhoto();
+                break;
+            case R.id.ll_man_select:
+                mManSelectIv.setBackgroundResource(R.drawable.icon_man_selected);
+                mManSelectTv.setTextColor(Color.parseColor("#67abff"));
+                mWomanSelectIv.setBackgroundResource(R.drawable.icon_woman_gray);
+                mWomanSelectTv.setTextColor(Color.parseColor("#888888"));
+                gender = AppEnum.UserGander.MAN;
+                break;
+            case R.id.ll_woman_select:
+                mManSelectIv.setBackgroundResource(R.drawable.icon_man_gray);
+                mManSelectTv.setTextColor(Color.parseColor("#888888"));
+                mWomanSelectIv.setBackgroundResource(R.drawable.icon_woman_selected);
+                mWomanSelectTv.setTextColor(Color.parseColor("#fe6b8d"));
+                gender = AppEnum.UserGander.WOMEN;
+                break;
+            case R.id.ll_edit_location:
+                changeLocation();
+                break;
+            case R.id.ll_edit_birthday:
+                changeBirthday();
+                break;
+            case R.id.ll_edit_height:
+                changeHeight();
+                break;
+            case R.id.ll_edit_weight:
+                changeWeight();
+                break;
+            case R.id.btn_regist_commit:
+                checkInfo();
+                break;
+        }
+    }
+
+    /**
+     * 检查注册信息
+     */
+    private void checkInfo() {
+        //检查昵称是否有错误
+        String error = StringUtils.checkNickNameError(mContext, mNicknameEt.getText().toString());
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+            T.showShort(mContext, error);
+            mNicknameEt.setHintTextColor(Color.parseColor("#f06522"));
+            handler.sendEmptyMessageDelayed(SEND_ENPTY_MSG, 1500);
+            return;
+        }
+        //检查头像
+        if (type != AppEnum.RegistType.WeixinRegist && (mAvatarF == null || !mAvatarF.exists())) {
+            T.showShort(mContext, getResources().getString(R.string.Error_Check_Avatar_Empty));
+            handler.sendEmptyMessageDelayed(SEND_ENPTY_MSG, 1500);
+            return;
+        }
+        //若不是微信注册,需要上传头像
+        if (type != AppEnum.RegistType.WeixinRegist) {
+            mNickName = mNicknameEt.getText().toString();
+            postAvatarFile();
+        } else {
+            entity.nickname = mNicknameEt.getText().toString();
+            entity.birthdate = mBirthday;
+            entity.height = mHeight;
+            entity.weight = mWeight;
+            entity.gender = gender;
+
+            if (mAvatarF != null && mAvatarF.exists()) {
+                //将信息存储至本地
+                LocalApplication.getInstance().setLoginUser(null);
+                postAvatarFile();
+            } else {
+                postUpdateGender();
+            }
+        }
+    }
+
+    //设置出生年月
+    private void changeBirthday() {
+        //设置时间选择器的默认参数
+        mBirthdayPick.setTime(TimeUtils.birthdayStrToDate(mBirthday));
+        //设置选择器是否可以循环滚动
+        mBirthdayPick.setCyclic(false);
+        //设置选择时间回调
+        mBirthdayPick.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date) {
+                //开始向服务器发送更新请求
+                mBirthday = TimeUtils.dateToString(date);
+                mBirthdayTv.setText(mBirthday);
+            }
+        });
+        mBirthdayPick.setCancelable(true);
+        mBirthdayPick.show();
+    }
+
+    //设置身高
+    private void changeHeight() {
+        int defaultHeight = mHeight;
+        final ArrayList<Integer> options1Items = new ArrayList<>();
+        //选择器默认位置值
+        int options1Pos = 0;
+        //插值
+        for (int i = 100; i <= 300; i++) {
+            options1Items.add(i);
+            //若值相同则为默认值
+            if (i == defaultHeight) {
+                options1Pos = i - 100;
+            }
+        }
+        showSetPick("身高设置", "厘米", options1Pos, options1Items, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3) {
+                mHeight = options1Items.get(options1);
+                mHeightTv.setText(mHeight + "厘米");
+            }
+        });
+    }
+
+    //设置体重
+    private void changeWeight() {
+        int defaultWeight = mWeight;
+        final ArrayList<Integer> options1Items = new ArrayList<Integer>();
+        //选择器默认位置值
+        int options1Pos = 0;
+        //插值
+        for (int i = 35; i <= 300; i++) {
+            options1Items.add(i);
+            //若值相同则为默认值
+            if (i == defaultWeight) {
+                options1Pos = i - 35;
+            }
+        }
+
+        showSetPick("体重设置", "公斤", options1Pos, options1Items, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3) {
+                mWeight = options1Items.get(options1);
+                mWeightTv.setText(mWeight + "公斤");
+            }
+        });
+    }
+
+    //设置所在地
+    private void changeLocation() {
+        //联动选择器1 省
+        final ArrayList<ProvinceBean> options1Items = new ArrayList<ProvinceBean>();
+        //联动选择器2 市
+        final ArrayList<ArrayList<String>> options2Items = new ArrayList<ArrayList<String>>();
+        //选择器默认位置值
+        int options1Pos = 0;
+        int options2Pos = 0;
+        //获取默认数据
+        final String province = mProvince;
+        final String city = mCity;
+        //初始化省数据
+        if (initLocData() != null) {
+            options1Items.addAll(initLocData().getProvinceDataList());
+        }
+        //初始化市数据
+        for (int i = 0; i < options1Items.size(); i++) {
+            ProvinceBean pro = options1Items.get(i);
+            //插入第二项值
+            options2Items.add(pro.getCityList());
+            //获取省当前地址位置
+            if (pro.getName().equals(province)) {
+                options1Pos = i;
+                //获取市
+                for (int n = 0; n < pro.getCityList().size(); n++) {
+                    if (pro.getCityList().get(n).equals(city)) {
+                        options2Pos = n;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //初始化选择器数据
+        mLocationPick.setPicker(options1Items, options2Items, true);
+        //设置选择器是否无限滚动
+        mLocationPick.setCyclic(false);
+        //设置选择器标题
+        mLocationPick.setTitle("选择地址");
+        //设置选择器默认值
+        mLocationPick.setSelectOptions(options1Pos, options2Pos);
+        //选择器回调
+        mLocationPick.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3) {
+                mProvince = options1Items.get(options1).getName();
+                mCity = options2Items.get(options1).get(option2);
+                mLocationTv.setText(mProvince + " " + mCity);
+            }
+        });
+
+        mLocationPick.show();
+    }
+
+    /**
+     * 显示Height 或 Weight 设置框
+     *
+     * @param title          标题
+     * @param selectListener 监听回调事件
+     */
+    private void showSetPick(final String title, final String labels, final int position, final ArrayList<Integer> options1Items, OptionsPickerView.OnOptionsSelectListener selectListener) {
+        //初始化选择器数据
+        mSetPick.setPicker(options1Items);
+        //设置选择器是否无限滚动
+        mSetPick.setCyclic(false);
+        //设置选择器标题
+        mSetPick.setTitle(title);
+
+        mSetPick.setLabels(labels);
+        //设置选择器默认值
+        mSetPick.setSelectOptions(position);
+        //选择器回调
+        mSetPick.setOnoptionsSelectListener(selectListener);
+        mSetPick.show();
+    }
+
+    /**
+     * 初始化XML位置数据
+     */
+    private final XmlParserHandler initLocData() {
+        XmlParserHandler handler = new XmlParserHandler();
+        AssetManager asset = getResources().getAssets();
+        try {
+            InputStream input = asset.open("province_data.xml");
+            // 创建一个解析xml的工厂对象
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            // 解析xml
+            SAXParser parser = spf.newSAXParser();
+            parser.parse(input, handler);
+            input.close();
+
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return handler;
+    }
+
+    /**
+     * 更换照片
+     */
+    private void changePhoto() {
+        Intent intent = new Intent(mContext, MultiImageSelectorActivity.class);
+        // 是否显示拍摄图片
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        // 最大可选择图片数量
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
+        // 选择模式
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
+        startActivityForResult(intent, REQUEST_CHANGE_IMAGE);
+    }
+
+    /**
+     * 上传图片文件
+     */
+    private void postAvatarFile() {
+        //发送注册提示
+        mDialogBuilder.showProgressDialog(this, "注册中..", true);
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+            @Override
+            public void onCancelBtnClick() {
+                cancelPostHandler();
+            }
+
+            @Override
+            public void onCancel() {
+                cancelPostHandler();
+            }
+        });
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPLOAD_AVATAR;
+        RequestParams params = RequestParamsBuild.buildUploadAvatarRequest(mContext, mAvatarF);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                GetUploadAvatarResult resultEntity = JSON.parseObject(Response, GetUploadAvatarResult.class);
+                mAvatar = resultEntity.getUrl();
+                if (type == AppEnum.RegistType.WeixinRegist) {
+                    entity.setAvatar(mAvatar);
+                    postUpdateAvatar();
+                } else {
+                    postRegist();
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 注册
+     */
+    private void postRegist() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_REGIST;
+        String jpushid = JPushInterface.getRegistrationID(mContext);
+        RequestParams params = RequestParamsBuild.buildRegistRequest(mContext, mPhoneNum,
+                mNicknameEt.getText().toString(), mPassword, mAvatar, jpushid, gender, mWeight,
+                mHeight, mBirthday, mProvince, mCity);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                if (handler != null) {
+                    GetRegistResult resultEntity = JSON.parseObject(Response, GetRegistResult.class);
+                    int userId = resultEntity.getId();
+                    PreferencesData.setPassword(mContext, mPassword);
+                    PreferencesData.setUserId(mContext, userId);
+                    PreferencesData.setUserName(mContext, mPhoneNum);
+                    mUserEntity = UserData.ResigtUser(mContext, resultEntity);
+                    LocalApplication.getInstance().setLoginUser(mUserEntity);
+                    postUpdateLocationAndNickName();
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 修改用户头像
+     */
+    private void postUpdateAvatar() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPDATE_USER_INFO;
+        RequestParams params = RequestParamsBuild.buildResetUserAvatarRequest(mContext, mAvatar);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                mUserEntity.avatar = mAvatar;
+                postUpdateGender();
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+
+    /**
+     * 修改用户性别
+     */
+    private void postUpdateGender() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPDATE_USER_INFO;
+        RequestParams params = RequestParamsBuild.buildResetUserGenderRequest(mContext, gender);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                mUserEntity.setGender(gender);
+                postUpdateBirthday();
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 修改用户生日
+     */
+    private void postUpdateBirthday() {
+        if (type == AppEnum.RegistType.WeixinRegist) {
+            //发送注册提示
+            mDialogBuilder.showProgressDialog(this, "注册中..", true);
+            mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+                @Override
+                public void onCancelBtnClick() {
+                    cancelPostHandler();
+                }
+
+                @Override
+                public void onCancel() {
+                    cancelPostHandler();
+                }
+            });
+        }
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPDATE_USER_INFO;
+        RequestParams params = RequestParamsBuild.buildResetUserBirthdayRequest(mContext, mBirthday);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                mUserEntity.setBirthday(mBirthday);
+                postUpdateHeight();
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 编辑用户身高
+     */
+    private void postUpdateHeight() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPDATE_USER_INFO;
+        RequestParams params = RequestParamsBuild.buildResetUserHeightRequest(mContext, mHeight);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                mUserEntity.setHeight(mHeight);
+                postUpdateWeight();
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 编辑用户体重
+     */
+    private void postUpdateWeight() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPDATE_USER_INFO;
+        RequestParams params = RequestParamsBuild.buildResetUserWeightRequest(mContext, mWeight);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                mUserEntity.setWeight(mWeight);
+                postUpdateLocationAndNickName();
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 编辑用户所在地
+     */
+    private void postUpdateLocationAndNickName() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_UPDATE_USER_INFO;
+        RequestParams params = RequestParamsBuild.buildResetUserLocationAndNickNameRequest(mContext,
+                mProvince, mCity, mNicknameEt.getText().toString());
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = errorMsg;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                mUserEntity.setProvince(mProvince);
+                mUserEntity.setCity(mCity);
+                mUserEntity.nickname = mNicknameEt.getText().toString();
+                UserData.updateUser(mContext, mUserEntity);
+                if (type == AppEnum.RegistType.WeixinRegist) {
+                    LoginUtils.CommonLogin(mContext, entity, "weixin");
+                } else {
+                    LocalApplication.getInstance().setLoginUser(mUserEntity);
+                }
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_OK_MSG;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (handler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = SEND_ERROR_MSG;
+                    mPostMsg.obj = s;
+                    handler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+
+    /**
+     * 取消请求
+     */
+    private void cancelPostHandler() {
+        if (handler != null) {
+            handler.removeMessages(SEND_ERROR_MSG);
+            handler.removeMessages(SEND_OK_MSG);
+            handler.removeMessages(SEND_WEIXIN_OK_MSG);
+        }
+    }
+}

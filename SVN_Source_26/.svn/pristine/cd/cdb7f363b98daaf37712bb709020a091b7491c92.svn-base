@@ -1,0 +1,99 @@
+package com.app.pao.activity.main;
+
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.app.pao.R;
+import com.app.pao.activity.BaseActivityV3;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+/**
+ * Created by Raul.Fan on 2016/9/13.
+ */
+public class MainActivityV2 extends BaseActivityV3 {
+
+    /* contains */
+    public static final int TAB_DYNAMIC = 0;
+    public static final int TAB_FRIEND = 1;
+    public static final int TAB_GROUP = 2;
+    public static final int TAB_USER = 3;
+    public static final int TAB_RUN = 4;
+
+    /* local view*/
+    @BindView(R.id.iv_dynamic)
+    ImageView mDynamicIv;//动态图标
+    @BindView(R.id.tv_dynamic)
+    TextView mDynamicTv;//动态文本
+    @BindView(R.id.iv_group_is_read)
+    ImageView mGroupIsReadIv;//团消息是否已读
+    @BindView(R.id.iv_group)
+    ImageView mGroupIv;//团图标
+    @BindView(R.id.tv_group)
+    TextView mGroupTv;//团文本
+    @BindView(R.id.iv_run)
+    ImageView mRunIv;//跑步图标
+    @BindView(R.id.tv_run)
+    TextView mRunTv;//跑步文本
+    @BindView(R.id.iv_friend_is_read)
+    ImageView mFriendIsReadIv;//好友消息是否已读
+    @BindView(R.id.iv_friend)
+    ImageView mFriendIv;//好友图标
+    @BindView(R.id.tv_friend)
+    TextView mFriendTv;//好友文本
+    @BindView(R.id.iv_me)
+    ImageView mMeIv;//我的图标
+    @BindView(R.id.tv_me)
+    TextView mMeTv;//我的文本
+
+    /* local data */
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main_v2;
+    }
+
+    @OnClick({R.id.ll_dynamic, R.id.ll_group, R.id.ll_run, R.id.ll_friend, R.id.ll_me})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            //点击动态
+            case R.id.ll_dynamic:
+                break;
+            //点击团
+            case R.id.ll_group:
+                break;
+            //点击开始跑步
+            case R.id.ll_run:
+                break;
+            //点击好友
+            case R.id.ll_friend:
+                break;
+            //点击我
+            case R.id.ll_me:
+                break;
+        }
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initViews() {
+
+    }
+
+    @Override
+    protected void doMyCreate() {
+
+    }
+
+    @Override
+    protected void causeGC() {
+
+    }
+
+
+}

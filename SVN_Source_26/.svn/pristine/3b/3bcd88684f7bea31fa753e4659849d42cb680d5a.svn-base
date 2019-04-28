@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.ThumbUp"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <hwh.com.pulltorefreshlibrary.PullToRefreshLayout
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/refresh_head"/>
+        <!-- 支持所有实现Pullable接口的View -->
+
+        <hwh.com.pulltorefreshlibrary.PullableListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:divider="@null"/>
+
+        <include layout="@layout/load_more"/>
+
+    </hwh.com.pulltorefreshlibrary.PullToRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <com.app.pao.ui.widget.LoadingView
+                android:id="@+id/loadview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:loadingText="@string/Tv.Loading"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_reload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.ReLoad"
+                android:textColor="#f06522"
+                android:textSize="12dp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>

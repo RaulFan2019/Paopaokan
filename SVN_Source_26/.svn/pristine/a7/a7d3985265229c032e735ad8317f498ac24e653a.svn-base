@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayouttitleV1">
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="35dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical">
+
+        <com.rey.material.widget.TabPageIndicator
+            android:id="@+id/tbi_group"
+            style="@style/GroupTabPageIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
+
+    </FrameLayout>
+
+    <com.rey.material.widget.ImageButton
+        android:id="@+id/btn_add_group"
+        style="@style/MenuRightButton"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/icon_group_menu"
+        android:visibility="visible" />
+
+</LinearLayout>

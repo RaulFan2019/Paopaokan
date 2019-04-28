@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LinearlayoutBase"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.RunningSettings"
+        app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/ll_tts"
+        style="@style/SettingsLinearlayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Switch.SystemSettings.TTS" />
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Tip.SystemSettings.TTS"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <com.app.pao.ui.widget.SwitchView
+            android:id="@+id/sv_tts"
+            android:layout_width="50dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+    <View style="@style/Settings_BottomLine" />
+
+    <LinearLayout
+        android:id="@+id/ll_voice"
+        style="@style/SettingsLinearlayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Switch.SystemSettings.Voice" />
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Tip.SystemSettings.Voice"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+        <com.app.pao.ui.widget.SwitchView
+            android:id="@+id/sv_voice"
+            android:layout_width="50dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+
+    <View style="@style/Settings_BottomLine" />
+
+    <LinearLayout
+        android:id="@+id/ll_live"
+        style="@style/SettingsLinearlayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Switch.SystemSettings.Live" />
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Tip.SystemSettings.Live"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <com.app.pao.ui.widget.SwitchView
+            android:id="@+id/sv_live"
+            android:layout_width="50dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+    <View style="@style/Settings_BottomLine" />
+
+    <LinearLayout
+        style="@style/SettingsLinearlayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Switch.SystemSettings.LocMode" />
+
+            <TextView
+                style="@style/SettingsTipText"
+                android:text="@string/Tip.SystemSettings.LocMode"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <com.app.pao.ui.widget.SwitchView
+            android:id="@+id/sv_loc_mode"
+            android:layout_width="50dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_q_base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/ic_warning" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="常见问题"
+                android:textColor="#222222"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_q"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/tv_q"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#222222"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:background="@drawable/icon_right_arrow_big" />
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent" />
+
+    </LinearLayout>
+</LinearLayout>

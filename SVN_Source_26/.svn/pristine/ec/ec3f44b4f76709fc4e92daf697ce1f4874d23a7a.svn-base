@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayouttitleV1" >
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/title_bar_left_menu"
+            style="@style/MenuLeftBackButton" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/tvTitleV1"
+            android:text="@string/Title.ScanBleDeviceActivity" />
+
+        <com.rey.material.widget.ProgressView
+            android:id="@+id/pv_scanning"
+            style="@style/CircularProgressViewBase"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+
+</LinearLayout>

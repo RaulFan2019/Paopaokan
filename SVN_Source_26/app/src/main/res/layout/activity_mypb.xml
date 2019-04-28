@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.RuleOfMedal"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f8f8f8"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+
+                <!--<com.rey.material.widget.TextView-->
+                    <!--style="@style/FlatButtonBase_frame"/>-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/line_left_margin"
+                    android:paddingRight="@dimen/line_right_margin">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/LineViewBase_Key1"
+                        android:layout_marginBottom="15dp"
+                        android:text="@string/title.ruleOfMedal"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical">
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/tv.ruleOfGoldMedal"/>
+
+                        <ImageView
+                            style="@style/LineViewBase_RightMedal"
+                            android:background="@drawable/icon_small_gold"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal">
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/tv.ruleOfSilverMedal"/>
+                        <ImageView
+                            style="@style/LineViewBase_RightMedal"
+                            android:background="@drawable/icon_small_silver"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal">
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/tv.ruleOfCopperMedal"/>
+                        <ImageView
+                            style="@style/LineViewBase_RightMedal"
+                            android:background="@drawable/icon_small_copper"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal">
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/tv.ruleOfIronMedal"/>
+                        <ImageView
+                            style="@style/LineViewBase_RightMedal"
+                            android:background="@drawable/icon_small_iron"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                </FrameLayout>
+
+
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/line_left_margin"
+            android:layout_marginEnd="@dimen/line_right_margin"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f8f8f8"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+            <!-- 最长距离 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_max_length"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/LineViewBase_Best">
+
+                    <ImageView
+                        android:id="@+id/iv_maxlength_medal"
+                        style="@style/LineViewBase_LeftMedal"/>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_LeftLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_Key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.MaxLength"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxlength_ranking"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/tv.ruleOfMedalToStartChallenge"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_RightLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxlength_value"
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.Common"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxlength_time"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/Tv.UserFragment.Common"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/line_left_margin"
+                android:layout_marginEnd="@dimen/line_right_margin"/>
+            <!-- 最长时间 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_max_time"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/LineViewBase_Best">
+
+                    <ImageView
+                        android:id="@+id/iv_maxtime_medal"
+                        style="@style/LineViewBase_LeftMedal"/>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_LeftLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_Key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.MaxTime"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxtime_ranking"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/tv.ruleOfMedalToStartChallenge"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_RightLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxtime_value"
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.Common"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxtime_time"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/Tv.UserFragment.Common"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_marginStart="@dimen/line_left_margin"
+                android:layout_marginEnd="@dimen/line_right_margin"
+                android:layout_width="match_parent"/>
+            <!-- 最快配速 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_max_pace"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/LineViewBase_Best">
+
+                    <ImageView
+                        android:id="@+id/iv_maxpace_medal"
+                        style="@style/LineViewBase_LeftMedal"/>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_LeftLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_Key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.fastPace"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxpace_ranking"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/tv.ruleOfMedalToStartChallenge"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_RightLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxpace_value"
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.Common"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_maxpace_time"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/Tv.UserFragment.Common"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_marginStart="@dimen/line_left_margin"
+                android:layout_marginEnd="@dimen/line_right_margin"
+                android:layout_width="match_parent"/>
+            <!-- 5公里最快 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_5_fast"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/LineViewBase_Best">
+
+                    <ImageView
+                        android:id="@+id/iv_5fast_medal"
+                        style="@style/LineViewBase_LeftMedal"/>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_LeftLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_Key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.5fastTime"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_5fast_ranking"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/tv.ruleOfMedalToStartChallenge"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_RightLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_5fast_value"
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.Common"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_5fast_time"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/Tv.UserFragment.Common"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_marginStart="@dimen/line_left_margin"
+                android:layout_marginEnd="@dimen/line_right_margin"
+                android:layout_width="match_parent"/>
+            <!-- 10公里最快 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_10_fast"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/LineViewBase_Best">
+
+                    <ImageView
+                        android:id="@+id/iv_10fast_medal"
+                        style="@style/LineViewBase_LeftMedal"/>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_LeftLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_Key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.10fastTime"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_10fast_ranking"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/tv.ruleOfMedalToStartChallenge"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_RightLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_10fast_value"
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.Common"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_10fast_time"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/Tv.UserFragment.Common"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_marginStart="@dimen/line_left_margin"
+                android:layout_marginEnd="@dimen/line_right_margin"
+                android:layout_width="match_parent"/>
+            <!-- 半程马拉松最快 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_half_fast"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/LineViewBase_Best">
+
+                    <ImageView
+                        android:id="@+id/iv_halffast_medal"
+                        style="@style/LineViewBase_LeftMedal"/>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_LeftLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_Key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.halfMfastTime"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_halffast_ranking"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/tv.ruleOfMedalToStartChallenge"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_RightLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_halffast_value"
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.Common"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_halffast_time"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/Tv.UserFragment.Common"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_marginStart="@dimen/line_left_margin"
+                android:layout_marginEnd="@dimen/line_right_margin"
+                android:layout_width="match_parent"/>
+            <!-- 全程马拉松最快 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/ll_full_fast"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    style="@style/LineViewBase_Best">
+
+                    <ImageView
+                        android:id="@+id/iv_holefast_medal"
+                        style="@style/LineViewBase_LeftMedal"/>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_LeftLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            style="@style/LineViewBase_Key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.holeMfastTime"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_holefast_ranking"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/tv.ruleOfMedalToStartChallenge"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/LineViewBase_RightLl"
+                        android:orientation="vertical">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_holefast_value"
+                            style="@style/LineViewBase_RightTv_Best"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.UserFragment.Common"/>
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/tv_holefast_time"
+                            style="@style/LineViewBase_Key_Tip"
+                            android:text="@string/Tv.UserFragment.Common"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <View
+                style="@style/DividerBase_horizontal"
+                android:layout_marginStart="@dimen/line_left_margin"
+                android:layout_marginEnd="@dimen/line_right_margin"
+                android:layout_width="match_parent"/>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

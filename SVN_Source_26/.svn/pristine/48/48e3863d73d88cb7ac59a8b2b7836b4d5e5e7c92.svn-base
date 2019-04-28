@@ -1,0 +1,695 @@
+package com.app.pao.activity.login;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.ActivityStackManager;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.main.MainActivity;
+import com.app.pao.activity.main.RaceWebViewActivity;
+import com.app.pao.activity.regist.RegisterActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.config.WXConfig;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.entity.network.GetCommonLoginResult;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.ui.dialog.v1.MyDialogBuilderV1;
+import com.app.pao.utils.DeviceUtils;
+import com.app.pao.utils.Log;
+import com.app.pao.utils.StringUtils;
+import com.app.pao.utils.T;
+import com.app.pao.utils.business.LoginUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.Button;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.listener.SocializeListeners;
+import com.umeng.socialize.exception.SocializeException;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+
+import java.util.Map;
+
+import cn.jpush.android.api.JPushInterface;
+
+/**
+ * Created by Raul on 2015/11/11.
+ * 登录主页面
+ */
+@ContentView(R.layout.activity_login)
+public class LoginActivity extends BaseAppCompActivity implements View.OnClickListener {
+
+    /* contains */
+    private static final String TAG = "LoginActivity";
+
+    private static final int MSG_LOGIN_OK = 1;
+    private static final int MSG_LOGIN_ERROR = 2;
+    private static final int MSG_WX_LOGIN_OK = 3;
+
+    private boolean isfirst;
+
+    /* local view */
+    @ViewInject(R.id.toolbar)
+    private Toolbar mToolbar;//标题栏
+    @ViewInject(R.id.et_login_phone_num)
+    private EditText mPhoneNumEt;//手机号码输入框
+    @ViewInject(R.id.et_login_password)
+    private EditText mPasswordEt;//密码输入框
+    @ViewInject(R.id.ll_first_login_view)
+    private LinearLayout mFirstLoginLl;
+    @ViewInject(R.id.ll_second_login_view)
+    private LinearLayout mSecondLoginLl;
+    @ViewInject(R.id.btn_login_common)
+    private Button mLoginBut;
+
+    @ViewInject(R.id.btn_login_by_changeuser)
+
+    /* local data */
+    private boolean mPostAble;//是否可以发送请求
+    private String mCountryIso;//国际号
+    private int startAd;//用于判断是否开启广告页面
+    private String adH5Url;//广告H5页面的url；
+    private boolean isNumEtEmpty, isPassEtEmpty;//用来判断手机号码输入框/密码输入框是否为空，ture为不空，false为空
+    final UMSocialService mLoginController = UMServiceFactory.getUMSocialService("com.umeng.login");//初始化友盟
+
+    private static long exitTime = 0;
+    /**
+     * 请求Handler
+     */
+    Handler mPostHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_LOGIN_OK:
+                    mPostAble = true;
+                    mDialogBuilder.progressDialog.dismiss();
+                    preperLogin((String) msg.obj);
+                    break;
+                case MSG_LOGIN_ERROR:
+                    mPostAble = true;
+                    mDialogBuilder.progressDialog.dismiss();
+                    T.showLong(mContext, (String) msg.obj);
+                    break;
+                case MSG_WX_LOGIN_OK:
+                    mPostAble = true;
+                    mDialogBuilder.progressDialog.dismiss();
+                    preperWxLogin((String) msg.obj);
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 点击事件
+     *
+     * @param v
+     */
+    @Override
+    @OnClick({R.id.btn_login_by_guest, R.id.btn_login_by_verificationcode,
+            R.id.btn_login_by_wxin, R.id.btn_login_common, R.id.btn_regist
+            , R.id.btn_login_common_first, R.id.btn_register_common, R.id.btn_regist_next})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //立即奔跑
+            case R.id.btn_login_by_guest:
+                LoginByGuest();
+                break;
+            //通过短信验证登录
+            case R.id.btn_login_by_verificationcode:
+                LaunchLoginByVerificationcode();
+                break;
+            //通过微信登录
+            case R.id.btn_login_by_wxin:
+                initWxLogin();
+                break;
+            //一般登录手段
+            case R.id.btn_login_common:
+                showPostLoginRequestDialog();
+                break;
+            //新用户注册
+            case R.id.btn_regist:
+                LaunchRegistActivity();
+                break;
+            case R.id.btn_regist_next:
+                LaunchRegistActivity();
+                break;
+            //如果第一界面点击登录则第一界面消失，第二界面出现
+            case R.id.btn_login_common_first:
+                mFirstLoginLl.setVisibility(View.GONE);
+                mSecondLoginLl.setVisibility(View.VISIBLE);
+                break;
+            //如果点击第一注册，则直接跳转到注册界面
+            case R.id.btn_register_common:
+                LaunchRegistActivity();
+                break;
+        }
+    }
+
+    @Override
+    protected void initData() {
+        mPostAble = true;
+        ActivityStackManager.getAppManager().addTempActivity(this);
+        mCountryIso = DeviceUtils.GetCountryIso(mContext);
+        isfirst = getIntent().getBooleanExtra("isFirst", true);
+        startAd = getIntent().getIntExtra("startAd", 0);
+        adH5Url = PreferencesData.getAdH5Url(mContext);
+        isNumEtEmpty = false;
+        isPassEtEmpty = false;
+    }
+
+    @Override
+    protected void initViews() {
+//        mLoginBut.setClickable(false);
+//        mLoginBut.setFocusable(false);
+        if (startAd == 1) {
+            if (adH5Url != null && !adH5Url.equals("")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("url", adH5Url);
+                startActivity(RaceWebViewActivity.class, bundle);
+            }
+        }
+        if (isfirst) {
+            mFirstLoginLl.setVisibility(View.VISIBLE);
+            mSecondLoginLl.setVisibility(View.GONE);
+        } else {
+            mSecondLoginLl.setVisibility(View.VISIBLE);
+            mFirstLoginLl.setVisibility(View.GONE);
+        }
+        mPhoneNumEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence str, int arg1, int arg2, int arg3) { // 已经改变了的。
+                String contents = str.toString();
+                int length = contents.length();
+                if (length == 4) {
+                    if (contents.substring(3).equals(new String(" "))) {
+                        contents = contents.substring(0, 3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {
+                        contents = contents.substring(0, 3) + " " + contents.substring(3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                } else if (length == 9) {
+                    if (contents.substring(8).equals(new String(" "))) {
+                        contents = contents.substring(0, 8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {// +
+                        contents = contents.substring(0, 8) + " " + contents.substring(8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence str, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+//                if (mPhoneNumEt.getText().toString().length() > 0) {
+//                    isNumEtEmpty = true;
+//                } else {
+//                    isNumEtEmpty = false;
+//                }
+//                if (isNumEtEmpty && isPassEtEmpty) {
+//                    mLoginBut.setBackgroundResource(R.drawable.bg_round_rect);
+//                    mLoginBut.setClickable(true);
+//                    mLoginBut.setFocusable(true);
+//                } else {
+//                    mLoginBut.setBackgroundResource(R.drawable.bg_round_rect_disable);
+//                    mLoginBut.setClickable(false);
+//                    mLoginBut.setFocusable(false);
+//                }
+            }
+        });
+        mPasswordEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                String str = mPasswordEt.getText().toString();
+//                int length = str.length();
+//                if (length > 0) {
+//                    isPassEtEmpty = true;
+//                } else {
+//                    isPassEtEmpty = false;
+//                }
+//                if (isNumEtEmpty && isPassEtEmpty) {
+//                    mLoginBut.setBackgroundResource(R.drawable.bg_round_rect);
+//                    mLoginBut.setClickable(true);
+//                    mLoginBut.setFocusable(true);
+//                } else {
+//                    mLoginBut.setBackgroundResource(R.drawable.bg_round_rect_disable);
+//                    mLoginBut.setClickable(false);
+//                    mLoginBut.setFocusable(false);
+//                }
+            }
+        });
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addCategory(Intent.CATEGORY_HOME);
+        startActivity(i);
+    }
+
+    @Override
+    protected void destroy() {
+        cancelPostHandler();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mDialogBuilder.progressDialog != null) {
+            if (mDialogBuilder.progressDialog.isShowing()) {
+                mDialogBuilder.progressDialog.dismiss();
+            }
+        }
+        super.onPause();
+    }
+
+    /**
+     * 跳转到注册页面
+     */
+    private void LaunchRegistActivity() {
+        startActivity(RegisterActivity.class);
+    }
+
+
+    /**
+     * 跳转到短信验证登录页面s
+     */
+    private void LaunchLoginByVerificationcode() {
+        startActivity(ForgetPswInputPhoneNumActivity.class);
+    }
+
+
+    /**
+     * 跳转到主页面
+     */
+    private void LoginByGuest() {
+        //TEST
+//        String a = null;
+//        Log.v("123","a.length"+a.length());
+        preperTouristLogin();
+    }
+
+    /**
+     * 向服务器发送登录请求
+     */
+    private void showPostLoginRequestDialog() {
+        //若请求未结束
+        if (!mPostAble) {
+            return;
+        }
+        //检查手机号码错误
+        String phoneNum = mPhoneNumEt.getText().toString().replace(" ", "");
+        String error = StringUtils.checkPhoneNumInputError(mContext, phoneNum, mCountryIso);
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+//            mPhoneNumEt.setError(error);
+            T.showShort(mContext, error);
+            return;
+        }
+//        mPhoneNumEt.setError(null);
+        //检查密码规范
+        String password = mPasswordEt.getText().toString();
+        error = StringUtils.checkPasswordInputError(mContext, password);
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+//            mPasswordEt.setError(error);
+            T.showShort(mContext, error);
+            return;
+        }
+//        mPhoneNumEt.setError(null);
+        //其他参数
+        String devicepushid = JPushInterface.getRegistrationID(getApplicationContext());
+        String Deviceos = AppEnum.DEVICEOS;
+        //显示登录提示
+        mDialogBuilder.showProgressDialog(this, "发送登录请求中..", true);
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+            @Override
+            public void onCancelBtnClick() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+
+            @Override
+            public void onCancel() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+        });
+        //发送登录请求
+        mPostAble = false;
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_COMMON_LOGIN;
+        RequestParams params = RequestParamsBuild.buildCommonLoginRequest(mContext, phoneNum, password, devicepushid, Deviceos);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_ERROR;
+                    mPostMsg.obj = errorMsg;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_OK;
+                    mPostMsg.obj = Response;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_ERROR;
+                    mPostMsg.obj = s;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 准备手机登录
+     */
+    private void preperLogin(final String result) {
+        //保存用户信息到本地
+        GetCommonLoginResult entity = JSON.parseObject(result, GetCommonLoginResult.class);
+        LoginUtils.CommonLogin(mContext, entity, mPasswordEt.getText().toString());
+        LocalApplication.getInstance().setLoginUser(null);
+        startActivity(MainActivity.class);
+    }
+
+    /**
+     * 准备微信登录
+     *
+     * @param result
+     */
+    private void preperWxLogin(final String result) {
+        String pwd = "weixin";
+        GetCommonLoginResult entity = JSON.parseObject(result, GetCommonLoginResult.class);
+
+//        if (entity.passwordisblank != AppEnum.Passwordisblank.BLANK) {
+//            pwd = "weixin";
+//        } else {
+//            pwd = "weixinBlank";
+//        }
+//        startActivity(MainActivity.class);
+
+        //若帐号绑定了手机号
+        if (entity.getMobile() != null && !entity.getMobile().isEmpty()) {
+            LoginUtils.CommonLogin(mContext, entity, pwd);
+            LocalApplication.getInstance().setLoginUser(null);
+            startActivity(MainActivity.class);
+            return;
+        }
+        //发现未绑定手机号码
+        //    if (entity.getMobile().isEmpty()) {
+        Bundle b = new Bundle();
+        b.putSerializable("WxLoginEntity", entity);
+        startActivity(WxBindMobileActivity.class, b);
+        //      return;
+        //    }
+//        //若已经绑定手机号,未设置密码
+//        UserData.CommonLogin(entity);
+//        PreferencesData.setUserId(mContext, entity.getId());
+//        PreferencesData.setUserName(mContext, entity.getName());
+//        Bundle bundle = new Bundle();
+//        bundle.putString("phonenum", entity.getMobile());
+//        bundle.putInt("pwdIsBlank", entity.getPasswordisblank());
+//        startActivity(LoginResetPwdActivity.class, bundle);
+    }
+
+    /**
+     * 准备游客登录
+     * <p/>
+     * int id, String name,  int weight, int height, int age,
+     * int id, String name,  int weight, int height, int age,
+     * String registerdate, String nickname, String avatar, int gender, String birthdate,
+     * Object updatetime, String location, String locationprovince, String locationcity,
+     * String sessionid, String mobile, String weixinnickname, int passwordisblank,String qrcode,int thirdpartyaccount
+     */
+    private void preperTouristLogin() {
+        //保存用户信息到本地
+        GetCommonLoginResult entity = new GetCommonLoginResult(AppEnum.DEFAULT_USER_ID, "0", 50, 50, 25, "", "游客", "", 1, "", null, "", "",
+                "", "", "", "", 1, "", 0);
+        LoginUtils.CommonLogin(mContext, entity, mPasswordEt.getText().toString());
+        LocalApplication.getInstance().setLoginUser(null);
+        startActivity(MainActivity.class);
+    }
+
+    /**
+     * 取消请求
+     */
+    private void cancelPostHandler() {
+        if (mPostHandler != null) {
+            mPostHandler.removeMessages(MSG_LOGIN_OK);
+            mPostHandler.removeMessages(MSG_LOGIN_ERROR);
+            mPostHandler.removeMessages(MSG_WX_LOGIN_OK);
+        }
+    }
+
+    /**
+     * 初始化微信登录
+     */
+    private void initWxLogin() {
+        UMWXHandler wxHandler = new UMWXHandler(LoginActivity.this, WXConfig.APP_ID, WXConfig.APP_SECRET);
+        wxHandler.addToSocialSDK();
+        if (wxHandler.isClientInstalled()) {
+            showLoadingWxDialog();
+            startWxLogin();
+        } else {
+            T.showShort(mContext, "请按装微信");
+        }
+    }
+
+    /**
+     * 开始微信授权登录
+     */
+    private void startWxLogin() {
+        mLoginController.doOauthVerify(LoginActivity.this, SHARE_MEDIA.WEIXIN, new SocializeListeners.UMAuthListener() {
+            @Override
+            public void onStart(SHARE_MEDIA platform) {
+                T.showShort(mContext, "授权开始");
+
+            }
+
+            @Override
+            public void onError(SocializeException e, SHARE_MEDIA platform) {
+                T.showShort(mContext, "授权错误");
+                onFinish();
+            }
+
+            @Override
+            public void onComplete(Bundle value, SHARE_MEDIA platform) {
+                // 获取相关授权信息
+                String uid = value.getString("uid");
+                if (!TextUtils.isEmpty(uid)) {
+                    getWxUserInfor();
+                } else {
+
+                }
+                onFinish();
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA platform) {
+                T.showShort(mContext, "授权取消");
+                onFinish();
+            }
+
+            /**
+             * 结束后
+             */
+            public void onFinish() {
+                if (mDialogBuilder.progressDialog != null) {
+                    mDialogBuilder.progressDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取微信返回用户值
+     */
+    private void getWxUserInfor() {
+        mLoginController.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, new SocializeListeners.UMDataListener() {
+            @Override
+            public void onStart() {
+                //       Toast.makeText(MainActivity.this, "获取平台数据开始", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onComplete(int status, Map<String, Object> info) {
+                if (status == 200 && info != null) {
+                    // 开始与服务器通信进行登录
+                    showWxLoginRequestDialog(info);
+                } else {
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 显示等待调起微信Dialog
+     */
+    private void showLoadingWxDialog() {
+        mDialogBuilder.showProgressDialog(mContext, "正在跳转微信", false);
+    }
+
+    /**
+     * 显示微信授权成功，开始进行APP登录DIALOG
+     */
+    private void showWxLoginRequestDialog(final Map<String, Object> wxInfor) {
+        //若请求未结束
+        if (!mPostAble) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClassName("包名", "类名");
+        try {
+            mDialogBuilder.showProgressDialog(mContext, "开始登录···", true);
+        } catch (WindowManager.BadTokenException exception) {
+            return;
+        }
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+            @Override
+            public void onCancelBtnClick() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+
+            @Override
+            public void onCancel() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+        });
+
+        mPostAble = false;
+        //开始请求
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_WEIXIN_LOGIN;
+        RequestParams params = RequestParamsBuild.buildWeixinLoginRequest(LoginActivity.this, wxInfor.get("unionid")
+                .toString(), wxInfor.get("nickname").toString(), wxInfor.get("sex").toString(), wxInfor.get
+                ("headimgurl").toString(), wxInfor.get("province").toString(), wxInfor.get("city").toString());
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_ERROR;
+                    mPostMsg.obj = errorMsg;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_WX_LOGIN_OK;
+                    mPostMsg.obj = Response;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_ERROR;
+                    mPostMsg.obj = s;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 按2次退出本页面
+     */
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 3000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出跑跑看", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+        }
+    }
+
+}

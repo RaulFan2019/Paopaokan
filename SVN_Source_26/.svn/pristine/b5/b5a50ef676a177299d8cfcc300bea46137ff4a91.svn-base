@@ -1,0 +1,62 @@
+package com.app.pao.fragment.dynamic;
+
+import android.widget.ListView;
+
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.adapter.MessageListAdapter;
+import com.app.pao.data.db.MessageData;
+import com.app.pao.entity.db.DBEntityMessage;
+import com.app.pao.fragment.BaseFragment;
+import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Raul on 2015/11/30.
+ * 消息列表界面
+ */
+public class MessageFragment extends BaseFragment {
+
+    /* contains */
+    private static final String TAG = "MessageFragment";
+
+    /* local data */
+    private MessageListAdapter mAdapter;
+
+    private List<DBEntityMessage> mDatas;
+
+    /* local view */
+    @ViewInject(R.id.list_message)
+    private ListView mListView;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_message_list;
+    }
+
+    @Override
+    protected void initParams() {
+        mDatas = new ArrayList<DBEntityMessage>();
+        mAdapter = new MessageListAdapter(mContext, mDatas);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateData();
+        updateViews();
+    }
+
+
+    private void updateData() {
+        int userid = LocalApplication.getInstance().getLoginUser(mContext).getUserId();
+        mDatas = MessageData.getAllMessageByUser(mContext, userid);
+    }
+
+    private void updateViews() {
+        mAdapter.notifyDataSetChanged();
+        mListView.setAdapter(mAdapter);
+    }
+}

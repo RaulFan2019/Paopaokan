@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <hwh.com.pulltorefreshlibrary.PullToRefreshLayout
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f7f7f7">
+
+            <include layout="@layout/refresh_head"/>
+
+            <hwh.com.pulltorefreshlibrary.PullableRecylerView
+                android:id="@+id/lv_dynamic_list"
+                style="@style/ListView"/>
+
+            <include layout="@layout/load_more"/>
+        </hwh.com.pulltorefreshlibrary.PullToRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.rey.material.widget.TextView
+                android:layout_marginTop="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.HistoryList.None"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:clickable="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <com.app.pao.ui.widget.LoadingView
+                android:id="@+id/loadview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:loadingText="@string/Tv.Loading"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_reload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.ReLoad"
+                android:textColor="#f06522"
+                android:textSize="12dp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>
+

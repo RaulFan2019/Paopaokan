@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@android:id/background">
+        <shape>
+            <size android:height="5dp"
+                android:width="5dp"></size>
+            <stroke android:color="#00000000"
+                    android:width="10dp"></stroke>
+            <gradient
+                android:startColor="#555555"
+                android:centerColor="#555555"
+                android:endColor="#555555"
+                android:centerY="0.45"
+                android:angle="270"/>
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <size android:height="10dp"
+                    android:width="10dp"></size>
+                <stroke android:color="#00000000"
+                    android:width="10dp"
+                    ></stroke>
+                <gradient
+                    android:startColor="#f06522"
+                    android:centerColor="#f06522"
+                    android:endColor="#f06522"
+                    android:centerY="0.45"
+                    android:angle="270"/>
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/ll_base_friend_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#f7f7f7">
+        <LinearLayout
+            android:id="@+id/ll_search"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_search_ranking_input1"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/icon_search"/>
+
+                <com.rey.material.widget.EditText
+                    android:id="@+id/et_search_friend_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/Hint.SearchGroupMember"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    android:windowSoftInputMode="stateHidden"/>
+
+
+                <ImageView
+                    android:id="@+id/iv_search_member_fork"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/btn_bg_fork"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <hwh.com.pulltorefreshlibrary.PullToRefreshLayout
+                android:id="@+id/refresh_layout_friend_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/refresh_head" />
+
+                <hwh.com.pulltorefreshlibrary.PullableRecylerView
+                    android:id="@+id/rv_friend_ranking_name_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+                <include layout="@layout/load_more" />
+            </hwh.com.pulltorefreshlibrary.PullToRefreshLayout>
+
+            <com.app.pao.ui.widget.SideBar
+                android:id="@+id/sidebar"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@drawable/bg_icon_add_friend"/>
+
+        <LinearLayout
+            android:layout_width="192dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="26dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/ll_search_friend_num">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/icon_search_friend_num" />
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:textSize="18sp"
+                android:text="搜索用户" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="192dp"/>
+
+        <LinearLayout
+            android:layout_width="192dp"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/ll_search_friend_numlist">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/icon_search_friend_numlist" />
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:textSize="18sp"
+                android:text="添加通讯录好友" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="192dp"/>
+
+        <LinearLayout
+            android:layout_width="192dp"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/ll_search_friend_wx">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/icon_search_friend_wx" />
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:textSize="18sp"
+                android:text="邀请微信好友" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="192dp"/>
+
+        <LinearLayout
+            android:layout_width="192dp"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/ll_search_friend_sys">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/icon_search_friend_sys" />
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:textSize="18sp"
+                android:text="扫一扫加好友" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <com.app.pao.ui.widget.LoadingView
+            android:id="@+id/lv_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:loadingText="@string/Tv.Loading"/>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Tv.ReLoad"
+            android:textColor="#f06522"
+            android:textSize="12sp"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+</FrameLayout>

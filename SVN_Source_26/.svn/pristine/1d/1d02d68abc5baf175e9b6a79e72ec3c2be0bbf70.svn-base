@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common color -->
+    <color name="window_transparent">#80000000</color>
+    <color name="grey">#222222</color>
+    <color name="grey_dark">#888888</color>
+    <color name="blue">#2aa5de</color>
+    <color name="pink">#e84d6e</color>
+
+    <color name="Base.LinearLayout">#ffffff</color>
+    <color name="Base.Button">#f06522</color>
+    <color name="Bg.Button.grey">#eeeeee</color>
+
+    <color name="grey_light">#f7f7f7</color>
+    <color name="grey_uncheck">#cccccc</color>
+    <color name="grey_check">#7f7f7f</color>
+
+    <!-- List Item -->
+    <color name="ListItem.Click">#33999999</color>
+
+    <!-- app theme style -->
+    <color name="colorPrimary">#FFf06522</color>
+    <color name="colorPrimaryDark">#F06522</color>
+    <color name="colorAccent">#FF00E5FF</color>
+    <color name="colorControlNormal">#FF78909C</color>
+    <color name="colorControlActivated">#FF03A9F4</color>
+    <color name="colorSwitchThumbNormal">#FF78909C</color>
+    <color name="colorPrimaryHalf">#f8f8f8</color>
+
+    <!-- MainActivity -->
+    <color name="Tab.Normal">#FF03A9F4</color>
+    <color name="Tab.Select">#FF78909C</color>
+    <color name="Tab.TextView.Noraml">#888888</color>
+    <color name="Tab.TextView.Selected">#f06522</color>
+
+    <!-- LoginActivity -->
+    <!-- EditLayout -->
+    <color name="EditLayout.Title">#222222</color>
+    <color name="EditLayout_CuttingLine">#222222</color>
+    <color name="EditLayout.Title.disable">#bbbbbb</color>
+    <color name="Btn.FlatButtonBase.common.Text">#666666</color>
+
+    <!-- SystemSettingsActivity -->
+    <color name="SystemSettingsActivity.background">#f7f7f7</color>
+
+    <!--FeedBackActivity-->
+    <color name="EditText.Hint">#bbbbbb</color>
+
+    <!-- Dialog -->
+    <color name="Dialog.text.content">#888888</color>
+    <color name="Dialog.text.set">#3366CC</color>
+</resources>

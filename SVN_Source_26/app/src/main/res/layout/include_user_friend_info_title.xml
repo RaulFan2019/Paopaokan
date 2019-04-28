@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?attr/actionBarSize">
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/title_bar_left_menu"
+            style="@style/MenuLeftBackButton" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_title_group_party_photo_wall"
+            style="@style/tvTitleV1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/Title.UserInfoFriend" />
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/ibtn_group_more"
+            style="@style/MenuRightButton"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_more"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,199 @@
+package com.app.pao.entity.model;
+
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.app.pao.config.BLEConfig;
+import com.app.pao.entity.event.EventBLE;
+import com.app.pao.entity.event.EventRuningHeartrate;
+import com.app.pao.entity.event.EventRunningBLE;
+import com.app.pao.utils.Log;
+import com.ypy.eventbus.EventBus;
+
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * Created by Raul on 2015/12/17.
+ */
+public class BLEGattEntity {
+
+    private static String TAG = "BLEGattEntity";
+
+    public static final String ACTION_NEW_BLE = "com.app.pao.ble.new";
+
+    // 反馈数据
+    public static final int MSG_SCAN = 0;//扫描信息
+    public static final int MSG_STOP_SCAN = 1;//停止扫描信息
+    public static final int MSG_SCAN_NEW_BLE = 2;//新的BLE设备
+    public static final int MSG_CONNECTED = 3;//已连接状态信息
+    public static final int MSG_DISCONECTED = 4;//段开连接状态信息
+    public static final int MSG_GET_NEW_HEARTRATE = 5;//获取新的心率信息
+    public static final int MSG_OTHER_BLE_TIP = 6;//其他的提示信息
+
+    private BluetoothGattCallback GattCallback;
+    private String mac;
+    private BluetoothGatt mBluetoothGatt;
+    private BluetoothGattCharacteristic mNotifyCharacteristic;
+    private Context mContext;
+    private BluetoothAdapter mBluetoothAdapter;
+    public boolean isConnected = false;
+
+    public BLEGattEntity(Context context, String address, BluetoothAdapter mBluetoothAdapter) {
+        this.mac = address;
+        this.mContext = context;
+        this.mBluetoothAdapter = mBluetoothAdapter;
+        BluetoothGattCallback GattCallback = new BluetoothGattCallback() {
+            public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+                if (newState == BluetoothProfile.STATE_CONNECTED) {
+                    Log.i(TAG, "<" + mac + ">" + "Connected to GATT server.");
+                    Log.i(TAG, "<" + mac + ">" + "Attempting to start service discovery:" + mBluetoothGatt.discoverServices());
+                    EventBus.getDefault().post(new EventBLE(MSG_CONNECTED, mac));
+                    isConnected = true;
+
+                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                    Log.i(TAG, "<" + mac + ">" + "Disconnected from GATT server.");
+                    EventBus.getDefault().post(new EventBLE(MSG_DISCONECTED, mac));
+                    isConnected = false;
+                }
+            }
+
+            public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+                List<BluetoothGattCharacteristic> gattCharacteristics = null;
+                for (BluetoothGattService gattService : gatt.getServices()) {
+                    Log.e(TAG, "<" + mac + ">" + "UUID " + gattService.getUuid().toString());
+                    if (gattService.getUuid().equals(BLEConfig.UUID_HEART_RATE_SERVICE)) {
+                        gattCharacteristics = gattService.getCharacteristics();
+                    }
+                }
+                if (gattCharacteristics != null) {
+                    for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics) {
+                        if (gattCharacteristic.getUuid().equals(BLEConfig.UUID_HEART_RATE_MEASUREMENT)) {
+                            mNotifyCharacteristic = gattCharacteristic;
+                        }
+                    }
+                }
+
+                if (mNotifyCharacteristic == null) {
+                    EventBus.getDefault().post(new EventBLE(MSG_DISCONECTED, mac));
+                    isConnected = false;
+                    return;
+                }
+                setCharacteristicNotification(mNotifyCharacteristic, true);
+            }
+
+            @Override
+            public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int
+                    status) {
+                Log.e(TAG, "<" + mac + ">" + "characteristic：" + "onCharacteristicRead");
+                readCharacteristic(characteristic);
+            }
+
+            public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+                Log.e(TAG, "<" + mac + ">" + "characteristic：" + "onCharacteristicChanged");
+                readCharacteristic(characteristic);
+            }
+
+            ;
+
+            public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+                                         int status) {
+                if (status == BluetoothGatt.GATT_SUCCESS) {
+                    Log.i(TAG, descriptor.getValue() + "");
+                }
+            }
+        };
+
+        mBluetoothGatt = mBluetoothAdapter.getRemoteDevice(mac).connectGatt(mContext,
+                true, GattCallback);
+    }
+
+
+    // 设置当指定characteristic值变化时，发出通知。
+    private void setCharacteristicNotification(BluetoothGattCharacteristic characteristic, boolean enable) {
+        mBluetoothGatt.setCharacteristicNotification(characteristic, enable);
+
+        // This is specific to Heart Rate Measurement.
+        if (BLEConfig.UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
+            BluetoothGattDescriptor descriptor = characteristic
+                    .getDescriptor(UUID.fromString(BLEConfig.CLIENT_CHARACTERISTIC_CONFIG));
+            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            mBluetoothGatt.writeDescriptor(descriptor);
+        }
+    }
+
+    /**
+     * 解析心率返回值
+     */
+    private void readCharacteristic(BluetoothGattCharacteristic characteristic) {
+        if (BLEConfig.UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
+            int flag = characteristic.getProperties();
+            int format = -1;
+            if ((flag & 0x01) != 0) {
+                format = BluetoothGattCharacteristic.FORMAT_UINT16;
+                // Log.d(TAG, "Heart rate format UINT16.");
+            } else {
+                format = BluetoothGattCharacteristic.FORMAT_UINT8;
+                // Log.d(TAG, "Heart rate format UINT8.");
+            }
+            final int heartRate = characteristic.getIntValue(format, 1);
+//            Log.d(TAG, "<" + mac + ">" + String.format("1 Received heart rate: %d", heartRate));
+            isConnected = true;
+            EventBus.getDefault().post(new EventBLE(MSG_GET_NEW_HEARTRATE, heartRate, mac));
+//            Intent i = new Intent(ACTION_NEW_BLE);
+//            i.putExtra("heartRate", heartRate);
+//            mContext.sendBroadcast(i);
+        } else {
+            // 不是心率设备
+            EventBus.getDefault().post(new EventBLE(MSG_OTHER_BLE_TIP));
+        }
+    }
+
+    public BluetoothGattCallback getGattCallback() {
+        return GattCallback;
+    }
+
+    public void setGattCallback(BluetoothGattCallback gattCallback) {
+        GattCallback = gattCallback;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public BluetoothGatt getmBluetoothGatt() {
+        return mBluetoothGatt;
+    }
+
+    public void setmBluetoothGatt(BluetoothGatt mBluetoothGatt) {
+        this.mBluetoothGatt = mBluetoothGatt;
+    }
+
+    public BluetoothGattCharacteristic getmNotifyCharacteristic() {
+        return mNotifyCharacteristic;
+    }
+
+    public void setmNotifyCharacteristic(BluetoothGattCharacteristic mNotifyCharacteristic) {
+        this.mNotifyCharacteristic = mNotifyCharacteristic;
+    }
+
+    public BluetoothAdapter getmBluetoothAdapter() {
+        return mBluetoothAdapter;
+    }
+
+    public void setmBluetoothAdapter(BluetoothAdapter mBluetoothAdapter) {
+        this.mBluetoothAdapter = mBluetoothAdapter;
+    }
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayoutBase">
+
+
+    <include layout="@layout/include_friend_title" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            style="@style/LinearlayoutBase"
+            android:id="@+id/ll_base">
+
+            <com.app.pao.ui.widget.CustomViewPager
+                android:id="@+id/vp_ranking_page"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_join_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:background="@drawable/bg_friend_group_apply">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.app.pao.ui.widget.CircularImage
+                    android:id="@+id/iv_join_member_1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <com.app.pao.ui.widget.CircularImage
+                    android:id="@+id/iv_join_member_2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp" />
+
+                <com.app.pao.ui.widget.CircularImage
+                    android:id="@+id/iv_join_member_3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_join_member"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/iv_no"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/icon_no"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_member_sort"
+    style="@style/ListViewItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="66dp"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_sort_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"/>
+        <!-- com.app.pao.ui.widget.CircularImage -->
+
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/iv_photo"
+            android:layout_width="38dp"
+            android:layout_height="38dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_gander"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:textColor="#222222"
+            android:textSize="12sp"
+            />
+
+        <ImageView
+            style="@style/LineViewBase_RightArrow"/>
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+
+</LinearLayout>

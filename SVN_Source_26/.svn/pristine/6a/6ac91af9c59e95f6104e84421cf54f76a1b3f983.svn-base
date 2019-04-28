@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Tv.Sys"
+        app:titleTextColor="@color/white" />
+
+    <SurfaceView
+        android:id="@+id/capture_preview"
+        android:layout_marginTop="52dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/capture_container"
+        android:layout_marginTop="52dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/capture_mask_top"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/scan_mask"/>
+
+        <RelativeLayout
+            android:id="@+id/capture_crop_view"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_below="@id/capture_mask_top"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/qr_code_bg">
+
+            <ImageView
+                android:id="@+id/capture_scan_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/scan_line"/>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/fl_botton"
+            android:layout_below="@id/capture_crop_view">
+            <ImageView
+                android:id="@+id/capture_mask_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/scan_mask"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:text="@string/scan_tips"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:id="@+id/textView" />
+
+            <LinearLayout
+                android:layout_width="284dp"
+                android:layout_height="46dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|center_vertical"
+                android:id="@+id/ll_my_qrcode"
+                android:background="@drawable/bg_round_rect"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/icon_qrcode"/>
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="11dp"
+                    android:text="@string/Tv.PerfectUserInfoActivity.key.QRCode"
+                    />
+            </LinearLayout>
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/capture_mask_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@id/fl_botton"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/capture_mask_top"
+            android:layout_toLeftOf="@id/capture_crop_view"
+            android:background="@drawable/scan_mask"/>
+
+        <ImageView
+            android:id="@+id/capture_mask_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@id/fl_botton"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/capture_mask_top"
+            android:layout_toRightOf="@id/capture_crop_view"
+            android:background="@drawable/scan_mask"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

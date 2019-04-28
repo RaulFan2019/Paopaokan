@@ -1,0 +1,52 @@
+package com.app.pao.fragment.group;
+
+import android.view.View;
+
+import com.app.pao.R;
+import com.app.pao.fragment.BaseFragment;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.ImageButton;
+
+/**
+ * Created by Administrator on 2015/12/14.
+ */
+public class TouristGroupFragment extends BaseFragment implements View.OnClickListener{
+
+
+    @ViewInject(R.id.btn_add_group)
+    private ImageButton mTitleBtn;
+
+    public static TouristGroupFragment newInstance() {
+        TouristGroupFragment fragment = new TouristGroupFragment();
+        return fragment;
+    }
+
+
+    @Override
+    @OnClick({R.id.btn_group_to_login})
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_group_to_login:
+                getActivity().finish();
+                break;
+        }
+    }
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_tourist_group;
+    }
+
+    @Override
+    protected void initParams() {
+        initView();
+    }
+
+    private void initView(){
+        mTitleBtn.setVisibility(View.GONE);
+    }
+
+
+}

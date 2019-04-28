@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.pao">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="com.app.pao.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.READ_FRAME_BUFFER" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 调节页面亮度权限 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <!-- 读取通讯录权限 -->
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <!-- 写入通讯录权限 -->
+
+    <!-- Jpush 独特权限 -->
+    <permission
+        android:name="com.app.pao.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <application
+        android:name=".LocalApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:persistent="true"
+        android:theme="@style/Theme.AppTheme">
+
+        <!-- key 运行 -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="79dedb17de16271addd6ca153acead16" />
+        <!--  本机运行 -->
+        <!--<meta-data-->
+        <!--android:name="com.amap.api.v2.apikey"-->
+        <!--android:value="0b711e11dcb55693ca4ad640890374ba" />-->
+
+        <!-- 友盟捕捉日志配置 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="@string/UMENG_APPKEY" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Channel ID" />
+
+        <!-- Jpush 参数配置 -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="9a7379123d2a2f64d19b2f25" />
+
+        <!-- JPush Required SDK核心功能 -->
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.app.pao" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false"></service>
+
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+
+                <category android:name="com.app.pao" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <!-- Required  显示通知栏 -->
+                <category android:name="com.app.pao" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+
+        <!-- 自定义JPUSH 接收器 -->
+        <receiver android:name=".jpush.PushReceiver">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.app.pao" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 启动 Activity -->
+        <activity
+            android:name=".activity.main.WelcomeActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppStartLoad">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.main.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.full"></activity>
+        <activity
+            android:name=".activity.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateUnspecified"></activity>
+        <activity
+            android:name=".activity.run.RunningActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.full" />
+        <activity
+            android:name=".activity.PushDialogActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Translucent" />
+
+        <!-- Login & Register -->
+        <activity
+            android:name=".activity.login.LoginActivityV2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.login.LoginUserChangeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.regist.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.regist.RegisterInputVCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.regist.PrivacyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.login.ForgetPswInputSmsCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.login.ForgetPwdInputPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.regist.RegistAddInfoActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.regist.RegisterSetPwdActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".activity.run.PreperRunActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.full" />
+        <activity
+            android:name=".activity.settings.MultiImageSelectorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.login.LoginResetPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.UserBasicInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.EditUserNicknameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.SystemSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.SafeSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.run.StartRunCountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.SearchFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.SearchFriendFromPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.AddFriendByRequestCodeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.workout.HistoryInfoActivityV2"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.workout.FriendHistoryInfoActivityV2"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.run.LiveActivityV3"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.group.SearchGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.CreateGroupCheckActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.CreateGroupCommitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.AddGroupByRequestCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.workout.HistoryListActivityV2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.workout.ThumbUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activity.login.WxBindMobileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.ScanQrCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.ScanQRCodeActivityReplace"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.EditUserGenderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.run.RunningFriendListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.workout.MyClockListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.ApplyFriendListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.FeedbcakActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.UserRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.UserFriendListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.UserGroupListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.UserDynamicListActivityReplace"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.SameFriendListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.InputInviteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.RaceWebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.CreateGroupTipActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupMemberSortListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.party.CreateGroupPartyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.PartyMemberListAcitivty"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.party.PartyInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupApplyMemberListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.party.GroupPartySummaryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.MyPartyListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupAddMangerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupQrCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.DismissGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.ResetPswActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.MessageListActivityReplace"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.friend.ShowPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.run.RunSettingsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.settings.PerfectUserInfoAfterRunningActivtiy"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupApplyFriendListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.BleSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupTagManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupMemberTagListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupCreateTagActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".activity.group.GroupSingleTagActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupRemarkEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.party.GroupPartyEditSummaryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyEditGpsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartySelectWorkOutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyAllPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyPhotoWallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyMyPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyUserPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyGpsSignInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.run.LiveRoomH5Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartySelectTagActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupPartyMemberListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupUserPartyListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.GroupIntroduceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.group.EditGroupIntroduceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".activity.group.GroupMemberRankingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateUnspecified" />
+        <activity
+            android:name=".activity.workout.AddHistoryByHandActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.party.signUpPartyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Translucent" />
+
+        <activity
+            android:name=".activity.main.ClipGroupDialogActivity"
+            android:label="@string/title.ClipGroupDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Translucent" />
+
+        <activity
+            android:name=".activity.main.ClipUserDialogActivity"
+            android:label="@string/title.ClipUserDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Translucent" />
+
+        <activity
+            android:name=".activity.run.RunningLockActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar" />
+        <activity
+            android:name=".activity.main.ImageCutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.ZoomBigImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.full" />
+        <activity
+            android:name=".activity.settings.MypbActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.UserMedalChangeDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Translucent" />
+        <activity
+            android:name=".activity.friend.UserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.settings.FeedBackActivityReplace"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.main.AdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.workout.HistoryVideoPlayActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.full" />
+        <activity
+            android:name=".activity.workout.HistoryVideoListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.full" />
+        <activity
+            android:name=".activity.settings.MyQRCodeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.workout.NewRecordActivityV2"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.full" />
+        <activity
+            android:name=".activity.settings.UserLevelCardActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 高德定位服务 -->
+        <service
+            android:name="com.amap.api.location.APSService"
+            android:enabled="true"
+            android:persistent="true"
+            android:process=":remote"></service>
+
+        <service
+            android:name=".service.RunningService"
+            android:persistent="true"></service>
+
+        <service
+            android:name=".service.DaemonService"
+            android:process=":daemon" />
+
+        <receiver
+            android:name=".service.DaemonReceiver"
+            android:process=":daemon" />
+        <receiver
+            android:name=".service.ListenerReceiver"
+            android:process=":process" />
+
+        <service
+            android:name=".service.ListenerService"
+            android:process=":process" />
+
+        <service android:name=".service.UploadWatcherService" />
+        <service android:name="cn.hwh.sdk.ble.BleManagerService" />
+        <service android:name=".service.DownloadService" />
+        <service android:name=".service.SendCrashLogService" />
+        <service android:name=".service.SendMaidianService" />
+        <service android:name=".service.ClipboardService" />
+        <service android:name=".service.AdService" />
+        <service android:name=".service.CheckUpdateService" />
+        <service android:name=".service.GetPhoneTypeService" />
+        <service android:name=".service.VoiceService" />
+        <service
+            android:name="net.micode.soundrecorder.RecorderService"
+            android:exported="false"></service>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.SafeSettings"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        style="@style/SettingsLinearlayout"
+        android:layout_marginTop="14dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/SettingsTipText"
+            android:text="@string/Tv.SafeSettings.Phone"/>
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey"/>
+    </LinearLayout>
+
+    <View style="@style/Settings_BottomLine"/>
+
+    <LinearLayout
+        style="@style/SettingsLinearlayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/SettingsTipText"
+            android:text="@string/Tv.SafeSetting.WeXin"/>
+
+        <FrameLayout
+            android:layout_width="68dp"
+            android:layout_height="30dp">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_bound_wx"
+                style="@style/ButtonBase"
+                android:layout_width="68dp"
+                android:layout_height="30dp"
+                android:background="@drawable/btn_splash"
+                android:text="@string/Btn.SafeSetting.Bound"
+                android:textColor="#f06522"/>
+
+            <TextView
+                android:id="@+id/tv_bound_state"
+                style="@style/LineViewBase_Key_Tip"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:text="@string/Tv.SafeSetting.UnBound"/>
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <View style="@style/Settings_BottomLine"/>
+
+    <LinearLayout
+        android:id="@+id/ll_reset_psw"
+        style="@style/SettingsLinearlayout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/SettingsTipText"
+            android:text="@string/Tip.SafeSetting.Reset.Psw"/>
+
+        <ImageView style="@style/LineViewBase_RightArrow"/>
+    </LinearLayout>
+
+    <View style="@style/Settings_BottomLine"/>
+</LinearLayout>

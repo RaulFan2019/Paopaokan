@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tag="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_group_info_title_replace"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <!-- 照片、申请入团按钮 -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="144dp">
+
+                        <ImageView
+                            android:id="@+id/iv_group_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_default_picture"/>
+
+                        <LinearLayout
+                            android:id="@+id/ll_apply_in_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#88888888"
+                            android:gravity="center">
+
+                            <com.rey.material.widget.Button
+                                android:id="@+id/btn_apply_in_group"
+                                style="@style/ButtonBase_commit"
+                                android:text="@string/Btn.GroupInfo.Apply.In.Group"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_edit_photo"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:visibility="gone"
+                            android:layout_gravity="bottom|end"
+                            android:layout_margin="6dp"
+                            android:src="@drawable/icon_photo_edit"/>
+                    </FrameLayout>
+                    <!-- 跑团信息 -->
+                    <LinearLayout
+                        android:id="@+id/ll_group_all"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="16dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_group_photo"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@mipmap/ic_launcher"/>
+
+                        <LinearLayout
+                            android:id="@+id/ll_group_location"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_group_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/grey"
+                                android:textSize="14sp"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_group_location"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:singleLine="true"
+                                    android:text="乌鲁木齐 齐齐哈尔新疆"
+                                    android:textColor="@color/grey_dark"
+                                    android:textSize="10sp"/>
+
+                                <com.app.pao.ui.widget.tagview.TagView
+                                    android:id="@+id/tagv_group_info_tag"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    tag:layoutSingleLine="true"
+                                    tag:textPaddingBottom="2dp"
+                                    tag:textPaddingLeft="2dp"
+                                    tag:textPaddingRight="2dp"
+                                    tag:textPaddingTop="2dp"
+                                    />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tv_group_introduce"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="10sp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/bg_round_grey_dark"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="12dp"
+                                android:src="@drawable/icon_right_arrow"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- 管理员 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="16dp">
+
+                        <include layout="@layout/include_group_info_organizer"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <View
+                            style="@style/Settings_BottomLine"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.GroupInfo.This.Week.TOP.3"
+                            android:textColor="@color/grey"
+                            android:textSize="12sp"/>
+
+                        <View
+                            style="@style/Settings_BottomLine"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/include_group_info_ranking"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <View
+                            style="@style/Settings_BottomLine"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tv.GroupInfo.Recent.Party"
+                            android:textColor="@color/grey"
+                            android:textSize="12sp"/>
+
+                        <View
+                            style="@style/Settings_BottomLine"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_party_all"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <include layout="@layout/include_group_info_party"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_no_party_all"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:text="@string/Tv.GroupInfo.No.Recent.Party"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="12sp"
+                        android:visibility="gone"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:background="@drawable/bg_round_rect_grey_dark"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="18dp">
+
+                        <TextView
+                            android:id="@+id/btn_member_party"
+                            style="@style/ButtonBase_commit"
+                            android:layout_width="match_parent"
+                            android:layout_height="34dp"
+                            android:layout_marginBottom="6dp"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:drawableEnd="@drawable/icon_right_arrow"
+                            android:paddingEnd="8dp"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_member_party"
+                            android:layout_width="match_parent"
+                            android:layout_height="34dp"
+                            android:gravity="center_vertical|center_horizontal"/>
+                    </FrameLayout>
+
+                    <com.rey.material.widget.Button
+                        android:id="@+id/btn_create_party"
+                        style="@style/ButtonBase_commit"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="26dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+
+                        android:text="@string/Btn.GroupInfo.Create.Party"/>
+                </LinearLayout>
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/ll_join_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:background="@drawable/bg_group_apply">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.app.pao.ui.widget.CircularImage
+                        android:id="@+id/iv_join_member_1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"/>
+
+                    <com.app.pao.ui.widget.CircularImage
+                        android:id="@+id/iv_join_member_2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp" />
+
+                    <com.app.pao.ui.widget.CircularImage
+                        android:id="@+id/iv_join_member_3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_join_member"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_no"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/icon_no"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rl_load"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clickable="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
+
+                <com.app.pao.ui.widget.LoadingView
+                    android:id="@+id/loadview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    tag:loadingText="@string/Tv.Loading"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_reload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Tv.ReLoad"
+                    android:textColor="#f06522"
+                    android:textSize="12sp"
+                    android:visibility="invisible"/>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_fragment_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="52dp"/>
+
+
+</FrameLayout>

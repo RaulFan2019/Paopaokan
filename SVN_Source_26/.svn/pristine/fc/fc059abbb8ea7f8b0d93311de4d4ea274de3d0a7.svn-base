@@ -1,0 +1,190 @@
+package com.app.pao.activity.main;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.login.LoginActivity;
+import com.app.pao.activity.login.LoginUserChangeActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.data.db.UserData;
+import com.app.pao.utils.ImageUtils;
+import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import java.io.File;
+
+/**
+ * Created by LY on 2016/4/17.
+ */
+@ContentView(R.layout.activity_ad)
+public class AdActivity extends BaseAppCompActivity implements View.OnClickListener {
+    private static final int AD_SKIP_NUM_CHANGE = 0;//跳过数字发生变化
+    @ViewInject(R.id.iv_ad_pic)
+    private ImageView mAdPicIv;
+    @ViewInject(R.id.ll_ad_skip_but)
+    private LinearLayout mAdSkipButLl;
+    @ViewInject(R.id.iv_ad_skip_num)
+    private ImageView mAdSkipNumIv;
+    private String mPicPath;//保存的广告图片的路径
+    private int mUserId;//用户id
+    private String mUserPassword;//用户密码
+//    private BitmapUtils mBitmapUtils;
+    private int i;//循环标识
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (handler == null) {
+                return;
+            }
+            switch (msg.what) {
+                case 0:
+                    mAdSkipNumIv.setBackgroundResource(R.drawable.num_ad_skip_3);
+                    handler.sendEmptyMessageDelayed(1, 1000);
+                    break;
+                case 1:
+                    mAdSkipNumIv.setBackgroundResource(R.drawable.num_ad_skip_2);
+                    handler.sendEmptyMessageDelayed(2, 1000);
+                    break;
+                case 2:
+                    mAdSkipNumIv.setBackgroundResource(R.drawable.num_ad_skip_1);
+                    handler.sendEmptyMessageDelayed(3, 1000);
+                    break;
+                case 3:
+                    mAdSkipNumIv.setBackgroundResource(R.drawable.num_ad_skip_go);
+                    handler.sendEmptyMessageDelayed(4, 1000);
+                    break;
+                case 4:
+                    destroyHandler();
+                    startNextActivity(0);
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void initData() {
+        mUserId = PreferencesData.getUserId(mContext);
+        mUserPassword = PreferencesData.getPassword(mContext);
+        mPicPath = PreferencesData.getAdPath(mContext);
+    }
+
+    @Override
+    protected void initViews() {
+        if (mPicPath.equals("") || mPicPath == null ) {
+            destroyHandler();
+            startNextActivity(0);
+        } else {
+            File adFile = new File(mPicPath);
+            //若文件不存在
+            if(!adFile.exists()){
+                destroyHandler();
+                startNextActivity(0);
+            }else {
+                // 按比例扩大图片的size居中显示，使得图片长(宽)等于或大于View的长(宽)
+                mAdPicIv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                mAdPicIv.setImageURI(Uri.fromFile(new File(mPicPath)));
+            }
+        }
+    }
+
+    private void startNextActivity(int type) {
+        //游客状态
+        if (mUserId == AppEnum.DEFAULT_USER_ID) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isFirst", true);
+            bundle.putInt("startAd", type);
+            startActivity(LoginActivity.class, bundle);
+            finish();
+            return;
+        }
+        if (LocalApplication.getInstance().getLoginUser(mContext) == null) {
+            PreferencesData.setUserId(mContext, AppEnum.DEFAULT_USER_ID);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isFirst", true);
+            bundle.putInt("startAd", type);
+            startActivity(LoginActivity.class, bundle);
+            finish();
+            return;
+        }
+        //若非游客，并且密码为空时，进入账号选择页面
+        if (AppEnum.DEFAULT_USER_PASSWORD.equals(mUserPassword)) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("startAd", type);
+            startActivity(LoginUserChangeActivity.class, bundle);
+            finish();
+            return;
+        }
+        //若密码不为空进入主页面
+        Bundle bundle = new Bundle();
+        bundle.putInt("startAd", type);
+        startActivity(MainActivity.class, bundle);
+        finish();
+        LocalApplication.getInstance().setLoginUser(UserData.getUserById(mContext, mUserId));
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+        if (handler != null) {
+            handler.sendEmptyMessageDelayed(AD_SKIP_NUM_CHANGE, 1000);
+        }
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+
+    }
+
+    @Override
+    protected void destroy() {
+        destroyHandler();
+    }
+
+    /**
+     * 重写back键方法，当在此页面进行back键操作的时候，不会做任何反应
+     */
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    @OnClick({R.id.iv_ad_pic, R.id.ll_ad_skip_but})
+    public void onClick(View v) {
+        destroyHandler();
+        switch (v.getId()) {
+            case R.id.iv_ad_pic:
+                startNextActivity(1);
+                break;
+            case R.id.ll_ad_skip_but:
+                startNextActivity(0);
+                break;
+        }
+    }
+
+    private void destroyHandler() {
+        if (handler != null) {
+            handler.removeMessages(0);
+            handler.removeMessages(1);
+            handler.removeMessages(2);
+            handler.removeMessages(3);
+            handler = null;
+        }
+    }
+}

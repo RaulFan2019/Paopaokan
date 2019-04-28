@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:gravity="center_horizontal">
+
+    <include layout="@layout/include_reset_psw_title"/>
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:layout_width="70dp"
+                android:text="@string/Tv.ResetPswActivity.New.Psw"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_new_password"
+                style="@style/EditLayout_Edittext_Psw"
+                android:hint="@string/Helper.ResetPswActivity.New.Psw"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/EditLayout"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/EditLayout_InputLayout"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                style="@style/EditLayout_Title"
+                android:layout_width="70dp"
+                android:text="@string/Tv.ResetPswActivity.Confirm.Psw"/>
+
+            <View
+                style="@style/EditLayout_CuttingLine"/>
+
+            <EditText
+                android:id="@+id/et_confirm_password"
+                style="@style/EditLayout_Edittext_Psw"
+                android:hint="@string/Helper.ResetPswActivity.Confirm.Psw"/>
+        </LinearLayout>
+
+        <View
+            style="@style/EditLayout_BottomLine"/>
+    </LinearLayout>
+</LinearLayout>

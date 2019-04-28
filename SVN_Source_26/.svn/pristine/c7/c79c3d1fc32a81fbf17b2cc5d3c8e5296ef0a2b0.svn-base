@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_base"
+        style="@style/ListViewItem"
+        android:layout_height="58dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!--  视频图标 -->
+        <View
+            android:layout_width="21dp"
+            android:layout_height="16dp"
+            android:background="@drawable/icon_history_camera"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_camera_name"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom|left"
+                android:textSize="15sp"
+                android:textColor="#222222"/>
+            <TextView
+                android:id="@+id/tv_camera_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="top|left"
+                android:textSize="12sp"
+                android:textColor="#888888"/>
+
+        </LinearLayout>
+
+        <!--  分享按钮 -->
+        <View
+            android:id="@+id/iv_share"
+            android:layout_width="14dp"
+            android:layout_height="19dp"
+            android:background="@drawable/icon_camera_share"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_marginStart="@dimen/line_left_margin"
+        android:layout_marginEnd="@dimen/line_right_margin"
+        android:layout_width="match_parent"/>
+
+</LinearLayout>

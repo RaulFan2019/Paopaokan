@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="#181819"
+              android:gravity="center_horizontal">
+
+    <include layout="@layout/include_group_party_all_photo"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/id_all_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

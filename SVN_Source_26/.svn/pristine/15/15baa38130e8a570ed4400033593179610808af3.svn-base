@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              style="@style/LinearlayoutBase"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.FeedbackActivity"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+
+    <EditText
+        android:id="@+id/et_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:layout_margin="30dp"
+        android:background="@drawable/bg_round_rect_white"
+        android:gravity="top"
+        android:hint="@string/Helper.FeedbackActivity"
+        android:maxLength="100"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/EditText.Hint"
+        android:textSize="14sp" />
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_submit_feedback"
+        style="@style/ButtonBase_commit"
+        android:layout_marginTop="28dp"
+        android:text="@string/Button.FeedbackActivity"/>
+
+</LinearLayout>

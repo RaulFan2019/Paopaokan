@@ -1,0 +1,15 @@
+https://www.jpush.cn/
+用户名:xiaojunzhou
+密码:tetehappy123
+
+09-11 20:07:30.040: D/JPush(11539): [MyReceiver] onReceive - cn.jpush.android.intent.REGISTRATION, extras: 
+09-11 20:07:30.040: D/JPush(11539): key:cn.jpush.android.APPKEY, value:9a7379123d2a2f64d19b2f25
+09-11 20:07:30.040: D/JPush(11539): key:cn.jpush.android.REGISTRATION_ID, value:010ac5eb2a0
+
+09-11 20:07:30.040: D/JPush(11539): [MyReceiver] 接收Registration Id : 010ac5eb2a0
+
+09-11 20:07:30.170: D/JPush(11539): [MyReceiver] onReceive - cn.jpush.android.intent.CONNECTION, extras: 
+
+09-11 20:07:30.170: D/JPush(11539): key:cn.jpush.android.APPKEY, value:9a7379123d2a2f64d19b2f25
+
+09-11 20:07:30.170: D/JPush(11539): key:cn.jpush.android.CONNECTION_CHANGE, value:true

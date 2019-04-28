@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/tv_count_num"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="3"
+        android:textColor="#222222"
+        android:textSize="144sp"/>
+
+</LinearLayout>

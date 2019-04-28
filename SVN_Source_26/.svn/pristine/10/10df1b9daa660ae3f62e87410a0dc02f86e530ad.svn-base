@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/include_group_party_infor"/>
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout style="@style/LinearlayoutBase">
+            <ImageView
+                android:id="@+id/iv_party_photo"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/tv_party_name"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:textColor="#222222"
+                                android:textSize="14sp"/>
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/tv_party_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#888888"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+
+                        <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/ll_member"
+                                style="@style/FlatButtonBase_frame"/>
+
+                            <LinearLayout
+
+                                android:layout_width="match_parent"
+                                android:layout_height="52dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.app.pao.ui.widget.CircularImage
+                                    android:id="@+id/iv_runner_1"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"/>
+
+                                <com.app.pao.ui.widget.CircularImage
+                                    android:id="@+id/iv_runner_2"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginStart="5dp"/>
+
+                                <com.app.pao.ui.widget.CircularImage
+                                    android:id="@+id/iv_runner_3"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginStart="5dp"/>
+
+                                <com.app.pao.ui.widget.CircularImage
+                                    android:id="@+id/iv_runner_4"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginStart="5dp"/>
+
+                                <com.app.pao.ui.widget.CircularImage
+                                    android:id="@+id/iv_runner_5"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginStart="5dp"/>
+
+                                <com.rey.material.widget.TextView
+                                    android:id="@+id/tv_member_count"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:textColor="#888888"
+                                    android:textSize="12sp"/>
+
+                                <ImageView
+                                    style="@style/LineViewBase_RightArrow"/>
+                            </LinearLayout>
+                        </FrameLayout>
+                        <View
+                            style="@style/DividerBase_horizontal"
+                            android:layout_width="match_parent"/>
+
+                        <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/ll_my_workout"
+                                style="@style/FlatButtonBase_frame"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="52dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <com.rey.material.widget.TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/Tv.GroupPartyInfo.My.WorkOut"
+                                    android:textColor="#222222"
+                                    android:textSize="14sp"/>
+
+                                <com.rey.material.widget.TextView
+                                    android:id="@+id/tv_workout_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#888888"
+                                    android:textSize="12sp"
+                                    />
+                                <ImageView
+                                    style="@style/LineViewBase_RightArrow"/>
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <View
+                            style="@style/DividerBase_horizontal"
+                            android:layout_width="match_parent"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
+
+                            <com.rey.material.widget.TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Tv.GroupPartyInfo.RegistTime"
+                                android:textColor="#888888"
+                                android:textSize="12sp"/>
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/tv_regist_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#222222"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
+
+                            <com.rey.material.widget.TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Tv.GroupPartyInfo.Location"
+                                android:textColor="#888888"
+                                android:textSize="12sp"/>
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/tv_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#222222"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
+
+                            <com.rey.material.widget.TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Tv.GroupPartyInfo.starttime"
+                                android:textColor="#888888"
+                                android:textSize="12sp"/>
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/tv_starttime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#222222"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
+
+                            <com.rey.material.widget.TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Tv.GroupPartyInfo.Description"
+                                android:textColor="#888888"
+                                android:textSize="12sp"/>
+
+                            <com.rey.material.widget.TextView
+                                android:id="@+id/tv_description"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#222222"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.rey.material.widget.Button
+                        android:id="@+id/btn_party"
+                        style="@style/ButtonBase_commit"
+                        android:layout_marginBottom="28dp"
+                        android:layout_marginTop="28dp"/>
+
+                    <com.rey.material.widget.Button
+                        android:id="@+id/btn_party_cancel"
+                        style="@style/ButtonBase_commit"
+                        android:layout_marginBottom="28dp"
+                        android:background="@drawable/bg_round_rect_yellow"
+                        android:text="@string/Button.GroupPartyInfo.Cancel"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/iv_qrcode"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:clickable="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <com.app.pao.ui.widget.LoadingView
+                android:id="@+id/loadview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:loadingText="@string/Tv.Loading"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_reload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.ReLoad"
+                android:textColor="#f06522"
+                android:textSize="12sp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>

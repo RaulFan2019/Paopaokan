@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_item_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tag="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/ListViewItem"
+        android:layout_height="66dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/ci_user_avatar"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="112233"
+                    android:textColor="@color/grey"
+                    android:textSize="15sp"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_identity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_orange_square_box"
+                    android:gravity="center"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="团长"
+                    android:textColor="@color/Tab.TextView.Selected"
+                    android:textSize="10sp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/ll_user_gender_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:background="@drawable/bg_blue_square_box"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="4dp">
+
+                    <ImageView
+                        android:id="@+id/iv_user_gender"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:src="@drawable/icon_man"/>
+
+                    <TextView
+                        android:id="@+id/tv_user_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="29"
+                        android:textColor="@color/blue"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+
+                <com.app.pao.ui.widget.tagview.TagView
+                    android:id="@+id/tagv_group_tag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    tag:layoutSingleLine="true"
+                    tag:textPaddingBottom="0dp"
+                    tag:textPaddingLeft="2dp"
+                    tag:textPaddingRight="2dp"
+                    tag:textPaddingTop="0dp">
+
+                </com.app.pao.ui.widget.tagview.TagView>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_user_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="88.8公里"
+            android:textColor="@color/grey"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/line_right_margin"
+        android:layout_marginStart="@dimen/line_left_margin"/>
+</LinearLayout>

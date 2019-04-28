@@ -1,0 +1,86 @@
+clc;clear all;
+
+%????
+S=load('GPS.txt');
+L=length(S);
+%???
+Num=[0.000177626186556307,-0.000292321692208296,0.000184219758154182,0.000184219758154182,-0.000292321692208296,0.000177626186556307];
+Den=[1,-4.42555540567879,7.86384955099945,-7.01074593810779,3.13497400641412,-0.562383165121981];
+Lf=length(Den);
+
+for ii=1:L
+    
+    Xi=S(ii,1);
+    Yi=S(ii,2);
+    
+   
+    
+    if ii<Lf
+        
+        X_Num_buffer=Xi*ones(1,Lf);
+        X_Den_buffer=Xi*ones(1,Lf);
+        
+        Y_Num_buffer=Yi*ones(1,Lf);
+        Y_Den_buffer=Yi*ones(1,Lf);
+        
+        for jj=Lf-1:-1:1
+            
+            X_Num_buffer(jj+1)=X_Num_buffer(jj);
+            X_Den_buffer(jj+1)=X_Den_buffer(jj);
+            
+            Y_Num_buffer(jj+1)=Y_Num_buffer(jj);
+            Y_Den_buffer(jj+1)=Y_Den_buffer(jj);
+            
+        end
+        
+        X_Num_buffer(1)=Xi;
+        Y_Num_buffer(1)=Yi;
+        
+        Xo=Xi;
+        Yo=Yi;
+        
+        So(ii,1)=Xo;
+        So(ii,2)=Yo;
+        
+    else if ii>Lf-1
+        
+        for jj=Lf-1:-1:1
+            
+            X_Num_buffer(jj+1)=X_Num_buffer(jj);
+            X_Den_buffer(jj+1)=X_Den_buffer(jj);
+            
+            Y_Num_buffer(jj+1)=Y_Num_buffer(jj);
+            Y_Den_buffer(jj+1)=Y_Den_buffer(jj);
+            
+        end
+        
+        X_Num_buffer(1)=Xi;
+        Y_Num_buffer(1)=Yi;
+        
+        
+        X_Den_buffer(1)=(sum(Num.*X_Num_buffer) - sum(Den(2:end).*X_Den_buffer(2:end)))/Den(1);
+        Y_Den_buffer(1)=(sum(Num.*Y_Num_buffer) - sum(Den(2:end).*Y_Den_buffer(2:end)))/Den(1);
+        
+        Xo=X_Den_buffer(1);
+        Yo=Y_Den_buffer(1);
+        
+        So(ii,1)=Xo;
+        So(ii,2)=Yo;
+        
+        end
+        
+    end
+        
+    plot3(Xi,Yi,1,'b.');  
+    hold on
+    plot3(Xo,Yo,1,'r.');
+    
+
+    
+end
+
+for jj=1:3*Lf
+    
+    plot3(S(L-jj+1,1),S(L-jj+1,2),1,'r.');
+    
+end

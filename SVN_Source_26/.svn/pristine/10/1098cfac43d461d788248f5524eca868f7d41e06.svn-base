@@ -1,0 +1,351 @@
+package com.app.pao.activity.login;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.ActivityStackManager;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.entity.network.GetPhoneNumIsRegistResult;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.ui.dialog.v1.MyDialogBuilderV1;
+import com.app.pao.utils.DeviceUtils;
+import com.app.pao.utils.StringUtils;
+import com.app.pao.utils.T;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.Button;
+
+/**
+ * Created by Raul on 2015/11/12.
+ * 通过短信验证码登录(输入手机号码)
+ */
+@ContentView(R.layout.activity_forget_psw_input_phonenum)
+public class ForgetPswInputPhoneNumActivity extends BaseAppCompActivity implements View.OnClickListener {
+
+
+    /* contains */
+    private static final String TAG = "ForgetPswInputPhoneNumActivity";
+
+    private static final int MSG_POST_ERROR = 1;
+    private static final int MSG_POST_OK = 2;
+
+    /* local view */
+    @ViewInject(R.id.toolbar)
+    private Toolbar mToolbar;//标题栏
+    @ViewInject(R.id.et_login_byvc_phone_num)
+    private EditText mPhoneNumEt;//手机号码输入框
+    @ViewInject(R.id.btn_next)
+    private Button mNextBut;
+
+    /* local data */
+    private boolean mPostAble;//是否可以发送请求
+    private String mCountryIso;//国际号
+    /**
+     * 请求返回处理
+     */
+    Handler mPostHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                //发送请求错误
+                case MSG_POST_ERROR:
+                    T.showShort(mContext, (String) msg.obj);
+                    mDialogBuilder.progressDialog.dismiss();
+                    mPostAble = true;
+                    break;
+                //发送请求成功,跳转到验证码输入界面
+                case MSG_POST_OK:
+                    mDialogBuilder.progressDialog.dismiss();
+                    mPostAble = true;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("phonenum", mPhoneNumEt.getText().toString().replace(" ", ""));
+                    startActivity(ForgetPswInputSmsCodeActivity.class, bundle);
+                    break;
+            }
+        }
+    };
+
+    /**
+     * Toolbar 点击事件
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * 点击事件
+     *
+     * @param v
+     */
+    @Override
+    @OnClick({R.id.btn_next})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //下一步
+            case R.id.btn_next:
+                showGetVcCodeDialog();
+                break;
+        }
+    }
+
+
+    @Override
+    protected void initData() {
+        mPostAble = true;
+        ActivityStackManager.getAppManager().addTempActivity(this);
+        mCountryIso = DeviceUtils.GetCountryIso(mContext);
+    }
+
+    @Override
+    protected void initViews() {
+        setSupportActionBar(mToolbar);
+        mPhoneNumEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence str, int arg1, int arg2, int arg3) { // 已经改变了的。
+                String contents = str.toString();
+                int length = contents.length();
+                if (length == 4) {
+                    if (contents.substring(3).equals(new String(" "))) {
+                        contents = contents.substring(0, 3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {
+                        contents = contents.substring(0, 3) + " " + contents.substring(3);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                } else if (length == 9) {
+                    if (contents.substring(8).equals(new String(" "))) {
+                        contents = contents.substring(0, 8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    } else {// +
+                        contents = contents.substring(0, 8) + " " + contents.substring(8);
+                        mPhoneNumEt.setText(contents);
+                        mPhoneNumEt.setSelection(contents.length());
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence str, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+
+    }
+
+    @Override
+    protected void destroy() {
+        cancelPostHandler();
+        ActivityStackManager.getAppManager().finishTempActivity(this);
+    }
+
+
+    /**
+     * 显示获取验证码提示框
+     */
+    private void showGetVcCodeDialog() {
+        if (!mPostAble) {
+            return;
+        }
+        final String phoneNum = mPhoneNumEt.getText().toString().replace(" ", "");
+        String error = StringUtils.checkPhoneNumInputError(mContext, phoneNum, mCountryIso);
+        //验证手机信息
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+            T.showShort(mContext, error);
+            return;
+        }
+        mPhoneNumEt.setError(null);
+        mPostAble = false;
+        mDialogBuilder.showChoiceTwoBtnDialog(mContext, "提示", "是否向手机号码:" + phoneNum + "发送验证码信息?", "取消",
+                "发送");
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ChoiceTwoBtnDialogListener() {
+            @Override
+            public void onLeftBtnClick() {
+                mPostAble = true;
+            }
+
+            @Override
+            public void onRightBtnClick() {
+                LaunchInputVerificationCode(phoneNum);
+            }
+
+            @Override
+            public void onCancel() {
+                mPostAble = true;
+            }
+        });
+
+
+    }
+
+
+    /**
+     * 发送验证码获取请求
+     */
+    private void LaunchInputVerificationCode(final String phoneNum) {
+        //发送验证码请求提示
+        mDialogBuilder.showProgressDialog(this, "正在请求验证码..", true);
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+            @Override
+            public void onCancelBtnClick() {
+                mPostAble = true;
+            }
+
+            @Override
+            public void onCancel() {
+                mPostAble = true;
+            }
+        });
+        //发送手机号是否存在验证
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_CHECK_PHONE_IS_REGIST;
+        RequestParams params = RequestParamsBuild.buildCheckPhoneNumIsRegist(mContext,phoneNum);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = errorMsg;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                GetPhoneNumIsRegistResult resultEntity = JSON.parseObject(Response, GetPhoneNumIsRegistResult.class);
+                if (resultEntity.getIsExist() == AppEnum.UserRegist.NOT_EXIST) {
+                    if (mPostHandler != null) {
+                        Message mPostMsg = new Message();
+                        String error = mContext.getResources().getString(R.string.Error_Check_Login_NotExist);
+                        mPostMsg.what = MSG_POST_ERROR;
+                        mPostMsg.obj = error;
+                        mPostHandler.sendMessage(mPostMsg);
+                    }
+                } else {
+                    PostGetVCCodeRequest(phoneNum);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = s;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @param phoneNum
+     */
+    private void PostGetVCCodeRequest(final String phoneNum) {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_GET_VC_CODE;
+        RequestParams params = RequestParamsBuild.buildGetVCCodeRequest(mContext,phoneNum);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = errorMsg;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_OK;
+                    mPostMsg.obj = Response;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_POST_ERROR;
+                    mPostMsg.obj = s;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+            }
+        });
+    }
+
+
+    /**
+     * 取消请求
+     */
+    private void cancelPostHandler() {
+        if (mPostHandler != null) {
+            mPostHandler.removeMessages(MSG_POST_ERROR);
+            mPostHandler.removeMessages(MSG_POST_OK);
+        }
+    }
+}

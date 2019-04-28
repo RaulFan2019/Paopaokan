@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.UserRecord"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <!-- 5公里最快 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_5_fast"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/LineViewBase_Best">
+
+            <com.rey.material.widget.TextView
+                style="@style/LineViewBase_Key"
+                android:text="@string/Tv.UserFragment.5fastTime"/>
+
+            <LinearLayout
+                style="@style/LineViewBase_RightLl"
+                android:orientation="vertical">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_5fast_value"
+                    style="@style/LineViewBase_RightTv_Best"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Tv.UserFragment.Common"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_5fast_time"
+                    style="@style/LineViewBase_Key_Tip"
+                    android:text="@string/Tv.UserFragment.Common"/>
+            </LinearLayout>
+
+            <ImageView
+                style="@style/LineViewBase_RightArrow"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+    <!-- 10公里最快 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_10_fast"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/LineViewBase_Best">
+
+            <com.rey.material.widget.TextView
+                style="@style/LineViewBase_Key"
+                android:text="@string/Tv.UserFragment.10fastTime"/>
+
+            <LinearLayout
+                style="@style/LineViewBase_RightLl"
+                android:orientation="vertical">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_10fast_value"
+                    style="@style/LineViewBase_RightTv_Best"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Tv.UserFragment.Common"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_10fast_time"
+                    style="@style/LineViewBase_Key_Tip"
+                    android:text="@string/Tv.UserFragment.Common"/>
+            </LinearLayout>
+
+            <ImageView
+                style="@style/LineViewBase_RightArrow"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+    <!-- 半程马拉松最快 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_half_fast"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/LineViewBase_Best">
+
+            <com.rey.material.widget.TextView
+                style="@style/LineViewBase_Key"
+                android:text="@string/Tv.UserFragment.halfMfastTime"/>
+
+            <LinearLayout
+                style="@style/LineViewBase_RightLl"
+                android:orientation="vertical">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_halffast_value"
+                    style="@style/LineViewBase_RightTv_Best"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Tv.UserFragment.Common"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_halffast_time"
+                    style="@style/LineViewBase_Key_Tip"
+                    android:text="@string/Tv.UserFragment.Common"/>
+            </LinearLayout>
+
+            <ImageView
+                style="@style/LineViewBase_RightArrow"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+    <!-- 全程马拉松最快 -->
+    <FrameLayout
+        style="@style/SettingsFramelayout">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/ll_full_fast"
+            style="@style/FlatButtonBase_frame"/>
+
+        <LinearLayout
+            style="@style/LineViewBase_Best">
+
+            <com.rey.material.widget.TextView
+                style="@style/LineViewBase_Key"
+                android:text="@string/Tv.UserFragment.holeMfastTime"/>
+
+            <LinearLayout
+                style="@style/LineViewBase_RightLl"
+                android:orientation="vertical">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_holefast_value"
+                    style="@style/LineViewBase_RightTv_Best"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Tv.UserFragment.Common"/>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_holefast_time"
+                    style="@style/LineViewBase_Key_Tip"
+                    android:text="@string/Tv.UserFragment.Common"/>
+            </LinearLayout>
+
+            <ImageView
+                style="@style/LineViewBase_RightArrow"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent"/>
+
+
+</LinearLayout>

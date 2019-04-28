@@ -1,0 +1,107 @@
+package com.app.pao.config;
+
+/**
+ * Created by Raul on 2015/12/22.
+ */
+public class ErrorCode {
+
+//    define("USER_ERROR_NEED_APPROVE_ADD_FRIEND_ID", 101);
+//    define("USER_ERROR_NEED_APPROVE_ADD_FRIEND_MSG", "该用户已经申请成为你的好友，请去审批");
+//
+//    define("USER_ERROR_HAS_SEND_ADD_REQUEST_ID", 102);
+//    define("USER_ERROR_HAS_SEND_ADD_REQUEST_MSG", "添加好友的请求已经发送过");
+//
+//    define("USER_ERROR_ADD_REQUEST_NOT_EXIST_ID", 103);
+//    define("USER_ERROR_ADD_REQUEST_NOT_EXIST_MSG", "添加好友的请求不存在");
+//
+//    define("USER_ERROR_USER_NOT_EXIST_ID", 104);
+//    define("USER_ERROR_USER_NOT_EXIST_MSG", "参数错误：用户不存在");
+//
+//    define("USER_ERROR_USERNAME_EMPTY", 105);
+//    define("USER_ERROR_USERNAME_EMPTY_MSG", "参数错误：用户名为空");
+//
+//    define("USER_ERROR_NICKNAME_EMPTY", 106);
+//    define("USER_ERROR_NICKNAME_EMPTY_MSG", "参数错误：昵称为空");
+//
+//    define("USER_ERROR_FRIENDS_EMPTY", 107);
+//    define("USER_ERROR_FRIENDS_EMPTY_MSG", "参数错误：朋友列表为空");
+//
+//    define("USER_ERROR_NAMELIST_EMPTY", 108);
+//    define("USER_ERROR_NAMELIST_EMPTY_MSG", "参数错误：用户名称列表为空");
+//
+//    define("USER_ERROR_APPLY_USERID_EMPTY", 109);
+//    define("USER_ERROR_APPLY_USERID_EMPTY_MSG", "参数错误：被申请的用户id为空");
+//
+//    define("USER_ERROR_APPROVE_FRIEND_RESULT_EMPTY", 110);
+//    define("USER_ERROR_APPROVE_FRIEND_RESULT_EMPTY_MSG", "参数错误：审批用户加为好友的结果为空");
+//
+//    define("USER_ERROR_AUTHNAME_EMPTY", 111);
+//    define("USER_ERROR_AUTHNAME_EMPTY_MSG", "参数错误：authname为空");
+//
+//    define("USER_ERROR_NAME_OCCUPIED", 112);
+//    define("USER_ERROR_NAME_OCCUPIED_MSG", "用户名被占用");
+//
+//    define("USER_ERROR_NOT_FRIENDS_ID", 113);
+//    define("USER_ERROR_NOT_FRIENDS_MSG", "用户不是你的好友");
+//
+//    define("USER_ERROR_NOT_FIND_USER_ID", 114);
+//    define("USER_ERROR_NOT_FIND_USER_ISG", "没有查询到用户");
+//
+//    define("USER_ERROR_PASSWORD_ERROR", 115);
+//    define("USER_ERROR_PASSWORD_ERROR_MSG", "密码不正确");
+//
+//    define("USER_ERROR_PASSWORD_BLANK", 116);
+//    define("USER_ERROR_PASSWORD_BLANK_MSG", "没有设置密码,请通过忘记密码登录");
+//
+//    define("USER_ERROR_MOBILE_EMPTY", 117);
+//    define("USER_ERROR_MOBILE_EMPTY_MSG", "参数错误：手机号码为空");
+//
+//    define("USER_ERROR_VERIFYCODE_EMPTY", 118);
+//    define("USER_ERROR_VERIFYCODE_EMPTY_MSG", "参数错误：短消息验证码为空");
+//
+//    define("USER_ERROR_VERIFYCODE_NOMATCH", 119);
+//    define("USER_ERROR_VERIFYCODE_NOMATCH_MSG", "短消息验证码不正确");
+//
+//    define("USER_ERROR_PASSWORD_EMPTY", 120);
+//    define("USER_ERROR_PASSWORD_EMPTY_MSG", "参数错误：密码为空");
+//
+//    define("USER_ERROR_AVATAR_EMPTY", 121);
+//    define("USER_ERROR_AVATAR_EMPTY_MSG", "参数错误：头像为空");
+//
+//    define("USER_ERROR_UPLOAD_AVATAR_ERROR", 122);
+//    define("USER_ERROR_UPLOAD_AVATAR_ERROR_MSG", "上传头像失败");
+//
+//    define("USER_ERROR_MESSAGE_ID_INVALID", 123);
+//    define("USER_ERROR_MESSAGE_ID_INVALID_MSG", "无效的消息ID");
+//
+//    define("USER_ERROR_QRCODE_INVALID", 124);
+//    define("USER_ERROR_QRCODE_INVALID_MSG", "无效的二维码字符串");
+//
+//    define("USER_ERROR_SMS_SERVER_ERROR", 130);
+//    define("USER_ERROR_SMS_SERVER_ERROR_MSG", "短消息服务器错误");
+//
+//    define("USER_ERROR_SMS_INVALID_USER", 131);
+//    define("USER_ERROR_SMS_INVALID_USER_MSG", "短消息服务器错误:没有此账户");
+//
+//    define("USER_ERROR_SMS_INVALID_PASSWD", 132);
+//    define("USER_ERROR_SMS_INVALID_PASSWD_MSG", "短消息服务器错误:密码错误");
+//
+//    define("USER_ERROR_SMS_TOO_FAST", 133);
+//    define("USER_ERROR_SMS_TOO_FAST_MSG", "短消息服务器错误:查询过快");
+//
+//    define("USER_ERROR_HAS_BEEN_FRIENDS_ID", 134);
+//    define("USER_ERROR_HAS_BEEN_FRIENDS_MSG", "用户已经是你的好友");
+//
+//    define("USER_ERROR_APPLY_ADD_FRIENDS_EMPTY_ID", 135);
+//    define("USER_ERROR_APPLY_ADD_FRIENDS_EMPTY_MSG", "添加好友的请求为空");
+//
+//    define("USER_ERROR_APPLY_ADD_FRIENDS_INVALID_ID", 136);
+//    define("USER_ERROR_APPLY_ADD_FRIENDS_INVALID_MSG", "添加好友的请求不存在");
+//
+//    define("USER_ERROR_WEIXIN_ACCOUNT_HAS_BEEN_BOUND_ID", 137);
+//    define("USER_ERROR_WEIXIN_ACCOUNT_HAS_BEEN_BOUND_MSG", "该微信账号已经和另外一个手机账号绑定");
+//
+//    define("USER_ERROR_HAS_BOUND_WEIXIN_ACCOUNT_ID", 138);
+//    define("USER_ERROR_HAS_BOUND_WEIXIN_ACCOUNT_MSG", "该账号已经和另外一个微信账号绑定");
+
+}

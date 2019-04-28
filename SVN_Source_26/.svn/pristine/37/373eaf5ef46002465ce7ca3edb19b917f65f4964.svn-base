@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/include_group_party_edit_summary"/>
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:padding="10dp">-->
+
+    <!--<com.rey.material.widget.CheckBox-->
+    <!--android:id="@+id/cb_ranking_list"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:checked="true"-->
+    <!--android:text="@string/Check.GroupPartyEditSummary.Show.RankingList"/>-->
+
+    <!--<com.rey.material.widget.CheckBox-->
+    <!--android:id="@+id/cb_sign_list"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:checked="true"-->
+    <!--android:text="@string/Check.GroupPartyEditSummary.Show.SignList"/>-->
+    <!--</LinearLayout>-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    style="@style/Settings_BottomLine"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Tv.GroupPartyEditSummary.Tip"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp"/>
+
+                <View
+                    style="@style/Settings_BottomLine"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_summary_title"
+                android:layout_width="match_parent"
+                android:layout_height="26dp"
+                android:background="@drawable/bg_search_ranking_input"
+                android:hint="@string/Et.Hint.GroupPartyEditSummary.Summary.Title"
+                android:paddingLeft="5dp"
+                android:textSize="12sp"/>
+
+            <EditText
+                android:id="@+id/et_summary_content"
+                android:layout_width="match_parent"
+                android:layout_height="86dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_search_ranking_input"
+                android:gravity="top"
+                android:hint="@string/Et.Hint.GroupPartyEditSummary.Summary.Content"
+                android:padding="5dp"
+                android:textSize="12sp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_summary_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/bg_round_rect_grey_dark">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/btn_add_photo"
+                    style="@style/FlatButtonBase_frame"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/icon_photo_grey"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:gravity="center"
+                        android:text="@string/Btn.GroupPartyEditSummary.Add.Photo"
+                        android:textSize="17sp"
+                        />
+                </LinearLayout>
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_cancel"
+            style="@style/ButtonBase_commit"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_round_rect_grey_dark"
+            android:text="@string/Btn.GroupPartyEditSummary.Cancel"
+            android:textColor="@color/grey"
+            android:textSize="17sp"/>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_submit"
+            style="@style/ButtonBase_commit"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/Btn.GroupPartyEditSummary.Submit"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

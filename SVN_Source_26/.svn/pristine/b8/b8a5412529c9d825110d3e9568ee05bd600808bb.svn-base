@@ -1,0 +1,24 @@
+<FrameLayout
+    style="@style/FrameLayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_splash"
+        style="@style/ButtonBase_commit"
+        android:background="@drawable/btn_splash"
+        android:layout_width="134dp"
+        android:layout_height="34dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp"
+        android:textColor="#f06522"
+        android:text="@string/Btn.SplashActivity.Start"
+        android:visibility="gone"/>
+
+</FrameLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/LinearlayoutBase"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_xx"
+        app:title="@string/Title.RaceWebView"
+        app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>
+
+    <ProgressBar
+        android:id="@+id/pb_web_load"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:indeterminateOnly="false"
+        android:max="100" />
+
+    <WebView
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layerType="hardware" />
+
+</LinearLayout>

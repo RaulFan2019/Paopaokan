@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_party_plan"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/icon_party_plan"/>
+
+        <View
+            android:id="@+id/line_party_plan"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="#f06522"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_party_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:gravity="center_vertical"
+            android:text="@string/Tv.PartyInfo.Plan"
+            android:textColor="#f06522"
+            android:textSize="12dp"/>
+        <!-- 时间地点 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.PartyInfo.Plan.Location"
+                android:textColor="#888888"
+                android:textSize="12dp"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_party_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="#222222"
+                android:textSize="12dp"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.PartyInfo.Plan.PartyTime"
+                android:textColor="#888888"
+                android:textSize="12dp"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_party_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="#222222"
+                android:textSize="12dp"
+                />
+
+        </LinearLayout>
+
+        <!-- 活动标签 -->
+        <LinearLayout
+            android:id="@+id/ll_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.PartyInfo.Plan.Tag"
+                android:textColor="#888888"
+                android:textSize="12dp"/>
+
+            <com.app.pao.ui.widget.tagview.TagView
+                android:id="@+id/tagv_party_tag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                app:layoutSingleLine="true"
+                app:textPaddingBottom="0dp"
+                app:textPaddingLeft="2dp"
+                app:textPaddingRight="2dp"
+                app:textPaddingTop="0dp">
+
+            </com.app.pao.ui.widget.tagview.TagView>
+        </LinearLayout>
+        <!-- 报名截止时间 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.PartyInfo.Plan.Signuptime"
+                android:textColor="#888888"
+                android:textSize="12dp"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_party_plan_signuptime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="#222222"
+                android:textSize="12dp"/>
+        </LinearLayout>
+        <!-- 活动结束时间 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.PartyInfo.Plan.Chenkintime"
+                android:textColor="#888888"
+                android:textSize="12dp"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_party_plan_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="#222222"
+                android:textSize="12dp"/>
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent"/>
+        <!-- 报名人员 -->
+        <LinearLayout
+            android:id="@+id/ll_sighup"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_plan_1"
+                style="@style/iv_partyinfo_photo_plan"
+                ></com.app.pao.ui.widget.CircularImage>
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_plan_2"
+                style="@style/iv_partyinfo_photo_plan"
+                ></com.app.pao.ui.widget.CircularImage>
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_plan_3"
+                style="@style/iv_partyinfo_photo_plan"
+                ></com.app.pao.ui.widget.CircularImage>
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_plan_4"
+                style="@style/iv_partyinfo_photo_plan"
+                ></com.app.pao.ui.widget.CircularImage>
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_plan_5"
+                style="@style/iv_partyinfo_photo_plan"
+                ></com.app.pao.ui.widget.CircularImage>
+
+            <com.app.pao.ui.widget.CircularImage
+                android:id="@+id/iv_plan_6"
+                style="@style/iv_partyinfo_photo_plan"
+                ></com.app.pao.ui.widget.CircularImage>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_sign_up_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="#888888"
+                android:textSize="12dp"/>
+
+            <ImageView
+                style="@style/LineViewBase_RightArrow"/>
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent"/>
+        <!-- 报名权限  -->
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_signup_auth"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#888888"
+            android:textSize="12dp"/>
+
+        <LinearLayout
+            android:id="@+id/btn_signup"
+            style="@style/ButtonBase_commit"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <com.rey.material.widget.TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/Btn.PartyInfo.Plan.Signup"
+                android:textColor="@color/white"
+                android:textSize="16dp"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_signup_contract_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:textColor="@color/white"
+                android:textSize="12dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp"/>
+    </LinearLayout>
+
+</LinearLayout>

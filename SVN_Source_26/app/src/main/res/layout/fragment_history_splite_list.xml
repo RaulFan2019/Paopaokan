@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayoutBase"
+    android:background="#f5f5f5">
+
+    <!-- 统计信息 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_agv_time_speed"
+                style="@style/HistorySplite_TopValueTv" />
+
+            <com.rey.material.widget.TextView
+                style="@style/HistorySplite_TopKeyTv"
+                android:text="@string/tv_history_basicinfo_average_time_speed" />
+        </LinearLayout>
+
+        <View
+            style="@style/DividerBase_vertical"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_max_time_speed"
+                style="@style/HistorySplite_TopValueTv" />
+
+            <com.rey.material.widget.TextView
+                style="@style/HistorySplite_TopKeyTv"
+                android:text="@string/tv_history_basicinfo_max_time_speed" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <com.rey.material.widget.TextView
+            style="@style/HistorySplite_ListTopTv"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/tv_history_basicinfo_km" />
+
+        <com.rey.material.widget.TextView
+            style="@style/HistorySplite_ListTopTv"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="@string/tv_history_basicinfo_time_speed" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_heartrate"
+            style="@style/HistorySplite_ListTopTv"
+            android:gravity="center_vertical"
+            android:text="@string/tv_history_basicinfo_heartbeat" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:transcriptMode="normal" />
+
+    <View
+        style="@style/DividerBase_horizontal"
+        android:layout_width="match_parent" />
+
+</LinearLayout>

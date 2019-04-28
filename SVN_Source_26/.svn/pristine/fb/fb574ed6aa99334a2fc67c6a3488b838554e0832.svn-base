@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#80000000"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:id="@+id/ll_medal_change_dialog"
+    >
+    <LinearLayout
+        android:id="@+id/ll_dialog_content"
+        android:layout_width="220dp"
+        android:layout_height="270dp"
+        android:background="@drawable/bg_round_rect_card"
+        android:orientation="vertical"
+        android:paddingEnd="14dp"
+        android:paddingStart="14dp">
+        <TextView
+            android:id="@+id/tv_medal_change_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="你的2枚奖牌有变化"
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            />
+        <View
+            style="@style/DividerBase_horizontal"
+            android:layout_width="match_parent"/>
+
+        <FrameLayout
+            android:id="@+id/race_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ffffff">
+
+            <com.app.pao.ui.widget.ViewFlow
+                android:id="@+id/vf_medal_change"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                >
+            </com.app.pao.ui.widget.ViewFlow>
+
+
+            <com.app.pao.ui.widget.CircleFlowIndicator
+                android:id="@+id/cfi_medal_change_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:padding="2dp"
+
+                />
+
+            <!--app:activeRadius="@color/grey_check"-->
+            <!--app:inactiveColor="@color/grey_uncheck"-->
+            <!--app:inactiveType="fill"-->
+            <!--app:radius="6dp"-->
+
+        </FrameLayout>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:orientation="vertical">-->
+        <!--<com.app.pao.ui.widget.ViewFlow-->
+        <!--android:id="@+id/vf_medal_change"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--></com.app.pao.ui.widget.ViewFlow>-->
+
+        <!--<com.app.pao.ui.widget.CircleFlowIndicator-->
+        <!--android:id="@+id/cfi_medal_change_point"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:activeRadius="@color/grey_check"-->
+        <!--app:inactiveColor="@color/grey_uncheck"-->
+        <!--app:radius="6dp"-->
+        <!--/>-->
+        <TextView
+            android:id="@+id/tv_medal_change_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:text="赶紧努力夺回本应属于你的奖牌吧！"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"/>
+        <!--</LinearLayout>-->
+
+    </LinearLayout>
+
+
+</LinearLayout>

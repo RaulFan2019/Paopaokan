@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="254dp"
+              android:layout_height="wrap_content"
+              android:background="@drawable/bg_dialog_shape_v1"
+              android:minWidth="254dp"
+              android:maxHeight="343dp"
+              android:minHeight="160dp"
+              android:orientation="vertical"
+              android:paddingEnd="10dp"
+              android:paddingStart="16dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="#222222"/>
+
+    </ScrollView>
+</LinearLayout>

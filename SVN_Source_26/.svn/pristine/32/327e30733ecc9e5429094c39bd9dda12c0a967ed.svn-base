@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayouttitleV1" >
+
+
+
+        <com.rey.material.widget.ImageButton
+            android:id="@+id/title_bar_left_menu"
+            style="@style/MenuLeftBackButton" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/tvTitleV1"
+            android:text="@string/Title.ResetPswActivity" />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/tv_reset_psw"
+            style="@style/MenuRightButton"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:text="@string/Btn.ResetPswActivity.Reset.Psw"
+            android:textColor="@color/white" />
+
+
+</LinearLayout>

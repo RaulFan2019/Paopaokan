@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:gravity="center_horizontal">
+
+    <include layout="@layout/include_group_member_tag_list"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_group_tag"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/btn_confirm_tag"
+        style="@style/ButtonBase_commit"
+        android:layout_margin="10dp"
+        android:text="@string/Btn.GroupMemberTagList.Confirm"/>
+</LinearLayout>

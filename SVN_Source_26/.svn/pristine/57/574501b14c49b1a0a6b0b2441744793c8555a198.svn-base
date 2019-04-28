@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_bind_phone"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.WxBindMobileActivity"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <com.rey.material.widget.TextView
+        android:id="@+id/tv_login_resetpwd_title"
+        style="@style/TextViewTitle_tip"/>
+
+    <LinearLayout
+        style="@style/LinearlayoutBase_Login_weight">
+        <LinearLayout
+            style="@style/EditLayout"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Hint.WxBindMobileActivity.phone.num"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_bind_phone_num"
+                    style="@style/EditLayout_Edittext_Phone"
+                    android:layout_weight="1"
+                    android:hint="@string/Helper.WxBindMobileActivity.phone.num"/>
+
+
+                <com.rey.material.widget.Button
+                    android:id="@+id/btn_get_bind_sms_code"
+                    style="@style/ButtonBase_commit"
+                    android:layout_width="80dp"
+                    android:layout_height="34dp"
+                    android:textSize="12sp"
+                    android:text="@string/Button.WxBindMobileActivity.getCode"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/EditLayout"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Hint.WxBindMobileActivity.code"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_bind_sms_code"
+                    style="@style/EditLayout_Edittext_SMS_Code"
+                    android:hint="@string/Helper.WxBindMobileActivity.code"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_bind_phone_num"
+            style="@style/ButtonBase_commit"
+            android:layout_marginTop="32dp"
+            android:text="@string/Button.WxBindMobileActivity.bind.phone"
+            />
+    </LinearLayout>
+</LinearLayout>

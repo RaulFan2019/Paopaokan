@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearlayoutBase">
+
+    <LinearLayout style="@style/LinearlayoutBase">
+        <!-- 曲线区域 -->
+        <FrameLayout
+            android:id="@+id/fl_round_chart"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="4">
+
+            <LinearLayout
+                android:id="@+id/ll_round_chart"
+                android:layout_width="192dp"
+                android:layout_height="192dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_big_round_chart"
+                android:layout_width="202dp"
+                android:layout_height="202dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_heartrate_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_heartrate_per"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        android:textSize="57dp" />
+
+                    <com.rey.material.widget.TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="%"
+                        android:textColor="@android:color/black"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_heartrate_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#888888"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </FrameLayout>
+
+
+        <!-- 平均心率, 最高心率显示区域 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:background="@drawable/icon_heartrate" />
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/tv_history_heartbaet_avg"
+                    android:textColor="#888888"
+                    android:textSize="12dp" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_avg_heart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="126"
+                    android:textColor="#222222"
+                    android:textSize="15dp" />
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BPM"
+                    android:textColor="#222222"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:background="@drawable/icon_heartrate" />
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/tv_history_heartbaet_max"
+                    android:textColor="#888888"
+                    android:textSize="12dp" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_max_heart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="126"
+                    android:textColor="#222222"
+                    android:textSize="15dp" />
+
+                <com.rey.material.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BPM"
+                    android:textColor="#222222"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 曲线区域 -->
+        <FrameLayout
+            android:id="@+id/fl_chart"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="3"
+            android:background="#f8f8f8">
+
+            <LinearLayout
+                android:id="@+id/ll_line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp"></LinearLayout>
+        </FrameLayout>
+
+        <!-- 底部心率导航 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_tp_0_89"
+                style="@style/HistoryInfoHeartrateBottomLabel">
+
+                <com.rey.material.widget.TextView
+                    style="@style/HistoryInfoHeartrateBottomLabel_ColorView"
+                    android:background="#c1c1c1" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_range_buttom_0_89"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Range"
+                    android:textColor="#c1c1c1" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tp_buttom_0_89"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Proportion" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tip_buttom_0_89"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Tip"
+                    android:text="@string/tv_history_heartbaet_tip_1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tp_90_108"
+                style="@style/HistoryInfoHeartrateBottomLabel">
+
+                <com.rey.material.widget.TextView
+                    style="@style/HistoryInfoHeartrateBottomLabel_ColorView"
+                    android:background="#ffe569" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_range_buttom_90_108"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Range"
+                    android:textColor="#ffe569" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tp_buttom_90_108"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Proportion" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tip_buttom_90_108"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Tip"
+                    android:text="@string/tv_history_heartbaet_tip_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tp_109_126"
+                style="@style/HistoryInfoHeartrateBottomLabel">
+
+                <com.rey.material.widget.TextView
+                    style="@style/HistoryInfoHeartrateBottomLabel_ColorView"
+                    android:background="#ffa200" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_range_buttom_109_126"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Range"
+                    android:textColor="#ffa200" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tp_buttom_109_126"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Proportion" />
+
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tip_buttom_109_126"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Tip"
+                    android:text="@string/tv_history_heartbaet_tip_3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tp_127_144"
+                style="@style/HistoryInfoHeartrateBottomLabel">
+
+                <com.rey.material.widget.TextView
+                    style="@style/HistoryInfoHeartrateBottomLabel_ColorView"
+                    android:background="#f07422" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_range_buttom_127_144"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Range"
+                    android:textColor="#f07422" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tp_buttom_127_144"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Proportion" />
+
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tip_buttom_127_144"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Tip"
+                    android:text="@string/tv_history_heartbaet_tip_4" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tp_145_162"
+                style="@style/HistoryInfoHeartrateBottomLabel">
+
+                <com.rey.material.widget.TextView
+                    style="@style/HistoryInfoHeartrateBottomLabel_ColorView"
+                    android:background="#ee5431" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_range_buttom_145_162"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Range"
+                    android:textColor="#ee5431" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tp_buttom_145_162"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Proportion" />
+
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tip_buttom_145_162"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Tip"
+                    android:text="@string/tv_history_heartbaet_tip_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tp_163_180"
+                style="@style/HistoryInfoHeartrateBottomLabel">
+
+                <com.rey.material.widget.TextView
+                    style="@style/HistoryInfoHeartrateBottomLabel_ColorView"
+                    android:background="#de2121" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_range_buttom_163"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Range"
+                    android:textColor="#de2121" />
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tp_buttom_163_180"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Proportion" />
+
+
+                <com.rey.material.widget.TextView
+                    android:id="@+id/tv_tip_buttom_163_180"
+                    style="@style/HistoryInfoHeartrateBottomLabel_Tip"
+                    android:text="@string/tv_history_heartbaet_tip_6" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <!-- 无心率 -->
+    <LinearLayout
+        android:id="@+id/ll_none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:background="#f5f5f5"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="52dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#888888"
+            android:textSize="14dp"
+            android:text="本次跑步无心率数据"/>
+        <View
+            android:layout_width="282dp"
+            android:layout_height="150dp"
+            android:background="@drawable/bg_heartbeat_none"
+            android:layout_marginTop="62dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="#888888"
+            android:layout_marginTop="42dp"
+            android:text="要在跑步中获取心率数据，需链接心率设备" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="#888888"
+            android:layout_marginTop="12dp"
+            android:text="心率数据帮助你更健康的运动..." />
+
+        <TextView
+            android:id="@+id/tv_learn_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:textColor="#f06522"
+            android:layout_marginTop="12dp"
+            android:text="了解更多" />
+    </LinearLayout>
+</FrameLayout>

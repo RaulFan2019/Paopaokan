@@ -1,0 +1,831 @@
+package com.app.pao.activity.run;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
+import com.alibaba.fastjson.JSON;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.PolylineOptions;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.workout.HistoryInfoActivityV2;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.MapEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.db.LocationData;
+import com.app.pao.data.db.MaidianData;
+import com.app.pao.data.db.WorkoutData;
+import com.app.pao.entity.db.DBEntityLocation;
+import com.app.pao.entity.db.DBEntityMaidian;
+import com.app.pao.entity.db.DBEntityWorkout;
+import com.app.pao.entity.db.DBUserEntity;
+import com.app.pao.entity.event.EventRuningLocation;
+import com.app.pao.entity.network.GetLiveRoomUrlResult;
+import com.app.pao.entity.network.GetRunningLiveRoomResult;
+import com.app.pao.fragment.run.RunningPauseFragment;
+import com.app.pao.fragment.run.RunningRunFragment;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.service.RunningService;
+import com.app.pao.ui.dialog.StopWalkPopupWindow;
+import com.app.pao.utils.LiveUtils;
+import com.app.pao.utils.T;
+import com.app.pao.utils.TTsUtils;
+import com.app.pao.utils.TimeUtils;
+import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Raul on 2015/10/31.
+ * 正在跑步的界面
+ */
+@ContentView(R.layout.activity_running)
+public class RunningActivity extends BaseAppCompActivity implements View.OnClickListener {
+
+    /* contains */
+    private static final String TAG = "RunningActivity";
+
+    public static String RUNNING_URL = "";
+
+    //页面切换命令
+    public static final int CMD_CHANGE_TO_ONLY_MAP_PAGE = 0;//切换到只有地图的页面
+    public static final int CMD_CHAGE_TO_DATA_PAGE = 1;//切换到数据展示页面
+    public static final int CMD_FINISH_PAGE = 2;//结束跑步页面
+
+
+    //跑步命令
+    public static final int MSG_PAUSE = 1;//暂停跑步
+    public static final int MSG_CONTINUE = 2;//继续跑步
+    public static final int MSG_FINISH = 3;
+
+
+    private static final int MSG_ZOOM_MAP = 4;
+
+    /* local view */
+    @ViewInject(R.id.map_running)
+    protected MapView mapView;// 高德地图
+    @ViewInject(R.id.ll_running_fragment_root)
+    private FrameLayout mDataFl;//数据页面承载布局
+    @ViewInject(R.id.btn_running_map)
+    private Button mMapBtn;//地图按钮
+    @ViewInject(R.id.btn_running_contral)
+    private Button mContralBtn;//控制跑步状态按钮
+    @ViewInject(R.id.ll_base)
+    private FrameLayout mBaseLl;
+    @ViewInject(R.id.tv_control)
+    private TextView mControlTv;
+    @ViewInject(R.id.btn_run_live_room)
+    private Button mLiveRoomBtn;
+    @ViewInject(R.id.tv_count_num)
+    private TextView mCountTv;
+    @ViewInject(R.id.ll_count_num)
+    private LinearLayout mCountLl;
+    @ViewInject(R.id.ll_basic)
+    private LinearLayout mBasicLl;
+    @ViewInject(R.id.ll_dialog_admin)
+    private View mDialogAdminLl;
+
+    /* local data */
+    private AMap mAMap;//地图
+    private boolean mIsShowData;//是否显示数据信息
+    private boolean mIsRunning;//是否正在跑状态
+    private boolean mIsFirstIn;//是否第一次进来
+
+    private DBEntityWorkout mDBEntityWorkout;//正在跑步的跑步历史
+    private DBUserEntity mUser;//用户信息
+
+    private Handler refreshMapHandler;// 刷新地图的Handler
+    private Runnable mRefeshMapTicker;// 刷新地图的Runnable
+    private static int REFESH_DELAY = 1000;// 刷新地图的延迟
+    private boolean mLocationHasChanged;// 位置发生变化
+    private long mLastLocationId;// 最后一次位置序号
+    private long mLastBackPressedTime;
+    private StopWalkPopupWindow menuWindow;
+
+    //绘图相关
+    private List<DBEntityLocation> newPointList = new ArrayList<DBEntityLocation>();
+    private Marker mStartMk;// 起点
+    private Marker mEndMk;// 终点
+    private BitmapDescriptor mUserBitmapDes;// 用户头像
+    private BitmapUtils mBitmapUtils;
+
+
+    //页面
+    private RunningRunFragment mRunFragment;//正在跑步页面
+    private RunningPauseFragment mPauseFragment;//暂停状态页面
+    private FragmentManager fragmentManager;//Fragment管理器
+
+    //倒计时
+    private Animation mBigAnimation;// 变大动画
+    private Animation mSmallAnimation;// 变小动画
+    private int count = 4;// 计数数字
+    private boolean mStartFromPreper = false;
+
+    //    private RunningReceiver mRunningReceiver;
+//    IntentFilter mRunningFilter;
+    private int mRunCount;
+
+    @Override
+    @OnClick({R.id.btn_running_map, R.id.btn_running_contral, R.id.btn_running_finish, R.id.btn_run_live_room})
+    public void onClick(View v) {
+        if (LocalApplication.getInstance().getLoginUser(mContext).getUserId() != AppEnum.DEFAULT_USER_ID) {
+            mLiveRoomBtn.setVisibility(View.VISIBLE);
+        }
+        switch (v.getId()) {
+            //点击地图切换按钮
+            case R.id.btn_running_map:
+                if (mIsShowData) {
+                    if (mIsRunning) {
+                        mRunFragment.hideView();
+                    } else {
+                        mPauseFragment.hideView();
+                    }
+                    mMapBtn.setBackgroundResource(R.drawable.selector_btn_run_map);
+
+                } else {
+                    if (mIsRunning) {
+                        mRunFragment.showView();
+                        mLiveRoomBtn.setVisibility(View.GONE);
+                    } else {
+                        mPauseFragment.showView();
+                    }
+                    mMapBtn.setBackgroundResource(R.drawable.selector_btn_run_map_off);
+                }
+                mIsShowData = !mIsShowData;
+                break;
+            //点击暂停按钮
+            case R.id.btn_running_contral:
+                if (mIsRunning) {
+                    setRunningStatus(RunningActivity.MSG_PAUSE);
+                    setDataFragment(RunningActivity.CMD_CHAGE_TO_DATA_PAGE);
+                    mContralBtn.setBackgroundResource(R.drawable.selector_btn_run_play);
+                    mControlTv.setText(getResources().getText(R.string.Button_RunningActivity_Continue));
+                    TTsUtils.playPauseRun(mContext);
+                } else {
+                    setRunningStatus(RunningActivity.MSG_CONTINUE);
+                    setDataFragment(RunningActivity.CMD_CHAGE_TO_DATA_PAGE);
+                    mContralBtn.setBackgroundResource(R.drawable.selector_btn_run_pause);
+                    mControlTv.setText(getResources().getText(R.string.Button_RunningActivity_Pause));
+                    TTsUtils.playContinueRun(mContext);
+                    mLiveRoomBtn.setVisibility(View.GONE);
+                }
+                break;
+            //点击结束按钮
+            case R.id.btn_running_finish:
+                if (mIsRunning) {
+                    TTsUtils.playPauseRun(RunningActivity.this);
+                }
+                setRunningStatus(RunningActivity.MSG_FINISH);
+                showFinishWorkoutDialog();
+                break;
+            //进入直播间
+            case R.id.btn_run_live_room:
+                //在跑步页面中进入个人直播间埋点
+                MaidianData.saveMaidian(mContext, new DBEntityMaidian(System.currentTimeMillis() + "",
+                        AppEnum.MaidianType.IntoPersonalLivingRoomInRunning, TimeUtils.NowTime()));
+                postGetLiveRoomUrl();
+                break;
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        finish();
+//        Log.v(TAG,"onRestoreInstanceState");
+    }
+
+    /**
+     * 放大Handler
+     */
+    Handler zoomHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MSG_ZOOM_MAP) {
+                if (mAMap != null && mAMap.getCameraPosition() != null && mAMap.getCameraPosition().zoom > 16) {
+                    mIsFirstIn = false;
+                    if (mEndMk != null) {
+                        mAMap.animateCamera(CameraUpdateFactory.changeLatLng(
+                                new LatLng(mEndMk.getPosition().latitude, mEndMk.getPosition().longitude)));
+                    }
+                    return;
+                }
+                if (mIsFirstIn) {
+                    mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+                    if (zoomHandler != null) {
+                        zoomHandler.sendEmptyMessageDelayed(MSG_ZOOM_MAP, 500);
+                    }
+                }
+            }
+        }
+    };
+
+    /**
+     * 动画Handler
+     */
+    Handler animHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            count--;
+            if (count > -1) {
+                mCountTv.setText("" + count);
+            } else {
+                count = 1;
+                mCountTv.setText("1");
+            }
+            if (msg.what == 0) {
+                mSmallAnimation.reset();
+                mCountTv.startAnimation(mSmallAnimation);
+                if (count == -1) {
+                    animHandler.removeMessages(1);
+                    mCountLl.setVisibility(View.GONE);
+                    mBasicLl.setVisibility(View.VISIBLE);
+                    setDataFragment(CMD_CHAGE_TO_DATA_PAGE);
+                    mStartFromPreper = false;
+                } else {
+                    animHandler.sendEmptyMessageDelayed(0, 1000);
+                }
+                // }
+            } else if (msg.what == 2) {
+                if (mCountTv != null) {
+                    mCountTv.clearAnimation();
+                    if (mCountLl.getVisibility() != View.GONE) {
+                        mCountLl.setVisibility(View.GONE);
+                        mBasicLl.setVisibility(View.VISIBLE);
+                        setDataFragment(CMD_CHAGE_TO_DATA_PAGE);
+                    }
+                    mStartFromPreper = false;
+                }
+            } else {
+                mBigAnimation.reset();
+                mCountTv.startAnimation(mBigAnimation);
+                if (count == 0) {
+                    animHandler.removeMessages(1);
+                    mCountLl.setVisibility(View.GONE);
+                    mBasicLl.setVisibility(View.VISIBLE);
+                    TTsUtils.playStartRun(RunningActivity.this, mRunCount);
+                    setDataFragment(CMD_CHAGE_TO_DATA_PAGE);
+                    mStartFromPreper = false;
+                } else {
+                    animHandler.sendEmptyMessageDelayed(1, 1000);
+                }
+            }
+        }
+    };
+
+
+    /**
+     * 收到位置变化
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(EventRuningLocation event) {
+        mLocationHasChanged = true;
+    }
+
+    @Override
+    protected void initData() {
+//        Log.v(TAG,"initData");
+        mLastBackPressedTime = 0;
+        mLastLocationId = 0;
+        mLocationHasChanged = true;
+        mIsRunning = true;
+        mUser = LocalApplication.getInstance().getLoginUser(mContext);
+
+        mBitmapUtils = new BitmapUtils(mContext);
+        mUserBitmapDes = LiveUtils.getUserBitmapDescriptor(mContext, mBitmapUtils, mUser.avatar);
+        fragmentManager = getSupportFragmentManager();
+        mIsShowData = true;
+        mIsFirstIn = true;
+        if (getIntent().hasExtra("StartFromPreper")) {
+            mStartFromPreper = true;
+            mRunCount = getIntent().getIntExtra("runCount", 1);
+        } else {
+            mStartFromPreper = false;
+        }
+        initFreshMapHandler();
+    }
+
+    @Override
+    protected void initViews() {
+//        Log.v(TAG,"initViews");
+        mRunFragment = null;//正在跑步页面
+        mPauseFragment = null;//暂停状态页面
+
+        //初始化地图
+        if (mAMap == null) {
+            mAMap = mapView.getMap();
+        }
+        if (!mStartFromPreper) {
+            mCountLl.setVisibility(View.GONE);
+            mBasicLl.setVisibility(View.VISIBLE);
+            setDataFragment(CMD_CHAGE_TO_DATA_PAGE);
+        } else {
+            mBigAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_tv_big);
+            mSmallAnimation = AnimationUtils.loadAnimation(this, R.anim.animation_tv_small);
+            animHandler.sendEmptyMessageDelayed(1, 1000);
+            animHandler.sendEmptyMessageDelayed(2, 10000);
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+//        Log.v(TAG,"onCreate");
+        super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        mapView.onCreate(savedInstanceState);// 此方法必须重写
+        EventBus.getDefault().register(this);
+    }
+
+    /**
+     * 方法必须重写
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onResume() {
+//        Log.v(TAG,"onResume");
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopFreshMap();
+        mapView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+//        Log.v(TAG,"doMyOnCreate");
+        // 启动服务
+        Intent intent = new Intent(this, RunningService.class);
+        startService(intent);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        //若返回键按的过于频繁，不响应
+        if ((System.currentTimeMillis() - mLastBackPressedTime) < 1000) {
+            return;
+        }
+        mLastBackPressedTime = System.currentTimeMillis();
+        if (mDialogBuilder.choiceTwoBtnDialog != null && mDialogBuilder.choiceTwoBtnDialog.isShowing()) {
+            mDialogBuilder.choiceTwoBtnDialog.dismiss();
+            if (mIsShowData) {
+                if (mIsRunning) {
+                    mRunFragment.showView();
+                } else {
+                    mPauseFragment.showView();
+                }
+            }
+        } else {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+        }
+    }
+
+
+    @Override
+    protected void updateData() {
+        mDBEntityWorkout = WorkoutData.getUnFinishWorkout(mContext, mUser.getUserId());
+    }
+
+    @Override
+    protected void updateViews() {
+        mLocationHasChanged = true;
+        startFreshMap();
+    }
+
+
+    @Override
+    protected void destroy() {
+        if (zoomHandler != null) {
+            zoomHandler.removeMessages(MSG_ZOOM_MAP);
+        }
+    }
+
+    /**
+     * 发送命令到service
+     */
+    public void sendCmdToService(final int type) {
+        Intent intent = new Intent(this, RunningService.class);
+        intent.putExtra("CMD", type);
+        startService(intent);
+    }
+
+    /**
+     * 开始更新时间
+     */
+    private void initFreshMapHandler() {
+        refreshMapHandler = new Handler();
+        mRefeshMapTicker = new Runnable() {
+            public void run() {
+                if (mLocationHasChanged && newPointList.isEmpty()) {
+                    // 过滤可以一次发送的
+                    getUnDrawLocation();
+                    if (newPointList.size() > 0) {
+                        refreshMap();
+                    }
+                    newPointList.clear();
+                }
+                // 每500ms抓点一次
+                refreshMapHandler.postDelayed(mRefeshMapTicker, REFESH_DELAY);
+            }
+        };
+    }
+
+    /**
+     * 开始刷新地图
+     */
+    private void startFreshMap() {
+        // 启动计时线程，定时更新
+        mRefeshMapTicker.run();
+    }
+
+    /**
+     * 停止刷新地图
+     */
+    private void stopFreshMap() {
+        // 启动计时线程，定时更新
+        if (refreshMapHandler != null) {
+            refreshMapHandler.removeCallbacks(mRefeshMapTicker);
+        }
+    }
+
+    /**
+     * 获取没有画的点
+     */
+    private void getUnDrawLocation() {
+        mLocationHasChanged = false;
+        if (mDBEntityWorkout == null) {
+            mDBEntityWorkout = WorkoutData.getUnFinishWorkout(mContext, mUser.userId);
+            return;
+        }
+        List<DBEntityLocation> result = LocationData.getAfterLocFromWorkout(mContext, mDBEntityWorkout.getStarttime(),
+                mLastLocationId);
+        if (result != null && result.size() > 0) {
+            for (DBEntityLocation entity : result) {
+                newPointList.add(entity);
+                mLastLocationId = entity.getId();
+            }
+        }
+    }
+
+    /**
+     * 刷新map
+     */
+    private void refreshMap() {
+        if (newPointList.size() > 0) {
+            DBEntityLocation location = newPointList.get(newPointList.size() - 1);
+            Point point = mAMap.getProjection().toScreenLocation(
+                    new LatLng(location.getLatitude(), location.getLongitude()));
+            if (mapView.getTop() > point.y || mapView.getBottom() < point.y || mapView.getLeft() > point.x
+                    || mapView.getRight() < point.x) {
+                mAMap.animateCamera(CameraUpdateFactory.changeLatLng(
+                        new LatLng(location.getLatitude(), location.getLongitude())));
+            }
+            drawPoline(newPointList);
+            if (mStartMk == null) {
+                DBEntityLocation startLoc = newPointList.get(0);
+                mStartMk = mAMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
+                        .position(new LatLng(startLoc.getLatitude(), startLoc.getLongitude()))
+                        .title("起点").icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource
+                                (getResources(), R.drawable.icon_run_start)))
+                        .draggable(true));
+            }
+            DBEntityLocation endLoc = newPointList.get(newPointList.size() - 1);
+            if (mEndMk == null) {
+                mEndMk = mAMap
+                        .addMarker(new MarkerOptions().icon(mUserBitmapDes)
+                                .anchor(0.5f, 0.5f).position(
+                                        new LatLng(endLoc.getLatitude(), endLoc.getLongitude()))
+                                .setFlat(true));
+            } else {
+                mEndMk.setPosition(new LatLng(endLoc.getLatitude(), endLoc.getLongitude()));
+            }
+
+            if (mIsFirstIn) {
+                if (zoomHandler != null) {
+                    zoomHandler.sendEmptyMessage(MSG_ZOOM_MAP);
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取直播间的Url
+     */
+    private void postGetLiveRoomUrl() {
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_GET_APP_LIVEING_ROOM_URL;
+        RequestParams params = RequestParamsBuild.buildGetLiveRoomUrlRequest(mContext);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                T.showShort(mContext, errorMsg);
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                GetRunningLiveRoomResult result = JSON.parseObject(Response, GetRunningLiveRoomResult.class);
+                String url = result.link;
+                RUNNING_URL = url;
+                Bundle bundle = new Bundle();
+                bundle.putString("url", url);
+                bundle.putInt("type", AppEnum.WebViewType.PersonalLivingRoom);
+                startActivity(LiveRoomH5Activity.class, bundle);
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                T.showShort(mContext, s);
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+
+    /**
+     * 画线段
+     */
+    private void drawPoline(final List<DBEntityLocation> drawList) {
+//        Log.v(TAG, "drawList.size:" + drawList.size());
+        PolylineOptions polylineOption = null;
+        String lapStartTime = "";
+        for (int i = 0; i < drawList.size(); i++) {
+            DBEntityLocation location = drawList.get(i);
+            //有分段
+            if (!lapStartTime.equals(location.getLapStartTime())) {
+                //画虚线
+                if (!lapStartTime.equals("")) {
+                    PolylineOptions pasuepolylineOption = new PolylineOptions();
+                    LatLng startLoc = new LatLng(drawList.get(i - 1).getLatitude(), drawList.get(i - 1).getLongitude());
+                    LatLng endLoc = new LatLng(drawList.get(i).getLatitude(), drawList.get(i).getLongitude());
+                    pasuepolylineOption.add(startLoc, endLoc)
+                            .width(MapEnum.WIDTH_POLYLINE).setDottedLine(true).geodesic(true)
+                            .color(MapEnum.COLOR_PAUSE_LINE).zIndex(MapEnum.ZINDEX_POLYLINE);
+                    mAMap.addPolyline(pasuepolylineOption);
+                }
+                //画实线
+                if (polylineOption != null) {
+                    polylineOption.width(MapEnum.WIDTH_POLYLINE)
+                            .color(MapEnum.COLOR_RUNNING_POLYLINE).zIndex(MapEnum.ZINDEX_POLYLINE);
+                    mAMap.addPolyline(polylineOption);
+                }
+                lapStartTime = location.getLapStartTime();
+                polylineOption = new PolylineOptions();
+            }
+            polylineOption.add(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
+
+        if (polylineOption != null) {
+            polylineOption.width(MapEnum.WIDTH_POLYLINE).color(MapEnum.COLOR_RUNNING_POLYLINE);
+            mAMap.addPolyline(polylineOption);
+        }
+
+    }
+
+
+    /**
+     * 显示Fragment
+     *
+     * @param cmd
+     */
+    public void setDataFragment(int cmd) {
+        try {
+            // 开启一个Fragment事务
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            hideFragments(transaction);
+            // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+            switch (cmd) {
+                //切换到有数据的页面
+                case CMD_CHAGE_TO_DATA_PAGE:
+                    //如果正在跑步
+                    if (mIsRunning) {
+                        if (mRunFragment == null) {
+                            mRunFragment = new RunningRunFragment();
+                            transaction.add(R.id.ll_running_fragment_root, mRunFragment);
+                        } else {
+                            transaction.show(mRunFragment);
+                            mRunFragment.showView();
+                        }
+                        mIsShowData = true;
+                        mMapBtn.setBackgroundResource(R.drawable.btn_run_map_off);
+                        //若跑步暂停
+                    } else {
+                        if (mPauseFragment == null) {
+                            mPauseFragment = new RunningPauseFragment();
+                            transaction.add(R.id.ll_running_fragment_root, mPauseFragment);
+                        } else {
+                            transaction.show(mPauseFragment);
+                            mPauseFragment.showView();
+                        }
+                        mIsShowData = true;
+                        mMapBtn.setBackgroundResource(R.drawable.btn_run_map_off);
+                    }
+                    transaction.commitAllowingStateLoss();
+                    break;
+            }
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 改变跑步状态
+     *
+     * @param msg
+     */
+    public void setRunningStatus(int msg) {
+        switch (msg) {
+            //暂停跑步
+            case MSG_PAUSE:
+                mIsRunning = false;
+                sendCmdToService(RunningService.CMD_PAUSE);
+                break;
+            //跑步继续
+            case MSG_CONTINUE:
+                mIsRunning = true;
+                sendCmdToService(RunningService.CMD_CONTINUE);
+                break;
+            //跑步结束
+            case MSG_FINISH:
+                sendCmdToService(RunningService.CMD_PAUSE);
+                break;
+        }
+    }
+
+    /**
+     * 将所有的Fragment都置为隐藏状态。
+     *
+     * @param transaction 用于对Fragment执行操作的事务
+     */
+    private void hideFragments(FragmentTransaction transaction) {
+        if (mRunFragment != null) {
+            mRunFragment.hideView();
+            transaction.hide(mRunFragment);
+        }
+        if (mPauseFragment != null) {
+            mPauseFragment.hideView();
+            transaction.hide(mPauseFragment);
+        }
+    }
+
+    /**
+     * 显示结束跑步弹框
+     */
+    private void showFinishWorkoutDialog() {
+        //跑步结束，获得最后跑步位置
+        mDBEntityWorkout = WorkoutData.getUnFinishWorkout(mContext, mUser.getUserId());
+        menuWindow = new StopWalkPopupWindow((Activity) mContext, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuWindow.dismiss();
+                switch (v.getId()) {
+                    case R.id.tv_stop_and_save:
+                        finishWorkout();
+                        setAnimationOut();
+                        break;
+                    case R.id.tv_keep_walking:
+                        menuWindow.dismiss();
+                        setAnimationOut();
+                        keepGoing();
+                        break;
+                }
+            }
+        }, new StopWalkPopupWindow.OnDialogDismissListener() {
+            @Override
+            public void dialogDismiss() {
+                setAnimationOut();
+                keepGoing();
+            }
+        });
+
+        AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
+        animationIn.setDuration(300);
+        animationIn.setFillAfter(true);
+        mDialogAdminLl.setAnimation(animationIn);
+        animationIn.start();
+        mDialogAdminLl.setVisibility(View.VISIBLE);
+        //设置设置layout在PopupWindow中显示的位置
+        menuWindow.showAtLocation(mBaseLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    /**
+     * 当结束跑步对话框但并没有结束跑步时，跑步继续
+     */
+    private void keepGoing() {
+//        sendCmdToService(RunningService.CMD_CONTINUE);
+        setRunningStatus(RunningActivity.MSG_CONTINUE);
+        setDataFragment(RunningActivity.CMD_CHAGE_TO_DATA_PAGE);
+        mContralBtn.setBackgroundResource(R.drawable.selector_btn_run_pause);
+        mControlTv.setText(getResources().getText(R.string.Button_RunningActivity_Pause));
+        TTsUtils.playContinueRun(mContext);
+        mLiveRoomBtn.setVisibility(View.GONE);
+
+//        if (mIsShowData) {
+//            if (mIsRunning) {
+//                mRunFragment.showView();
+//            } else {
+//                mPauseFragment.showView();
+//            }
+//        }
+        TTsUtils.playContinueRun(mContext);
+    }
+
+    /**
+     * 背景色渐隐
+     */
+    private void setAnimationOut() {
+        AlphaAnimation animationOut = new AlphaAnimation(1.0f, 0.0f);
+        animationOut.setDuration(300);
+        animationOut.setFillAfter(true);
+        mDialogAdminLl.setAnimation(animationOut);
+        animationOut.start();
+        mDialogAdminLl.setVisibility(View.GONE);
+    }
+
+    /**
+     * 结束跑步
+     */
+    private void finishWorkout() {
+        sendCmdToService(RunningService.CMD_FINISH);
+
+        if (mDBEntityWorkout.getLength() < 100) {
+            T.showShort(mContext, "距离太短，不保存记录");
+            finish();
+        } else {
+            TTsUtils.playFinishRun(mContext);
+            Bundle bundle = new Bundle();
+            bundle.putString("workoutname", mDBEntityWorkout.getName());
+//            if (mUser.getHeight() == 0 || mUser.getWeight() == 0) {
+//                startActivity(PerfectUserInfoAfterRunningActivtiy.class, bundle);
+//            } else {
+            startActivity(HistoryInfoActivityV2.class, bundle);
+//            }
+            finish();
+        }
+    }
+
+}

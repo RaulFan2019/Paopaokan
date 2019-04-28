@@ -1,0 +1,158 @@
+package com.app.pao.network.utils;
+
+import android.content.Context;
+
+import com.app.pao.config.AppConfig;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.network.api.MyRequestParams;
+import com.app.pao.network.api.MyRequestParamsV2;
+
+import org.xutils.http.RequestParams;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * Created by Raul.Fan on 2016/9/5.
+ */
+public class RequestParamsBuilder {
+
+    /*== about login  ==*/
+
+    /**
+     * 获取手机号验证参数
+     *
+     * @param context
+     * @param url
+     * @param phoneNum
+     * @return
+     */
+    public static RequestParams buildCheckPhoneRP(final Context context, final String url, final String phoneNum) {
+        MyRequestParamsV2 params = new MyRequestParamsV2(context, url);
+        params.addBodyParameter("name", phoneNum);
+        return params;
+    }
+
+
+    /**
+     * 获取手机验证码
+     *
+     * @param context
+     * @param url
+     * @param phoneNum
+     * @return
+     */
+    public static RequestParams buildGetVCodeRP(final Context context, final String url, final String phoneNum) {
+        MyRequestParamsV2 params = new MyRequestParamsV2(context, url);
+        params.addBodyParameter("mobile", phoneNum);
+        return params;
+    }
+
+    /**
+     * 验证手机验证码是否正确
+     *
+     * @param Mobile 手机号
+     * @param Code   验证码
+     * @return
+     */
+    public static RequestParams buildCheckVCodeRequest(final Context context,final String url,
+                                                        final String Mobile, final String Code) {
+        MyRequestParamsV2 requestParams = new MyRequestParamsV2(context,url);
+        requestParams.addBodyParameter("mobile", Mobile);
+        requestParams.addBodyParameter("code", Code);
+        return requestParams;
+    }
+
+    /**
+     * 获取普通登录请求
+     *
+     * @param context
+     * @param url
+     * @param phoneNum
+     * @param password
+     * @param devicepushid
+     * @param Deviceos
+     * @return
+     */
+    public static RequestParams buildCommonLoginRP(final Context context, final String url, final String phoneNum,
+                                                   final String password, final String devicepushid,
+                                                   final String Deviceos) {
+        MyRequestParamsV2 params = new MyRequestParamsV2(context, url);
+        params.addBodyParameter("name", phoneNum);
+        params.addBodyParameter("password", password);
+        params.addBodyParameter("devicepushid", devicepushid);
+        params.addBodyParameter("deviceos", Deviceos);
+        params.addBodyParameter("appversion", URLConfig.USER_ANGENT);
+        return params;
+    }
+
+
+    /*== other ==*/
+
+    /**
+     * 获取手机型号
+     *
+     * @return
+     */
+    public static RequestParams buildStartUpRequest(final Context context, final String url) {
+        MyRequestParamsV2 requestParams = new MyRequestParamsV2(context, url);
+        requestParams.addBodyParameter("deviceos", AppEnum.DEVICEOS);
+        requestParams.addBodyParameter("appversion", URLConfig.USER_ANGENT);
+        return requestParams;
+    }
+
+    /**
+     * 获取下载广告图片的链接
+     *
+     * @param context
+     * @param url
+     * @return
+     */
+    public static RequestParams buildGetAdPicUrlRP(final Context context, final String url) {
+        MyRequestParamsV2 params = new MyRequestParamsV2(context, url);
+        return params;
+    }
+
+    /**
+     * 上传错误日志
+     *
+     * @param context
+     * @param url
+     * @param info
+     * @param time
+     * @return
+     */
+    public static RequestParams buildUploadCrashRP(final Context context, final String url,
+                                                   final String info, final String time) {
+        MyRequestParamsV2 requestParams = new MyRequestParamsV2(context, url);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+        String timeStr = "";
+        try {
+            timeStr = df.format(new Date(Long.parseLong(time)));
+        } catch (NumberFormatException ex) {
+            timeStr = time + "";
+        }
+        requestParams.addBodyParameter("debuginfo", info);
+        requestParams.addBodyParameter("deviceos", "android " + android.os.Build.VERSION.RELEASE);
+        requestParams.addBodyParameter("deviceinfo", android.os.Build.MODEL);
+        requestParams.addBodyParameter("appversion", AppConfig.Version);
+        requestParams.addBodyParameter("time", timeStr);
+        return requestParams;
+    }
+
+
+    /**
+     * 上传埋点数据
+     *
+     * @param context
+     * @param operations
+     * @return
+     */
+    public static RequestParams buildUploadMaiDianRequest(final Context context, final String url,
+                                                          final String operations) {
+        MyRequestParamsV2 requestParams = new MyRequestParamsV2(context, url);
+        requestParams.addBodyParameter("operations", operations);
+        return requestParams;
+    }
+}

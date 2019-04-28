@@ -1,0 +1,697 @@
+<resources>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:listDivider">@drawable/item_divider_bg</item>
+    </style>
+
+    <!-- Tab -->
+    <style name="TabRootLayout">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+    </style>
+
+    <style name="TabRootLayout_TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:textColor">@color/Tab.TextView.Noraml</item>
+
+    </style>
+
+    <style name="TabRootLayout_ImageView">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <!-- TextView Style -->
+    <style name="TextViewTitle">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+    </style>
+
+    <style name="TextViewTitle_Key">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="TextViewTitle_Unit">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="TextViewBody">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">19dp</item>
+    </style>
+
+    <style name="TextViewBody_Small">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="TextViewBody_Key">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">#FF888888</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="TextViewBody_Value">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">19dp</item>
+    </style>
+
+    <style name="TextViewTitle_tip" parent="@style/TextViewTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">10</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextViewSplashTitle">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textSize">33dp</item>
+        <item name="android:textColor">#f06522</item>
+    </style>
+
+    <style name="TextViewSplashExplain">
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Title</item>
+        <item name="android:textSize">11dp</item>
+        <item name="android:textColor">#888888</item>
+    </style>
+
+    <!-- EditText Style-->
+
+    <!-- Button -->
+    <style name="ButtonBase_commit" parent="ButtonBase">
+        <item name="android:layout_height">44dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_width">316dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_round_rect</item>
+    </style>
+
+    <style name="FlatButtonBase_common" parent="FlatButtonBase">
+        <item name="android:textSize">14dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/Btn.FlatButtonBase.common.Text</item>
+    </style>
+
+    <style name="FlatButtonBase_frame" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="android:textSize">14dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="rd_cornerRadius">4dp</item>
+    </style>
+
+    <style name="ButtonBase_common" parent="ButtonBase">
+        <item name="android:textSize">19dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- ToolBar -->
+    <style name="ToolbarBase">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <!-- dialog -->
+    <style name="SimpleDialogLight" parent="Material.App.Dialog.Simple.Light">
+        <item name="di_inAnimation">@anim/anim_scale_in</item>
+        <item name="di_outAnimation">@anim/anim_scale_out</item>
+        <item name="di_actionTextColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Linearlayout -->
+    <style name="LineViewBase_Settings">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingLeft">@dimen/line_left_margin</item>
+        <item name="android:paddingRight">@dimen/line_right_margin</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="LineViewBase_Settings_single">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="LinearlayoutBase_Login_weight" parent="@style/LinearlayoutBase">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">32</item>
+    </style>
+
+    <style name="LineViewBase_Best" parent="@style/LineViewBase">
+        <item name="android:layout_height">52dp</item>
+    </style>
+
+
+    <!-- toolbar -->
+
+    <style name="AppTheme_AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="ToolbarlayouTransparentText">
+        <item name="android:textColor">#00000000</item>
+    </style>
+
+    <!-- load view -->
+    <style name="LoadView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="LoadView_Tv">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:text">@string/Load.loading</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="LoadView_Pv" parent="@style/CircularProgressViewBase">
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+
+    <!-- divider -->
+    <style name="DividerBase_vertical">
+        <item name="android:layout_width">1px</item>
+        <item name="android:background">#d8d8d8</item>
+    </style>
+
+    <style name="DividerBase_horizontal">
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#d8d8d8</item>
+    </style>
+
+    <style name="DividerBase_card_vertical">
+        <item name="android:layout_width">1px</item>
+        <item name="android:background">#e7e7e7</item>
+    </style>
+
+    <style name="DividerBase_card_horizontal">
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#e7e7e7</item>
+    </style>
+
+    <!-- common EditLayout -->
+    <style name="EditLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/line_left_margin</item>
+        <item name="android:paddingRight">@dimen/line_right_margin</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="EditLayout_InputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginBottom">14dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="EditLayout_Title">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/EditLayout.Title</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="EditLayout_Title_disable">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/EditLayout.Title.disable</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="EditLayout_Edittext">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="EditLayout_Edittext_Psw" parent="EditLayout_Edittext">
+        <item name="android:inputType">textPassword</item>
+        <item name="android:maxLength">16</item>
+    </style>
+
+    <style name="EditLayout_Edittext_Phone" parent="EditLayout_Edittext">
+        <item name="android:inputType">phone</item>
+        <item name="android:maxLength">13</item>
+    </style>
+
+    <style name="EditLayout_Edittext_SMS_Code" parent="EditLayout_Edittext">
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">4</item>
+    </style>
+
+    <style name="EditLayout_BottomLine" parent="@style/DividerBase_horizontal">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="EditLayout_CuttingLine" parent="@style/DividerBase_vertical">
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+    </style>
+
+    <!--   USE FOR  V1  UI -->
+    <!-- dialog -->
+    <style name="AutocloseDialogTitleV1" parent="android:style/TextAppearance.DialogWindowTitle">
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="DialogThemeV1" parent="android:style/Theme.Dialog">
+        <item name="android:windowTitleStyle">@style/AutocloseDialogTitleV1</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+
+    <style name="edit_base">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!-- item of listview -->
+    <style name="ListViewItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">@dimen/line_left_margin</item>
+        <item name="android:paddingRight">@dimen/line_right_margin</item>
+        <item name="android:background">@drawable/bg_list_item</item>
+    </style>
+
+    <style name="ListViewItem_LeftTv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="ListViewItem_LeftTv_Tip">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">@color/grey_dark</item>
+    </style>
+
+    <!-- history tab -->
+    <style name="radio_histroy_list_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@drawable/tv_radio_tab</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <!-- history data label -->
+    <style name="HistoryDataLableLayout">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="HistoryDataLableLayout_TopTv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal|center_vertical</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:text">- -</item>
+    </style>
+
+    <style name="HistoryDataLableLayout_BottomTv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">#888888</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <!-- History heartrate lable -->
+    <style name="HistoryInfoHeartrateBottomLabel">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="HistoryInfoHeartrateBottomLabel_ColorView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+    </style>
+
+    <style name="HistoryInfoHeartrateBottomLabel_Range">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="HistoryInfoHeartrateBottomLabel_Proportion">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">#333333</item>
+    </style>
+
+    <style name="HistoryInfoHeartrateBottomLabel_Tip">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <!-- Title Menu -->
+    <!--<style name="MenuLeftBackButton" parent="ButtonBase">-->
+    <!--<item name="android:layout_height">50dp</item>-->
+    <!--<item name="android:layout_width">40dp</item>-->
+    <!--<item name="android:src">@drawable/icon_back</item>-->
+    <!--<item name="android:background">@android:color/transparent</item>-->
+    <!--<item name="android:layout_gravity">left|center_vertical</item>-->
+    <!--</style>-->
+    <!-- c采用原生点击效果 title Menu-->
+    <style name="MenuLeftBackButton">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:src">@drawable/icon_back</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
+        <item name="android:layout_gravity">left|center_vertical</item>
+    </style>
+
+    <!--<style name="MenuRightButton" parent="ButtonBase">-->
+    <!--<item name="android:layout_height">match_parent</item>-->
+    <!--<item name="android:layout_width">50dp</item>-->
+    <!--<item name="android:background">@android:color/transparent</item>-->
+    <!--<item name="android:layout_gravity">center_vertical</item>-->
+    <!--</style>-->
+
+    <style name="MenuRightButton">
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">35dp</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="LinearlayouttitleV1">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+    <!-- <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">1dp</item>  -->
+
+
+    <style name="tvTitleV1">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center_vertical|left</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="tvTitleHistory">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!-- Sys Setting -->
+
+    <style name="SettingsFramelayout">
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="SettingsLinearlayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">52dp</item>
+        <item name="android:paddingStart">@dimen/line_left_margin</item>
+        <item name="android:paddingEnd">@dimen/line_right_margin</item>
+    </style>
+
+    <style name="SettingsTipText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="Settings_BottomLine" parent="@style/DividerBase_horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/line_left_margin</item>
+        <item name="android:layout_marginEnd">@dimen/line_right_margin</item>
+    </style>
+
+    <!-- History Splite  -->
+    <style name="HistorySplite_TopValueTv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="HistorySplite_TopKeyTv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:gravity">center_horizontal|top</item>
+        <item name="android:textColor">#888888</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="HistorySplite_ListTopTv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#888888</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <!-- TabPageIndicator Style-->
+
+    <style name="LightTabPageIndicator" parent="Material.Widget.TabPageIndicator">
+        <item name="tpi_tabPadding">12dp</item>
+        <item name="tpi_tabRipple">@style/LightTabRippleStyle</item>
+        <item name="tpi_indicatorHeight">3dp</item>
+        <item name="tpi_indicatorColor">@color/colorPrimary</item>
+        <item name="android:textAppearance">@style/LightTabTextAppearance</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="tpi_mode">fixed</item>
+    </style>
+
+    <style name="HistoryTabPageIndicator" parent="Material.Widget.TabPageIndicator">
+        <item name="tpi_tabPadding">10dp</item>
+        <item name="tpi_tabRipple">@style/LightTabRippleStyle</item>
+        <item name="tpi_indicatorHeight">4dp</item>
+        <item name="tpi_indicatorColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/LightTabTextAppearance</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="tpi_mode">fixed</item>
+    </style>
+
+    <style name="LiveTabPageIndicator" parent="Material.Widget.TabPageIndicator">
+        <item name="tpi_tabPadding">20dp</item>
+        <item name="tpi_tabRipple">@style/LightTabRippleStyle</item>
+        <item name="tpi_indicatorHeight">4dp</item>
+        <item name="tpi_indicatorColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/LightTabTextAppearance</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="tpi_mode">scroll</item>
+    </style>
+
+    <style name="GroupTabPageIndicator" parent="Material.Widget.TabPageIndicator">
+        <item name="tpi_tabPadding">20dp</item>
+        <item name="tpi_tabRipple">@style/LightTabRippleStyle</item>
+        <item name="tpi_indicatorHeight">4dp</item>
+        <item name="tpi_indicatorColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/LightTabTextAppearance</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="tpi_mode">scroll</item>
+    </style>
+
+    <style name="LightTabTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@drawable/color_tpi_light</item>
+    </style>
+
+    <style name="LightTabRippleStyle" parent="Material.Drawable.Ripple.Wave">
+        <item name="android:background">@null</item>
+        <item name="rd_rippleColor">@android:color/transparent</item>
+        <item name="rd_rippleAnimDuration">300</item>
+        <item name="rd_maskType">rectangle</item>
+        <item name="rd_cornerRadius">2dp</item>
+        <item name="rd_padding">2dp</item>
+    </style>
+
+    <!-- Loading view -->
+    <style name="custom_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <!-- PlayBack -->
+    <style name="PlayBack_TopData_Key">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#999999</item>
+        <item name="android:textSize">9dp</item>
+    </style>
+
+    <style name="PlayBack_TopData_Value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">9dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+    </style>
+
+    <!-- running lock -->
+    <style name="tv_running_map_not_live_top_info_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+
+    <style name="tv_running_map_not_live_top_info_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center|top</item>
+        <item name="android:textColor">#f16523</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="tv_running_lock_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:padding">7dp</item>
+        <item name="android:textColor">#f16523</item>
+        <item name="android:textSize">21dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!-- party info -->
+    <style name="iv_partyinfo_photo">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+    </style>
+
+    <style name="iv_partyinfo_photo_plan" parent="iv_partyinfo_photo">
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
+    <!-- popupWindow上下划入设置 -->
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+    <!-- MapView -->
+    <style name="tv_map_value">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="tv_map_value_btn" parent="tv_map_value">
+        <item name="android:textSize">12dp</item>
+
+    </style>
+
+    <style name="progressBarVertical" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_vertical</item>
+        <item name="android:minHeight">5dip</item>
+        <item name="android:maxHeight">5dip</item>
+    </style>
+</resources>

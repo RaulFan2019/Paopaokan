@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.ForgetPswInputCodeActivity"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <com.rey.material.widget.TextView
+        style="@style/TextViewTitle_tip"
+        android:text="@string/Tv.ForgetPswInputCodeActivity.Title"/>
+
+    <LinearLayout
+        style="@style/LinearlayoutBase_Login_weight">
+        <LinearLayout
+            style="@style/EditLayout"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title_disable"
+                    android:text="@string/Hint.ForgetPswInputCodeActivity.Phonenum"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_vc_inputcode_phone_num"
+                    style="@style/EditLayout_Edittext"
+                    android:enabled="false"
+                    android:hint="@string/Helper.ForgetPswInputCodeActivity.Phonenum"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/EditLayout"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/EditLayout_InputLayout"
+                android:orientation="horizontal">
+
+                <com.rey.material.widget.TextView
+                    style="@style/EditLayout_Title"
+                    android:text="@string/Hint.ForgetPswInputCodeActivity.Code"/>
+
+                <View
+                    style="@style/EditLayout_CuttingLine"/>
+
+                <EditText
+                    android:id="@+id/et_vc_inputcode_phone_code"
+                    style="@style/EditLayout_Edittext_SMS_Code"
+                    android:hint="@string/Helper.ForgetPswInputCodeActivity.Code"/>
+            </LinearLayout>
+
+            <View
+                style="@style/EditLayout_BottomLine"/>
+        </LinearLayout>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/btn_commit"
+            style="@style/ButtonBase_commit"
+            android:layout_marginTop="32dp"
+            android:text="@string/Button.ForgetPswInputCodeActivity.Commit"
+            android:background="@drawable/bg_round_rect"
+            />
+
+        <com.rey.material.widget.TextView
+            android:id="@+id/btn_get_code_again"
+            style="@style/FlatButtonBase_common"
+            android:layout_marginTop="64dp"
+            android:text="@string/Button.ForgetPswInputCodeActivity.getCodeAgain"/>
+    </LinearLayout>
+</LinearLayout>

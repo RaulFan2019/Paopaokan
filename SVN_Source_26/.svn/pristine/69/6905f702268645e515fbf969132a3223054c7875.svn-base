@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="0dp">
+
+        <com.app.pao.ui.widget.PaoVideoView
+            android:id="@+id/video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/fl_video_bound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            android:orientation="vertical">
+
+        </LinearLayout>
+        <com.rey.material.widget.ProgressView
+            android:id="@+id/progress_gps_search"
+            style="@style/CircularProgressViewBase"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+
+    </FrameLayout>
+
+</FrameLayout>

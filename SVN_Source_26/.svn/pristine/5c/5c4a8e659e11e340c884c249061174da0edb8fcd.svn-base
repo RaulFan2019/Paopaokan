@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout style="@style/LinearlayoutBase"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tag="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/include_group_introduce_title"/>
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="22dp"
+                android:layout_marginStart="22dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_group_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp">
+                    <ImageView
+                        android:id="@+id/iv_group_intro_photo"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_launcher"/>
+                    <ImageView
+                        android:id="@+id/iv_is_edit_group_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="2dp"
+                        android:layout_toEndOf="@+id/iv_group_intro_photo"
+                        android:src="@drawable/icon_edit"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_group_intro_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/grey"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/tv_group_intro_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="10dp"/>
+
+                <TextView
+                    android:id="@+id/tv_group_intro_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="12dp"/>
+
+                <TextView
+                    android:id="@+id/tv_group_tag_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/Tv.GroupIntroduce.Tag.Title"
+                    android:textColor="@color/grey"
+                    android:textSize="12dp"/>
+
+                <com.app.pao.ui.widget.tagview.TagView
+                    android:id="@+id/tagv_group_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:minHeight="20dp"
+                    tag:tagMargin="5dp"
+                    tag:textPaddingBottom="2dp"
+                    tag:textPaddingLeft="2dp"
+                    tag:textPaddingRight="2dp"
+                    tag:textPaddingTop="2dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_member_tag_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/Tv.GroupIntroduce.Member.Tag.Title"
+                    android:textColor="@color/grey"
+                    android:textSize="12dp"/>
+
+                <com.app.pao.ui.widget.tagview.TagView
+                    android:id="@+id/tagv_member_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:minHeight="20dp"
+                    tag:tagMargin="5dp"
+                    tag:textPaddingBottom="2dp"
+                    tag:textPaddingLeft="2dp"
+                    tag:textPaddingRight="2dp"
+                    tag:textPaddingTop="2dp"
+                    />
+
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:text="照片"-->
+                <!--android:textColor="@color/grey"-->
+                <!--android:textSize="12sp"/>-->
+
+                <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/rv_group_party_picture"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:minHeight="80dp"/>-->
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/rl_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:clickable="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
+
+            <com.app.pao.ui.widget.LoadingView
+                android:id="@+id/loadview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                tag:loadingText="@string/Tv.Loading"/>
+
+            <com.rey.material.widget.TextView
+                android:id="@+id/tv_reload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.ReLoad"
+                android:textColor="#f06522"
+                android:textSize="12dp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

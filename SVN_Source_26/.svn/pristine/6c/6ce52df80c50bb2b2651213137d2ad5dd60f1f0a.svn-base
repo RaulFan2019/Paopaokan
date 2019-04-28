@@ -1,0 +1,270 @@
+package com.app.pao.activity.login;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.EditText;
+
+import com.alibaba.fastjson.JSON;
+import com.app.pao.ActivityStackManager;
+import com.app.pao.LocalApplication;
+import com.app.pao.R;
+import com.app.pao.activity.BaseAppCompActivity;
+import com.app.pao.activity.main.MainActivity;
+import com.app.pao.activity.main.RaceWebViewActivity;
+import com.app.pao.config.AppEnum;
+import com.app.pao.config.URLConfig;
+import com.app.pao.data.PreferencesData;
+import com.app.pao.data.db.UserData;
+import com.app.pao.entity.db.DBUserEntity;
+import com.app.pao.entity.network.GetCommonLoginResult;
+import com.app.pao.network.api.MyRequestCallBack;
+import com.app.pao.network.utils.RequestParamsBuild;
+import com.app.pao.ui.dialog.v1.MyDialogBuilderV1;
+import com.app.pao.ui.widget.CircularImage;
+import com.app.pao.utils.ImageUtils;
+import com.app.pao.utils.StringUtils;
+import com.app.pao.utils.T;
+import com.app.pao.utils.business.LoginUtils;
+import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ContentView;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.rey.material.widget.TextView;
+
+import cn.jpush.android.api.JPushInterface;
+
+/**
+ * Created by Administrator on 2015/11/22.
+ */
+@ContentView(R.layout.activity_login_user_change)
+public class LoginUserChangeActivity extends BaseAppCompActivity implements View.OnClickListener {
+
+    /* contains */
+    private static final String TAG = "LoginUserChangeActivity";
+
+    private static final int MSG_LOGIN_OK = 1;
+    private static final int MSG_LOGIN_ERROR = 2;
+
+    /**
+     * widget
+     **/
+    @ViewInject(R.id.iv_user_avatar)
+    private CircularImage mAvatarIv;//用户头像
+    @ViewInject(R.id.tv_user_name)
+    private TextView mNameTv;//用户账号名称文本
+    @ViewInject(R.id.et_login_psd)
+    private EditText mPassWordEt;//用户登录密码
+
+
+    /**
+     * data
+     */
+    private DBUserEntity mUser; //登录用户信息
+    private boolean mPostAble = true;
+    private int startAd;
+    private String adH5Url;
+    private BitmapUtils bitmapUtils; //Image Load Util
+
+    @Override
+    @OnClick({R.id.btn_user_login_common, R.id.btn_login_by_changeuser})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //用户登录
+            case R.id.btn_user_login_common:
+                showPostLoginRequestDialog();
+                break;
+            //切换账号
+            case R.id.btn_login_by_changeuser:
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isFirst", false);
+                startActivity(LoginActivityV2.class,bundle);
+                break;
+        }
+    }
+
+    /**
+     * 请求Handler
+     */
+    Handler mPostHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_LOGIN_OK:
+                    mPostAble = true;
+                    mDialogBuilder.progressDialog.dismiss();
+                    preperLogin((String) msg.obj);
+                    break;
+                case MSG_LOGIN_ERROR:
+                    mPostAble = true;
+                    mDialogBuilder.progressDialog.dismiss();
+                    T.showLong(mContext, (String) msg.obj);
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addCategory(Intent.CATEGORY_HOME);
+        startActivity(i);
+    }
+
+    @Override
+    protected void initData() {
+        ActivityStackManager.getAppManager().addTempActivity(this);
+        mUser = LocalApplication.getInstance().getLoginUser(mContext);
+        bitmapUtils = new BitmapUtils(mContext);
+        startAd = getIntent().getIntExtra("startAd",0);
+        adH5Url = PreferencesData.getAdH5Url(mContext);
+    }
+
+    @Override
+    protected void initViews() {
+        if(startAd == 1){
+            if(adH5Url != null && !adH5Url.equals("")){
+                Bundle bundle = new Bundle();
+                bundle.putString("url",adH5Url);
+                startActivity(RaceWebViewActivity.class,bundle);
+            }
+        }
+        //加载用户头像
+        ImageUtils.loadImage(bitmapUtils, mUser.getAvatar(), mAvatarIv);
+        //设置用户电话号码
+        mNameTv.setText(mUser.getName());
+    }
+
+    @Override
+    protected void doMyOnCreate() {
+
+    }
+
+    @Override
+    protected void updateData() {
+
+    }
+
+    @Override
+    protected void updateViews() {
+
+    }
+
+    @Override
+    protected void destroy() {
+        cancelPostHandler();
+    }
+
+    /**
+     * 准备手机登录
+     */
+    private void preperLogin(final String result) {
+        //保存用户信息到本地
+        GetCommonLoginResult entity = JSON.parseObject(result, GetCommonLoginResult.class);
+        LoginUtils.CommonLogin(mContext, entity, mPassWordEt.getText().toString());
+        LocalApplication.getInstance().setLoginUser(null);
+        startActivity(MainActivity.class);
+        finish();
+    }
+
+
+    /**
+     * 取消请求
+     */
+    private void cancelPostHandler() {
+        if (mPostHandler != null) {
+            mPostHandler.removeMessages(MSG_LOGIN_OK);
+            mPostHandler.removeMessages(MSG_LOGIN_ERROR);
+        }
+    }
+
+    /**
+     * 向服务器发送登录请求
+     */
+    private void showPostLoginRequestDialog() {
+        //若请求未结束
+        if (!mPostAble) {
+            return;
+        }
+        //检查手机号码错误
+        String phoneNum = mUser.getName();
+
+        //检查密码规范
+        String password = mPassWordEt.getText().toString();
+        String error = StringUtils.checkPasswordInputError(mContext, password);
+        if (!error.equals(AppEnum.DEFAULT_CHECK_ERROR)) {
+            mPassWordEt.setError(error);
+            T.showShort(mContext, error);
+            return;
+        }
+        mPassWordEt.setError(null);
+        //其他参数
+        String devicepushid = JPushInterface.getRegistrationID(mContext);
+        String Deviceos = AppEnum.DEVICEOS;
+        //显示登录提示
+        mDialogBuilder.showProgressDialog(this, "发送登录请求中..", true);
+        mDialogBuilder.setListener(new MyDialogBuilderV1.ProgressDilaogListener() {
+            @Override
+            public void onCancelBtnClick() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+
+            @Override
+            public void onCancel() {
+                mPostAble = true;
+                cancelPostHandler();
+            }
+        });
+        //发送登录请求
+        mPostAble = false;
+        HttpUtils http = new HttpUtils();
+        String POST_URL = URLConfig.URL_COMMON_LOGIN;
+        RequestParams params = RequestParamsBuild.buildCommonLoginRequest(mContext,phoneNum, password, devicepushid, Deviceos);
+        http.send(HttpRequest.HttpMethod.POST, POST_URL, params, new MyRequestCallBack(mContext) {
+
+            @Override
+            protected void onErrorResponse(int errorCode, String errorMsg) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_ERROR;
+                    mPostMsg.obj = errorMsg;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onRightResponse(String Response) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_OK;
+                    mPostMsg.obj = Response;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFailureResponse(HttpException e, String s) {
+                if (mPostHandler != null) {
+                    Message mPostMsg = new Message();
+                    mPostMsg.what = MSG_LOGIN_ERROR;
+                    mPostMsg.obj = s;
+                    mPostHandler.sendMessage(mPostMsg);
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+
+            }
+        });
+    }
+}

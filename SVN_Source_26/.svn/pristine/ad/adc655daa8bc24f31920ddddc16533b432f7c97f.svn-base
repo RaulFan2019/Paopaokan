@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_base"
+    style="@style/LinearlayoutBase"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tag="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarBase"
+        app:navigationIcon="@drawable/icon_back"
+        app:title="@string/Title.CreateParty"
+        app:titleTextColor="@color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/sv_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- 活动名称 -->
+            <LinearLayout
+                style="@style/EditLayout"
+                android:layout_marginTop="21dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="65dp"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.Name"/>
+
+                    <View
+                        style="@style/EditLayout_CuttingLine"/>
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        style="@style/EditLayout_Edittext"
+                        android:gravity="end"
+                        android:hint="@string/Hint.CreateParty.EditLayout.Name"
+                        android:inputType="text"
+                        android:paddingEnd="13dp"
+                        android:textColor="#666666"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+
+            <!-- 活动时间 -->
+            <LinearLayout
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_starttime"
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="65dp"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.Time"/>
+
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_starttime"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/Hint.CreateParty.EditLayout.Time"
+                        android:textColor="#666666"
+                        android:textSize="14dp"/>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+
+            <!-- 报名截止时间 -->
+            <LinearLayout
+                android:id="@+id/ll_regist"
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.RegistTime"/>
+
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_registtime"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/Hint.CreateParty.EditLayout.RegistTime"
+                        android:textColor="#666666"
+                        android:textSize="14dp"/>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+
+            <!-- 活动结束时间 -->
+            <LinearLayout
+                android:id="@+id/ll_end_time"
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.EndTime"/>
+
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_end_time"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/Hint.CreateParty.EditLayout.EndTime"
+                        android:textColor="#666666"
+                        android:textSize="14dp"/>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+
+
+            <!-- 活动城市 -->
+            <LinearLayout
+                android:id="@+id/ll_city"
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.City"/>
+
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/tv_city"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/Hint.CreateParty.EditLayout.City"
+                        android:textColor="#666666"
+                        android:textSize="14dp"/>
+
+                    <ImageView
+                        style="@style/LineViewBase_RightArrow"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+
+            <!-- 活动具体地址 -->
+            <LinearLayout
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.Location"/>
+
+                    <View
+                        style="@style/EditLayout_CuttingLine"/>
+
+                    <EditText
+                        android:id="@+id/et_location"
+                        style="@style/EditLayout_Edittext"
+                        android:gravity="right"
+                        android:hint="@string/Hint.CreateParty.EditLayout.Location"
+                        android:inputType="text"
+                        android:paddingRight="13dp"
+                        android:textColor="#666666"
+                        android:textSize="14dp"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/EditLayout_BottomLine"/>
+            </LinearLayout>
+            <!-- 活动标签 -->
+            <LinearLayout
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.Tag"/>
+                </LinearLayout>
+
+                <com.app.pao.ui.widget.tagview.TagView
+                    android:id="@+id/tagv_select_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="16dp"
+                    android:minHeight="20dp"
+                    tag:textPaddingBottom="1dp"
+                    tag:textPaddingLeft="2dp"
+                    tag:textPaddingRight="2dp"
+                    tag:textPaddingTop="1dp"/>
+            </LinearLayout>
+
+            <!-- 活动照片 -->
+            <LinearLayout
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.Photo"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_party_default"/>
+
+            </LinearLayout>
+            <!-- 活动描述 -->
+            <LinearLayout
+                style="@style/EditLayout"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/EditLayout_InputLayout"
+                    android:orientation="horizontal">
+
+                    <com.rey.material.widget.TextView
+                        style="@style/EditLayout_Title"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Tv.CreateParty.EditLayout.Title.Description"/>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:background="@drawable/bg_round_rect_white"
+                    android:gravity="top|left"
+                    android:hint="@string/Hint.CreateParty.EditLayout.Description"
+                    android:maxLength="200"
+                    android:padding="10dp"
+                    android:paddingBottom="14dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="14dp"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/EditText.Hint"
+                    android:textSize="14dp"/>
+            </LinearLayout>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/btn_commit"
+                style="@style/ButtonBase_commit"
+                android:layout_marginBottom="28dp"
+                android:layout_marginTop="28dp"
+                android:text="@string/Button.CreateParty.Commit"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

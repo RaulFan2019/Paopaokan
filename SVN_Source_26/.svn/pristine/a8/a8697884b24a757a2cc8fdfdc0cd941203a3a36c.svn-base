@@ -1,0 +1,36 @@
+package com.app.pao.fragment.dynamic;
+
+import com.app.pao.R;
+import com.app.pao.fragment.BaseFragmentV2;
+
+/**
+ * Created by Raul.Fan on 2016/9/13.
+ */
+public class DynamicFragmentV2 extends BaseFragmentV2 {
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_dynamic;
+    }
+
+    @Override
+    protected void initParams() {
+
+    }
+
+    @Override
+    protected void causeGC() {
+
+    }
+
+    @Override
+    protected void onVisible() {
+
+    }
+
+    @Override
+    protected void onInVisible() {
+
+    }
+}

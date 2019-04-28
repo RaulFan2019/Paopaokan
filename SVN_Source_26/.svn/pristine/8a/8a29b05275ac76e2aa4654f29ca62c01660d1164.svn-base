@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/LinearlayoutBase"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/ll_group_organizer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="vertical">
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/ci_group_organizer_photo"
+            android:layout_width="28dp"
+            android:layout_height="28dp"/>
+
+        <TextView
+            android:id="@+id/tv_group_organizer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/grey"
+            android:gravity="center"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/Tv.GroupInfo.Group.Organizer"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_group_admin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="vertical">
+        <com.app.pao.ui.widget.CircularImage
+            android:id="@+id/ci_group_admin_photo"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/icon_user_photo"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_group_admin_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/grey"
+                android:gravity="center"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:id="@+id/tv_group_admin_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:textSize="12dp"/>
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tv_group_admin_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.GroupInfo.Group.Admin"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="10dp"/>
+
+            <ImageView
+                android:id="@+id/iv_group_admin_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/icon_edit"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        style="@style/EditLayout_CuttingLine"
+        android:layout_height="match_parent"/>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal|bottom">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="15dp"
+                android:background="@drawable/icon_speed"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_week_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/grey"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/Tv.GroupInfo.Week.Per.Capita.Speed"
+            android:textColor="@color/grey_dark"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal|bottom">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="24dp"
+                android:background="@drawable/icon_party_total_km"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_week_km"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/grey"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Tv.GroupInfo.Unit.Km"
+                android:textColor="@color/grey"
+                android:textSize="12dp"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/Tv.GroupInfo.Week.Per.Capita.Km"
+            android:textColor="@color/grey_dark"
+            android:textSize="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>

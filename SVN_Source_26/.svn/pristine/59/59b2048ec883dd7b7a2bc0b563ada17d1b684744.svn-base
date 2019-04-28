@@ -1,0 +1,82 @@
+package com.app.pao.entity.event;
+
+import com.app.pao.entity.model.BLEEntity;
+
+import java.io.Serializable;
+
+/**
+ * BLE相关操作 服务数据反馈
+ */
+public class EventBLE implements Serializable{
+
+    private int msgType;        //消息类型
+    private BLEEntity BLEEntity;    //蓝牙实体
+    private int heartRate;      //心跳数据
+    private String mac;//地址
+
+    public EventBLE(int msgType) {
+        super();
+        this.msgType = msgType;
+    }
+
+    public EventBLE(int msgType, BLEEntity BLEEntity) {
+        super();
+        this.msgType = msgType;
+        this.BLEEntity = BLEEntity;
+    }
+
+    public EventBLE(int msgType, int heartRate, String mac) {
+        super();
+        this.msgType = msgType;
+        this.heartRate = heartRate;
+        this.mac = mac;
+    }
+
+    public EventBLE(int msgType, BLEEntity BLEEntity, int heartRate,
+                    String mac) {
+        super();
+        this.msgType = msgType;
+        this.BLEEntity = BLEEntity;
+        this.heartRate = heartRate;
+        this.mac = mac;
+    }
+
+    public EventBLE(int msgType, String mac) {
+        super();
+        this.msgType = msgType;
+        this.mac = mac;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public int getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(int msgType) {
+        this.msgType = msgType;
+    }
+
+    public BLEEntity getBLEEntity() {
+        return BLEEntity;
+    }
+
+    public void setBLEEntity(BLEEntity BLEEntity) {
+        this.BLEEntity = BLEEntity;
+    }
+
+    public int getHeartRate() {
+        return heartRate;
+    }
+
+    public void setHeartRate(int heartRate) {
+        this.heartRate = heartRate;
+    }
+
+}
